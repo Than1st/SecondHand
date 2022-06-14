@@ -28,5 +28,4 @@ class SplashscreenFragment : Fragment() {
             findNavController().navigate(R.id.action_splashscreenFragment_to_homeFragment)
         }, 3000)
     }
-
 }
