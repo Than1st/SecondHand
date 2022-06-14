@@ -28,7 +28,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -84,6 +87,12 @@ class RegisterCompose : Fragment() {
 
         }
     }
+
+    private val poppinsFamily = FontFamily(
+        Font(R.font.poppins_bold, FontWeight.Bold),
+        Font(R.font.poppins_regular, FontWeight.Normal),
+        Font(R.font.poppins_semibold, FontWeight.Medium)
+    )
 
 /////////////////////////////////
 
@@ -164,10 +173,17 @@ class RegisterCompose : Fragment() {
             Text(
                 text = "Second Hand",
                 fontSize = 40.sp,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    fontFamily = poppinsFamily),
                 color = Color.DarkGray
             )
-            Text(text = "Sign Up!", fontSize = 16.sp)
+            Text(
+                text = "Sign Up!",
+                fontSize = 16.sp,
+                fontFamily = poppinsFamily
+            )
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Image App",
@@ -199,7 +215,7 @@ class RegisterCompose : Fragment() {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                placeholder = { Text(text = "Username") },
+                placeholder = { Text(text = "Username",fontFamily = poppinsFamily) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -213,7 +229,7 @@ class RegisterCompose : Fragment() {
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                placeholder = { Text(text = "Email") },
+                placeholder = { Text(text = "Email", fontFamily = poppinsFamily) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -227,7 +243,7 @@ class RegisterCompose : Fragment() {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                placeholder = { Text(text = "password") },
+                placeholder = { Text(text = "password", fontFamily = poppinsFamily) },
 //                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -252,7 +268,7 @@ class RegisterCompose : Fragment() {
             OutlinedTextField(
                 value = confPassword,
                 onValueChange = { confPassword = it },
-                placeholder = { Text(text = "Confirm Password") },
+                placeholder = { Text(text = "Confirm Password", fontFamily = poppinsFamily) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White, RoundedCornerShape(22.dp)),
@@ -330,11 +346,12 @@ class RegisterCompose : Fragment() {
 
 
             {
-                Text(text = "Daftar", style = TextStyle(Color.White))
+                Text(text = "Daftar", style = TextStyle(Color.White), fontFamily = poppinsFamily)
 
             }
             Text(
                 text = "Sudah Punya Akun?",
+                fontFamily = poppinsFamily,
                 modifier = Modifier.clickable(
                     onClick = {
 //                        findNavController().navigate(R.id.action_registCompose_to_loginCompose)
