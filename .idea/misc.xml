@@ -3,26 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/ic_akun.xml" value="0.15" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.27447916666666666" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_daftar_jual.xml" value="0.27447916666666666" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.27447916666666666" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.27447916666666666" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_notifikasi.xml" value="0.27447916666666666" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2734375" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SecondHand/app/src/main/res/drawable/ic_back_icon.xml" value="0.162" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SecondHand/app/src/main/res/drawable/ic_back_icon_smaller.xml" value="0.162" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SecondHand/app/src/main/res/drawable/round_outline.xml" value="0.1" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SecondHand/app/src/main/res/layout-v28/fragment_detail.xml" value="0.2296875" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/SecondHand/app/src/main/res/drawable/back.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_daftar_jual.xml" value="0.1259259259259259" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_detail.xml" value="0.14" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_splashscreen.xml" value="0.15" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
