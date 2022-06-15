@@ -177,7 +177,8 @@ class RegisterCompose : Fragment() {
             Text(
                 text = "Sign Up!",
                 fontSize = 16.sp,
-                fontFamily = poppinsFamily
+                fontFamily = poppinsFamily,
+                fontWeight = FontWeight.Bold
             )
             Image(
                 painter = painterResource(id = R.drawable.logo),
@@ -341,7 +342,7 @@ class RegisterCompose : Fragment() {
 
 
             {
-                Text(text = "Daftar", style = TextStyle(Color.White), fontFamily = poppinsFamily)
+                Text(text = "Daftar", style = TextStyle(Color.White, fontWeight = FontWeight.Bold), fontFamily = poppinsFamily)
 
             }
             Text(
