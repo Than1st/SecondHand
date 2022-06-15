@@ -27,6 +27,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        view.setOnApplyWindowInsetsListener { v, insets ->
+//            view.height = insets.systemWindowInsetTop
+//        }
 //        val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
 //        val checkOnboarding = sharedPreferences.getBoolean(ONBOARDING_PREF, false)
 //        if (checkOnboarding){
