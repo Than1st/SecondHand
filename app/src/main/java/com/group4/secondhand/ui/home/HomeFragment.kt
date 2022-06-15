@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
 //        if (checkOnboarding){
 //            Toast.makeText(requireContext(), "Halo!", Toast.LENGTH_SHORT).show()
 //        }
+
     }
 
 }

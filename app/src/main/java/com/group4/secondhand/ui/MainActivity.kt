@@ -15,8 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        fullscreen()
         val navController = findNavController(R.id.fragmentContainer)
         binding.bottomNavigation.setupWithNavController(navController)
+    }
+
+
+    fun fullscreen() {
+        setFullScreen(window)
+        lightStatusBar(window)
     }
 }
