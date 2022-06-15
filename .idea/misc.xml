@@ -3,16 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/drawable/ic_baseline_chevron_right.xml" value="0.1" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/activity_opening.xml" value="0.1953125" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_splashscreen.xml" value="0.1" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.209375" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_first_on_boarding.xml" value="0.1" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_second_on_boarding.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_splashscreen.xml" value="0.15" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_third_on_boarding.xml" value="0.209375" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
-        <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_secondhand_logo.xml" value="0.1" />
       </map>
     </option>
   </component>

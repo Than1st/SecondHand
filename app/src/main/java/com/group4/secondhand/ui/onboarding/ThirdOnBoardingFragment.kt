@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui.onboarding
 
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
+import com.group4.secondhand.ui.MainActivity
+import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.ONBOARDING_PREF
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.SHARED_PREF
 
 class ThirdOnBoardingFragment : Fragment() {
@@ -116,9 +119,12 @@ class ThirdOnBoardingFragment : Fragment() {
                     .clickable {
                         val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
-                        editor.putBoolean("onBoarding", false)
+                        editor.putBoolean(ONBOARDING_PREF, false)
                         editor.apply()
-                        findNavController().navigate(R.id.action_thirdOnBoardingFragment_to_homeFragment)
+                        activity?.let{
+                            val intent = Intent (it, MainActivity::class.java)
+                            it.startActivity(intent)
+                        }
                     }
                     .constrainAs(btnNext) {
                         bottom.linkTo(parent.bottom)

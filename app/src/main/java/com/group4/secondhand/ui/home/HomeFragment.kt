@@ -1,11 +1,15 @@
 package com.group4.secondhand.ui.home
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.group4.secondhand.databinding.FragmentHomeBinding
+import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.ONBOARDING_PREF
+import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.SHARED_PREF
 
 class HomeFragment : Fragment() {
 
@@ -23,7 +27,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+//        val checkOnboarding = sharedPreferences.getBoolean(ONBOARDING_PREF, false)
+//        if (checkOnboarding){
+//            Toast.makeText(requireContext(), "Halo!", Toast.LENGTH_SHORT).show()
+//        }
     }
 
 }
