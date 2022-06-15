@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         fullscreen()
 
+
         val navController = findNavController(R.id.fragmentContainer)
         binding.bottomNavigation.setupWithNavController(navController)
 
