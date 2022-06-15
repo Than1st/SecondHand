@@ -57,4 +57,24 @@
             android:id="@+id/action_thirdOnBoardingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notifikasiFragment"
+        android:name="com.group4.secondhand.ui.notifikasi.NotifikasiFragment"
+        android:label="fragment_notifikasi"
+        tools:layout="@layout/fragment_notifikasi" />
+    <fragment
+        android:id="@+id/jualFragment"
+        android:name="com.group4.secondhand.ui.jual.JualFragment"
+        android:label="fragment_jual"
+        tools:layout="@layout/fragment_jual" />
+    <fragment
+        android:id="@+id/daftarJualFragment"
+        android:name="com.group4.secondhand.ui.daftarjual.DaftarJualFragment"
+        android:label="fragment_daftar_jual"
+        tools:layout="@layout/fragment_daftar_jual" />
+    <fragment
+        android:id="@+id/akunFragment"
+        android:name="com.group4.secondhand.ui.akun.AkunFragment"
+        android:label="fragment_akun"
+        tools:layout="@layout/fragment_akun" />
 </navigation>
