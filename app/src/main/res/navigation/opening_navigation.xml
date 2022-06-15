@@ -40,6 +40,11 @@
         android:id="@+id/thirdOnBoardingFragment"
         android:name="com.group4.secondhand.ui.onboarding.ThirdOnBoardingFragment"
         android:label="fragment_third_on_boarding"
-        tools:layout="@layout/fragment_third_on_boarding" />
+        tools:layout="@layout/fragment_third_on_boarding" >
+        <action
+            android:id="@+id/action_thirdOnBoardingFragment_to_main_navigation"
+            app:destination="@id/main_navigation" />
+    </fragment>
+    <include app:graph="@navigation/main_navigation" />
 
 </navigation>

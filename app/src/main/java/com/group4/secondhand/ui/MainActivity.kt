@@ -1,9 +1,9 @@
 package com.group4.secondhand.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.group4.secondhand.R
@@ -16,8 +16,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fullscreen()
-
-
         val navController = findNavController(R.id.fragmentContainer)
         binding.bottomNavigation.setupWithNavController(navController)
 
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigation.visibility = View.VISIBLE
         }, 3000)
     }
+
 
     fun fullscreen() {
         setFullScreen(window)
