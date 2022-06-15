@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui.splashscreen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -14,6 +15,10 @@ import com.group4.secondhand.R
 @SuppressLint("CustomSplashScreen")
 class SplashscreenFragment : Fragment() {
 
+    companion object{
+        const val SHARED_PREF = "kotlinsharedpreferences"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,8 +29,14 @@ class SplashscreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
+        val showOnBoarding = sharedPreferences.getBoolean("onBoarding", true)
         Handler().postDelayed({
-            findNavController().navigate(R.id.action_splashscreenFragment_to_homeFragment)
+            if (showOnBoarding){
+                findNavController().navigate(R.id.action_splashscreenFragment_to_firstOnBoardingFragment)
+            } else {
+                findNavController().navigate(R.id.action_splashscreenFragment_to_homeFragment)
+            }
         }, 3000)
     }
 
