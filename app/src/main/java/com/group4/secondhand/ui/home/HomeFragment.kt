@@ -13,8 +13,10 @@ import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentHomeBinding
 
 
-
 class HomeFragment : Fragment() {
+    companion object{
+        var result = 0
+    }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -30,41 +32,38 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        view.setOnApplyWindowInsetsListener { v, insets ->
-//            view.height = insets.systemWindowInsetTop
-//        }
-//        val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
-//        val checkOnboarding = sharedPreferences.getBoolean(ONBOARDING_PREF, false)
-//        if (checkOnboarding){
-//            Toast.makeText(requireContext(), "Halo!", Toast.LENGTH_SHORT).show()
-//        }
-        binding.statusBar.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,getStatusBarHeight())
-        changeToolbar()
-    }
-
-    private fun getStatusBarHeight(): Int {
-        var result = 0
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId)
         }
-        return result
+
+        binding.statusBar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, result
+        )
+        changeToolbar()
     }
 
-    private fun changeToolbar(){
+//    fun getStatusBarHeight(): Int {
+//
+//        return result
+//    }
+
+    private fun changeToolbar() {
         var toolbarColored = false
         var toolbarTransparent = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            binding.scrollView.setOnScrollChangeListener {_,_,scrollY,_,_->
-                val bannerHeight = (binding.imgBanner.height /2) - getStatusBarHeight() - binding.statusBar.height
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val bannerHeight =
+                    (binding.imgBanner.height / 2) - result - binding.statusBar.height
                 val colored = ContextCompat.getColor(requireContext(), R.color.medium_blue)
-                val transparent = ContextCompat.getColor(requireContext(), android.R.color.transparent)
+                val transparent =
+                    ContextCompat.getColor(requireContext(), android.R.color.transparent)
 
                 when {
-                    scrollY > bannerHeight ->{
-                        if (toolbarTransparent){
-                            val colorAnimate = ValueAnimator.ofObject(ArgbEvaluator(),transparent,colored)
+                    scrollY > bannerHeight -> {
+                        if (toolbarTransparent) {
+                            val colorAnimate =
+                                ValueAnimator.ofObject(ArgbEvaluator(), transparent, colored)
                             colorAnimate.addUpdateListener {
                                 binding.statusBar.setBackgroundColor(it.animatedValue as Int)
                                 binding.toolbar.setBackgroundColor(it.animatedValue as Int)
@@ -75,9 +74,10 @@ class HomeFragment : Fragment() {
                             toolbarTransparent = false
                         }
                     }
-                    else ->{
-                        if(toolbarColored){
-                            val colorAnimate = ValueAnimator.ofObject(ArgbEvaluator(),colored,transparent)
+                    else -> {
+                        if (toolbarColored) {
+                            val colorAnimate =
+                                ValueAnimator.ofObject(ArgbEvaluator(), colored, transparent)
                             colorAnimate.addUpdateListener {
                                 binding.statusBar.setBackgroundColor(it.animatedValue as Int)
                                 binding.toolbar.setBackgroundColor(it.animatedValue as Int)
