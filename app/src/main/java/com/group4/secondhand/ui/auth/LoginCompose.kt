@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
+import androidx.navigation.fragment.findNavController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -253,7 +255,7 @@ class LoginCompose : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             Button(
                 onClick = {
 //                    if (username == "" || email == "" || password == "" || confPassword == "") {
@@ -301,7 +303,7 @@ class LoginCompose : Fragment() {
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray),
+                colors = ButtonDefaults.buttonColors(colorResource(id = R.color.dark_blue)),
                 shape = RoundedCornerShape(20.dp)
             )
 
@@ -319,7 +321,7 @@ class LoginCompose : Fragment() {
                 fontFamily = poppinsFamily,
                 modifier = Modifier.clickable(
                     onClick = {
-//                        findNavController().navigate(R.id.action_registCompose_to_loginCompose)
+                        findNavController().navigate(R.id.action_loginCompose_to_registerCompose)
                     }),
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 color = Color.DarkGray
