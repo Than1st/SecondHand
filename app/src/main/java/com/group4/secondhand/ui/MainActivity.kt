@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.akunFragment) {
+            if(destination.id == R.id.registerCompose || destination.id == R.id.loginCompose) {
 
                 binding.bottomNavigation.visibility = View.GONE
             } else {

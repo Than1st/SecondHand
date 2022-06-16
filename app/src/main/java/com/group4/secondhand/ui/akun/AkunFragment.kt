@@ -22,12 +22,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment
@@ -50,6 +48,9 @@ class AkunFragment : Fragment() {
                 .setPositiveButton("Login"){ dialog, _ ->
                     findNavController().navigate(R.id.action_akunFragment_to_loginCompose)
                     dialog.dismiss()
+                }
+                .setNegativeButton("Cancel"){ dialog, _ ->
+                    findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
                 }
                 .setCancelable(false)
                 .show()

@@ -131,7 +131,9 @@ class LoginCompose : Fragment() {
         @DrawableRes iconResouce: Int,
         color: Color = Color.Gray,
         elevation: ButtonElevation? = ButtonDefaults.elevation(),
-        onClick: () -> Unit = {}
+        onClick: () -> Unit = {
+            findNavController().popBackStack()
+        }
     ) {
         Button(
             onClick = onClick,
