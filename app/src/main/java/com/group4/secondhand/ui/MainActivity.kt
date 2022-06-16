@@ -19,9 +19,16 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragmentContainer)
         binding.bottomNavigation.setupWithNavController(navController)
 
-        Handler().postDelayed({
-            binding.bottomNavigation.visibility = View.VISIBLE
-        }, 3000)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.akunFragment) {
+
+                binding.bottomNavigation.visibility = View.GONE
+            } else {
+
+                binding.bottomNavigation.visibility = View.VISIBLE
+            }
+        }
+
     }
 
 
