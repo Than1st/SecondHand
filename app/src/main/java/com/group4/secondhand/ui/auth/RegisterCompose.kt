@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.navigation.fragment.findNavController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -36,12 +38,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import dagger.hilt.android.AndroidEntryPoint
 
-
-@AndroidEntryPoint
 class RegisterCompose : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -336,7 +337,7 @@ class RegisterCompose : Fragment() {
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray),
+                colors = ButtonDefaults.buttonColors(colorResource(id = R.color.dark_blue)),
                 shape = RoundedCornerShape(20.dp)
             )
 
@@ -350,7 +351,7 @@ class RegisterCompose : Fragment() {
                 fontFamily = poppinsFamily,
                 modifier = Modifier.clickable(
                     onClick = {
-//                        findNavController().navigate(R.id.action_registCompose_to_loginCompose)
+                        findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
                     }),
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 color = Color.DarkGray

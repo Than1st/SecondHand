@@ -29,5 +29,29 @@
         android:id="@+id/akunFragment"
         android:name="com.group4.secondhand.ui.akun.AkunFragment"
         android:label="fragment_akun"
-        tools:layout="@layout/fragment_akun" />
+        tools:layout="@layout/fragment_akun" >
+        <action
+            android:id="@+id/action_akunFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginCompose"
+        android:name="com.group4.secondhand.ui.auth.LoginCompose"
+        android:label="LoginCompose" >
+        <action
+            android:id="@+id/action_loginCompose_to_registerCompose"
+            app:destination="@id/registerCompose" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerCompose"
+        android:name="com.group4.secondhand.ui.auth.RegisterCompose"
+        android:label="RegisterCompose" >
+        <action
+            android:id="@+id/action_registerCompose_to_loginCompose"
+            app:destination="@id/loginCompose" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.group4.secondhand.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>

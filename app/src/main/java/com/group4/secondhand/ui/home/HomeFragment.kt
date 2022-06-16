@@ -13,6 +13,7 @@ import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentHomeBinding
 
 
+
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -29,6 +30,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        view.setOnApplyWindowInsetsListener { v, insets ->
+//            view.height = insets.systemWindowInsetTop
+//        }
 //        val sharedPreferences = requireContext().getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
 //        val checkOnboarding = sharedPreferences.getBoolean(ONBOARDING_PREF, false)
 //        if (checkOnboarding){

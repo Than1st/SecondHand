@@ -17,18 +17,18 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageView
             android:id="@+id/btn_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/round_outline"
             android:src="@drawable/ic_back_icon_smaller" />
     </com.google.android.material.card.MaterialCardView>
@@ -141,11 +141,13 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/round_outline"
                     android:clipToOutline="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/megawati"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
-                    tools:srcCompat="@tools:sample/avatars" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_nama_penjual"
@@ -255,7 +257,7 @@
         android:layout_width="308dp"
         android:layout_height="46dp"
         android:background="@drawable/round_outline"
-        android:backgroundTint="#FF444444"
+        android:backgroundTint="@color/dark_blue"
         android:text="Saya Tertarik dan ingin Nego"
         android:textAllCaps="false"
         android:textColor="@color/white"
