@@ -29,7 +29,11 @@
         android:id="@+id/akunFragment"
         android:name="com.group4.secondhand.ui.akun.AkunFragment"
         android:label="fragment_akun"
-        tools:layout="@layout/fragment_akun" />
+        tools:layout="@layout/fragment_akun" >
+        <action
+            android:id="@+id/action_akunFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+    </fragment>
     <fragment
         android:id="@+id/loginCompose"
         android:name="com.group4.secondhand.ui.auth.LoginCompose"

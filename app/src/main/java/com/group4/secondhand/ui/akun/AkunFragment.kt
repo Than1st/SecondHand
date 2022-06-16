@@ -1,10 +1,12 @@
 package com.group4.secondhand.ui.akun
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,17 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
+import com.group4.secondhand.ui.splashscreen.SplashscreenFragment
 
 class AkunFragment : Fragment() {
 
@@ -33,6 +38,23 @@ class AkunFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val sharedPreferences = requireContext().getSharedPreferences(
+            SplashscreenFragment.SHARED_PREF,
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val token = sharedPreferences.getString(SplashscreenFragment.TOKEN_PREF, "default_token")
+        if (token == "default_token"){
+            AlertDialog.Builder(requireContext())
+                .setTitle("Pesan")
+                .setMessage("Anda Belom Masuk")
+                .setPositiveButton("Login"){ dialog, _ ->
+                    findNavController().navigate(R.id.action_akunFragment_to_loginCompose)
+                    dialog.dismiss()
+                }
+                .setCancelable(false)
+                .show()
+
+        }
         // Inflate the layout for this fragment
         return ComposeView(requireContext()).apply {
             layoutParams = ViewGroup.LayoutParams(
@@ -219,5 +241,4 @@ class AkunFragment : Fragment() {
                     })
         }
     }
-
 }

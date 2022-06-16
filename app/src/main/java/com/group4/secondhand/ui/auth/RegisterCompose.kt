@@ -38,12 +38,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import dagger.hilt.android.AndroidEntryPoint
 
-
-@AndroidEntryPoint
 class RegisterCompose : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,

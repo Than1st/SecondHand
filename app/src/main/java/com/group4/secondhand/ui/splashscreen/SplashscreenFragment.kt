@@ -20,6 +20,7 @@ class SplashscreenFragment : Fragment() {
     companion object{
         const val SHARED_PREF = "kotlinsharedpreferences"
         const val ONBOARDING_PREF = "onBoarding"
+        const val TOKEN_PREF = "token"
     }
 
     override fun onCreateView(
