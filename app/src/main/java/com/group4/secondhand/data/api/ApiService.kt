@@ -11,5 +11,4 @@ interface ApiService {
 //        @Header ("access_token") apiKey : String
 //    ) : Response<GetSellerProductResponse>
 
-
 }

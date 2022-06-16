@@ -46,4 +46,8 @@
             android:id="@+id/action_registerCompose_to_loginCompose"
             app:destination="@id/loginCompose" />
     </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.group4.secondhand.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>

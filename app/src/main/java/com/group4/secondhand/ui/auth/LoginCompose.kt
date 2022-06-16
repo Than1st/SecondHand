@@ -255,7 +255,7 @@ class LoginCompose : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(160.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             Button(
                 onClick = {
 //                    if (username == "" || email == "" || password == "" || confPassword == "") {

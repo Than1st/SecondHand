@@ -11,6 +11,7 @@ import com.group4.secondhand.databinding.FragmentHomeBinding
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.ONBOARDING_PREF
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment.Companion.SHARED_PREF
 
+
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
