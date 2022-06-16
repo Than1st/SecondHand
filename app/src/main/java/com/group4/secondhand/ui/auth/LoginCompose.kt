@@ -40,9 +40,8 @@ import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class RegisterCompose : Fragment() {
+class LoginCompose : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,7 +71,7 @@ class RegisterCompose : Fragment() {
                                 .padding(0.dp)
                         )
                         Column {
-                            HeaderLogin()
+                            HeaderRegister()
                             ActionItem()
 
                         }
@@ -135,7 +134,10 @@ class RegisterCompose : Fragment() {
         Button(
             onClick = onClick,
             contentPadding = PaddingValues(),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White, contentColor = color),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.White,
+                contentColor = color
+            ),
             shape = RoundedCornerShape(22.dp),
             elevation = elevation,
             modifier = Modifier
@@ -147,7 +149,7 @@ class RegisterCompose : Fragment() {
     }
 
     @Composable
-    fun HeaderLogin() {
+    fun HeaderRegister() {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -171,11 +173,12 @@ class RegisterCompose : Fragment() {
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    fontFamily = poppinsFamily),
+                    fontFamily = poppinsFamily
+                ),
                 color = Color.DarkGray
             )
             Text(
-                text = "Sign Up!",
+                text = "Sign In!",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold
@@ -206,21 +209,6 @@ class RegisterCompose : Fragment() {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                placeholder = { Text(text = "Username",fontFamily = poppinsFamily) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(22.dp)),
-                shape = RoundedCornerShape(22.dp)
-            )
-
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
                 value = email,
@@ -260,29 +248,6 @@ class RegisterCompose : Fragment() {
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = confPassword,
-                onValueChange = { confPassword = it },
-                placeholder = { Text(text = "Confirm Password", fontFamily = poppinsFamily) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(22.dp)),
-                shape = RoundedCornerShape(22.dp),
-                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    IconButton(onClick = {
-                        passwordVisibility = !passwordVisibility
-                    }) {
-                        Icon(
-                            imageVector = if (passwordVisibility)
-                                Icons.Filled.Visibility
-                            else
-                                Icons.Filled.VisibilityOff, ""
-                        )
-                    }
-                })
-
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -342,11 +307,15 @@ class RegisterCompose : Fragment() {
 
 
             {
-                Text(text = "Daftar", style = TextStyle(Color.White, fontWeight = FontWeight.Bold), fontFamily = poppinsFamily)
+                Text(
+                    text = "Sign In",
+                    style = TextStyle(Color.White, fontWeight = FontWeight.Bold),
+                    fontFamily = poppinsFamily
+                )
 
             }
             Text(
-                text = "Sudah Punya Akun?",
+                text = "Belum Punya Akun? Buat",
                 fontFamily = poppinsFamily,
                 modifier = Modifier.clickable(
                     onClick = {
@@ -357,15 +326,12 @@ class RegisterCompose : Fragment() {
 
             )
         }
-
-
     }
 
 
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun DefaultPreview() {
-
         MyTheme {
 
             ImageWithBackground(
@@ -378,7 +344,7 @@ class RegisterCompose : Fragment() {
                     .padding(0.dp),
             )
             Column {
-                HeaderLogin()
+                HeaderRegister()
                 ActionItem()
 
             }
@@ -386,3 +352,4 @@ class RegisterCompose : Fragment() {
         }
     }
 }
+

@@ -46,5 +46,4 @@ class SplashscreenFragment : Fragment() {
             }
         }, 3000)
     }
-
 }
