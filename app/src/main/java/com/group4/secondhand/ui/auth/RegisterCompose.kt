@@ -64,15 +64,15 @@ class RegisterCompose : Fragment() {
                     ) {
 
 
-                        ImageWithBackground(
-                            painter = painterResource(id = R.drawable.wallpapers),
-                            backgroundDrawableResId = R.drawable.wallpapers,
-                            contentDescription = "",
-                            modifier = Modifier
-                                .height(2580.dp)
-                                .width(2960.dp)
-                                .padding(0.dp)
-                        )
+//                        ImageWithBackground(
+//                            painter = painterResource(id = R.drawable.wallpapers),
+//                            backgroundDrawableResId = R.drawable.wallpapers,
+//                            contentDescription = "",
+//                            modifier = Modifier
+//                                .height(2580.dp)
+//                                .width(2960.dp)
+//                                .padding(0.dp)
+//                        )
                         Column {
                             HeaderLogin()
                             ActionItem()
@@ -205,6 +205,7 @@ class RegisterCompose : Fragment() {
         var confPassword by remember { mutableStateOf("") }
 
         var passwordVisibility by remember { mutableStateOf(false) }
+        var confirmPasswordVisibility by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -274,13 +275,13 @@ class RegisterCompose : Fragment() {
                     .fillMaxWidth()
                     .background(Color.White, RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
-                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(onClick = {
-                        passwordVisibility = !passwordVisibility
+                        confirmPasswordVisibility = !confirmPasswordVisibility
                     }) {
                         Icon(
-                            imageVector = if (passwordVisibility)
+                            imageVector = if (confirmPasswordVisibility)
                                 Icons.Filled.Visibility
                             else
                                 Icons.Filled.VisibilityOff, ""

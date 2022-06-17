@@ -26,23 +26,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
+import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment
 
 class AkunFragment : Fragment() {
+
+    private val viewModel : AkunViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val sharedPreferences = requireContext().getSharedPreferences(
-            SplashscreenFragment.SHARED_PREF,
-            AppCompatActivity.MODE_PRIVATE
-        )
-        val token = sharedPreferences.getString(SplashscreenFragment.TOKEN_PREF, "default_token")
-        if (token == "default_token"){
-            AlertDialog.Builder(requireContext())
+        viewModel.getToken()
+        viewModel.alreadyLogin.observe(viewLifecycleOwner){
+            if (it.token == DEFAULT_TOKEN){
+                AlertDialog.Builder(requireContext())
                 .setTitle("Pesan")
                 .setMessage("Anda Belom Masuk")
                 .setPositiveButton("Login"){ dialog, _ ->
@@ -54,8 +55,9 @@ class AkunFragment : Fragment() {
                 }
                 .setCancelable(false)
                 .show()
-
+            }
         }
+
         // Inflate the layout for this fragment
         return ComposeView(requireContext()).apply {
             layoutParams = ViewGroup.LayoutParams(

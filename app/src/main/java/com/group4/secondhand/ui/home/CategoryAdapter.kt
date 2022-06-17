@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.group4.secondhand.data.api.model.ResponseCategoryHome
+import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.ItemCategoryHomeBinding
 
 class CategoryAdapter(private val onItemClick : OnClickListener) :
@@ -45,7 +45,7 @@ class CategoryAdapter(private val onItemClick : OnClickListener) :
 
     inner class ViewHolder(private val binding:ItemCategoryHomeBinding):
             RecyclerView.ViewHolder(binding.root){
-        fun bind(data:ResponseCategoryHome){
+        fun bind(data: ResponseCategoryHome){
                     binding.tvNamaKategori.text = data.name
                     binding.root.setOnClickListener{
                         onItemClick.onClickItem(data)
