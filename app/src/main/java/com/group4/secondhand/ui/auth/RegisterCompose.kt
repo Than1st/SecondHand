@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.navigation.fragment.findNavController
@@ -166,26 +167,29 @@ class RegisterCompose : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Second Hand",
-                fontSize = 40.sp,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    fontFamily = poppinsFamily),
-                color = Color.DarkGray
+//            Text(
+//                text = "Second Hand",
+//                fontSize = 40.sp,
+//                style = TextStyle(
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 16.sp,
+//                    fontFamily = poppinsFamily),
+//                color = Color.DarkGray
+//            )
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Image App",
+                modifier = Modifier.size(200.dp, 200.dp),
+                contentScale = ContentScale.Fit
             )
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "Sign Up!",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold
-            )
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Image App",
-                modifier = Modifier.size(180.dp, 180.dp),
-                contentScale = ContentScale.Fit
             )
         }
     }
@@ -292,22 +296,23 @@ class RegisterCompose : Fragment() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-//                    if (username == "" || email == "" || password == "" || confPassword == "") {
-//                        AlertDialog.Builder(requireContext())
-//                            .setTitle("")
-//                            .setMessage("Semua kolom harus diisi")
-//                            .setPositiveButton("Coba Regist kembali") { dialog, _ ->
-//                                dialog.dismiss()
-//                            }
-//                            .show()
-//                    } else if (password != confPassword) {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Password konfirmasi tidak sama",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                        confPassword = ""
-//                    } else {
+                    if (username == "" || email == "" || password == "" || confPassword == "") {
+                        android.app.AlertDialog.Builder(requireContext())
+                            .setTitle("")
+                            .setMessage("Semua kolom harus diisi")
+                            .setPositiveButton("Coba Regist kembali") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                    } else if (password != confPassword) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Password konfirmasi tidak sama",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        confPassword = ""
+                    }
+                          //                    else {
 //                        val user = User(null, username, email, password, "")
 //                        authViewModel.register(user)
 //                        authViewModel.resultRegister.observe(viewLifecycleOwner) {
@@ -343,7 +348,7 @@ class RegisterCompose : Fragment() {
 
 
             {
-                Text(text = "Daftar", style = TextStyle(Color.White, fontWeight = FontWeight.Bold), fontFamily = poppinsFamily)
+                Text(text = "Sign Up!", style = TextStyle(Color.White, fontWeight = FontWeight.Bold), fontFamily = poppinsFamily)
 
             }
             Text(
