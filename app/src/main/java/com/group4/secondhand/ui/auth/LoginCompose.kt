@@ -126,7 +126,7 @@ class LoginCompose : Fragment() {
 
     @Composable
     fun CircularButton(
-        @DrawableRes iconResouce: Int,
+        @DrawableRes navFindController: Int,
         color: Color = Color.Gray,
         elevation: ButtonElevation? = ButtonDefaults.elevation(),
         onClick: () -> Unit = {}
@@ -142,9 +142,9 @@ class LoginCompose : Fragment() {
             elevation = elevation,
             modifier = Modifier
                 .width(26.dp)
-                .height(26.dp)
+                .height(30.dp)
         ) {
-            Icon(painterResource(id = iconResouce), null)
+            Icon(painterResource(id = navFindController), null)
         }
     }
 
@@ -156,7 +156,7 @@ class LoginCompose : Fragment() {
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
-                .height(30.dp)
+                .height(60.dp)
                 .padding(horizontal = 16.dp)
         ) {
             CircularButton(R.drawable.ic_back_icon)
@@ -167,27 +167,27 @@ class LoginCompose : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Second Hand",
-                fontSize = 40.sp,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    fontFamily = poppinsFamily
-                ),
-                color = Color.DarkGray
+//            Text(
+//                text = "Second Hand",
+//                fontSize = 40.sp,
+//                style = TextStyle(
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 16.sp,
+//                    fontFamily = poppinsFamily
+//                ),
+//                color = Color.DarkGray
+//            )
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Image App",
+                modifier = Modifier.size(180.dp, 180.dp),
+                contentScale = ContentScale.Fit
             )
             Text(
                 text = "Sign In!",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold
-            )
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Image App",
-                modifier = Modifier.size(180.dp, 180.dp),
-                contentScale = ContentScale.Fit
             )
         }
     }
@@ -256,47 +256,6 @@ class LoginCompose : Fragment() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-//                    if (username == "" || email == "" || password == "" || confPassword == "") {
-//                        AlertDialog.Builder(requireContext())
-//                            .setTitle("")
-//                            .setMessage("Semua kolom harus diisi")
-//                            .setPositiveButton("Coba Regist kembali") { dialog, _ ->
-//                                dialog.dismiss()
-//                            }
-//                            .show()
-//                    } else if (password != confPassword) {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Password konfirmasi tidak sama",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                        confPassword = ""
-//                    } else {
-//                        val user = User(null, username, email, password, "")
-//                        authViewModel.register(user)
-//                        authViewModel.resultRegister.observe(viewLifecycleOwner) {
-//                            if (it != null) {
-//                                if (it != 0.toLong()) {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration success",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                    findNavController().navigate(
-//                                        R.id.action_registCompose_to_loginCompose
-//                                    )
-//                                } else {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration failed",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
-//                            }
-//                        }
-//                    }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
