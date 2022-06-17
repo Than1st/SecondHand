@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.navigation.fragment.findNavController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
@@ -44,6 +42,7 @@ import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterCompose : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,17 +61,15 @@ class RegisterCompose : Fragment() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-
-
-//                        ImageWithBackground(
-//                            painter = painterResource(id = R.drawable.wallpapers),
-//                            backgroundDrawableResId = R.drawable.wallpapers,
-//                            contentDescription = "",
-//                            modifier = Modifier
-//                                .height(2580.dp)
-//                                .width(2960.dp)
-//                                .padding(0.dp)
-//                        )
+                        ImageWithBackground(
+                            painter = painterResource(id = R.drawable.wallpapers),
+                            backgroundDrawableResId = R.drawable.wallpapers,
+                            contentDescription = "",
+                            modifier = Modifier
+                                .height(2580.dp)
+                                .width(2960.dp)
+                                .padding(0.dp)
+                        )
                         Column {
                             HeaderLogin()
                             ActionItem()
@@ -91,7 +88,6 @@ class RegisterCompose : Fragment() {
         Font(R.font.poppins_semibold, FontWeight.Medium)
     )
 
-/////////////////////////////////
 
     @Composable
     fun ImageWithBackground(
@@ -313,32 +309,6 @@ class RegisterCompose : Fragment() {
                         ).show()
                         confPassword = ""
                     }
-                          //                    else {
-//                        val user = User(null, username, email, password, "")
-//                        authViewModel.register(user)
-//                        authViewModel.resultRegister.observe(viewLifecycleOwner) {
-//                            if (it != null) {
-//                                if (it != 0.toLong()) {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration success",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                    findNavController().navigate(
-//                                        R.id.action_registCompose_to_loginCompose
-//                                    )
-//                                } else {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration failed",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
-//                            }
-//                        }
-//                    }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -369,27 +339,27 @@ class RegisterCompose : Fragment() {
     }
 
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun DefaultPreview() {
-
-        MyTheme {
-
-            ImageWithBackground(
-                painter = painterResource(id = R.drawable.wallpapers),
-                backgroundDrawableResId = R.drawable.wallpapers,
-                contentDescription = "",
-                modifier = Modifier
-                    .height(2580.dp)
-                    .width(2960.dp)
-                    .padding(0.dp),
-            )
-            Column {
-                HeaderLogin()
-                ActionItem()
-
-            }
-
-        }
-    }
+//    @Preview(showBackground = true, showSystemUi = true)
+//    @Composable
+//    fun DefaultPreview() {
+//
+//        MyTheme {
+//
+//            ImageWithBackground(
+//                painter = painterResource(id = R.drawable.wallpapers),
+//                backgroundDrawableResId = R.drawable.wallpapers,
+//                contentDescription = "",
+//                modifier = Modifier
+//                    .height(2580.dp)
+//                    .width(2960.dp)
+//                    .padding(0.dp),
+//            )
+//            Column {
+//                HeaderLogin()
+//                ActionItem()
+//
+//            }
+//
+//        }
+//    }
 }

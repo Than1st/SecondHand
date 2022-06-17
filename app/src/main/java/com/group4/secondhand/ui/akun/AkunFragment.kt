@@ -31,7 +31,9 @@ import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.ui.splashscreen.SplashscreenFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AkunFragment : Fragment() {
 
     private val viewModel : AkunViewModel by viewModels()

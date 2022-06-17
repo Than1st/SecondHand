@@ -48,7 +48,9 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestLogin
 import com.group4.secondhand.data.model.User
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginCompose : Fragment() {
 
     private val viewModel: AuthViewModel by viewModels()
