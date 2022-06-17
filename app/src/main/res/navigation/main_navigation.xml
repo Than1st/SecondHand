@@ -31,8 +31,15 @@
         android:label="fragment_akun"
         tools:layout="@layout/fragment_akun" >
         <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/akunFragment"
             android:id="@+id/action_akunFragment_to_loginCompose"
             app:destination="@id/loginCompose" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/akunFragment"
+            android:id="@+id/action_akunFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginCompose"

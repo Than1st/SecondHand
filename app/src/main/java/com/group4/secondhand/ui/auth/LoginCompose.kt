@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
+import androidx.navigation.fragment.findNavController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +42,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
+import dagger.hilt.android.AndroidEntryPoint
 
 class LoginCompose : Fragment() {
     override fun onCreateView(
@@ -130,7 +132,9 @@ class LoginCompose : Fragment() {
         @DrawableRes iconResouce: Int,
         color: Color = Color.Gray,
         elevation: ButtonElevation? = ButtonDefaults.elevation(),
-        onClick: () -> Unit = {findNavController().popBackStack()}
+        onClick: () -> Unit = {
+            findNavController().popBackStack()
+        }
     ) {
         Button(
             onClick = onClick,
