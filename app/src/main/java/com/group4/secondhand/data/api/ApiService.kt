@@ -1,8 +1,6 @@
 package com.group4.secondhand.data.api
 
 import com.group4.secondhand.data.model.*
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {

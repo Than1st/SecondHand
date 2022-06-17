@@ -22,4 +22,10 @@ class AkunViewModel @Inject constructor(private val repository: Repository): Vie
             }
         }
     }
+
+    fun deleteToken(){
+        viewModelScope.launch {
+            repository.deleteToken()
+        }
+    }
 }

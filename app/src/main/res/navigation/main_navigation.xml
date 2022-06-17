@@ -46,6 +46,8 @@
         android:name="com.group4.secondhand.ui.auth.LoginCompose"
         android:label="LoginCompose" >
         <action
+            app:popUpTo="@id/loginCompose"
+            app:popUpToInclusive="true"
             android:id="@+id/action_loginCompose_to_registerCompose"
             app:destination="@id/registerCompose" />
         <action
@@ -59,6 +61,8 @@
         android:name="com.group4.secondhand.ui.auth.RegisterCompose"
         android:label="RegisterCompose" >
         <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/registerCompose"
             android:id="@+id/action_registerCompose_to_loginCompose"
             app:destination="@id/loginCompose" />
     </fragment>

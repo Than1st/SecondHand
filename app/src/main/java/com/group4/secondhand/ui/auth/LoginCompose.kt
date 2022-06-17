@@ -84,7 +84,7 @@ class LoginCompose : Fragment() {
                         findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
                     }
                     Status.ERROR ->{
-                        Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
                             .show()
                         progressDialog.dismiss()
                     }
@@ -282,17 +282,20 @@ class LoginCompose : Fragment() {
             Spacer(modifier = Modifier.height(100.dp))
             Button(
                 onClick = {
-                    if (email == "" || password == "") {
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("")
-                            .setMessage("Username atau Password tidak boleh kosong")
-                            .setPositiveButton("Ok") { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .show()
-                    } else {
-                        val requestLogin = RequestLogin(email, password)
-                        viewModel.authLogin(requestLogin)
+                    when {
+                        email == "" || password == "" -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("")
+                                .setMessage("Username atau Password tidak boleh kosong")
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        else -> {
+                            val requestLogin = RequestLogin(email, password)
+                            viewModel.authLogin(requestLogin)
+                        }
                     }
                 },
                 modifier = Modifier

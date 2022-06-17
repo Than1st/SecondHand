@@ -10,9 +10,9 @@ data class RequestRegister(
     @SerializedName("password")
     val password: String,
     @SerializedName("phone_number")
-    val phoneNumber: String? = "",
+    val phoneNumber: String? = "no_number",
     @SerializedName("address")
-    val address: String? = "",
+    val address: String? = "no_address",
     @SerializedName("image")
-    val imageUrl: Any? = null
+    val imageUrl: Any? = "no_image"
 )

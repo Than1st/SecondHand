@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,7 +29,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
-import com.group4.secondhand.ui.splashscreen.SplashscreenFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,12 +46,13 @@ class AkunFragment : Fragment() {
                 AlertDialog.Builder(requireContext())
                 .setTitle("Pesan")
                 .setMessage("Anda Belom Masuk")
-                .setPositiveButton("Login"){ dialog, _ ->
+                .setPositiveButton("Login"){ dialogP, _ ->
                     findNavController().navigate(R.id.action_akunFragment_to_loginCompose)
-                    dialog.dismiss()
+                    dialogP.dismiss()
                 }
-                .setNegativeButton("Cancel"){ dialog, _ ->
+                .setNegativeButton("Cancel"){ dialogN, _ ->
                     findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
+                    dialogN.dismiss()
                 }
                 .setCancelable(false)
                 .show()
@@ -197,12 +196,18 @@ class AkunFragment : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            Toast
-                                .makeText(
-                                    requireContext(),
-                                    "Anda Mencet Logout",
-                                    Toast.LENGTH_SHORT
-                                )
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Konfirmasi Keluar")
+                                .setMessage("Yakin ingin keluar?")
+                                .setPositiveButton("Iya"){ dialogPositive, _ ->
+                                    viewModel.deleteToken()
+                                    findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
+                                    dialogPositive.dismiss()
+                                }
+                                .setNegativeButton("Tidak"){ dialogNegative, _ ->
+                                    dialogNegative.dismiss()
+                                }
+                                .setCancelable(false)
                                 .show()
                         }
                 ) {
