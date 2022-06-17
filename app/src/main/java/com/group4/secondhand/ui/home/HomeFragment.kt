@@ -7,19 +7,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.group4.secondhand.R
+import com.group4.secondhand.data.api.Status
+import com.group4.secondhand.data.api.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-    companion object{
+    companion object {
         var result = 0
     }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var adapter: CategoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,17 +43,12 @@ class HomeFragment : Fragment() {
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId)
         }
-
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
+        getCategory()
         changeToolbar()
     }
-
-//    fun getStatusBarHeight(): Int {
-//
-//        return result
-//    }
 
     private fun changeToolbar() {
         var toolbarColored = false
@@ -88,6 +90,24 @@ class HomeFragment : Fragment() {
                             toolbarTransparent = true
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun getCategory() {
+        homeViewModel.getCategoryHome()
+        homeViewModel.category.observe(viewLifecycleOwner) { category ->
+            when (category.status) {
+                Status.SUCCESS -> {
+                    val adapter = CategoryAdapter(object:CategoryAdapter.OnClickListener{
+                        override fun onClickItem(data: ResponseCategoryHome) {
+                            Toast.makeText(requireContext(), "${data.name}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                    adapter.submitData(category.data)
+                    binding.rvCategory.adapter = adapter
+
                 }
             }
         }

@@ -7,8 +7,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var  binding : ActivityMainBinding
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

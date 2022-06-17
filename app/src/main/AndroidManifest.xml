@@ -15,7 +15,6 @@
         <activity
             android:name=".ui.OpeningActivity"
             android:exported="true"
-            android:label="@string/title_activity_opening"
             android:theme="@style/Theme.SecondHand.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
