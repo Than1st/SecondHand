@@ -8,5 +8,9 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 //    suspend fun setOnboarding(status: Boolean){
 //        userPreferences.onBoardingPref(status)
 //    }
+
+
+    // HOME
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
+    suspend fun getProduct(status:String,categoryId:String) = apiHelper.getProduct(status,categoryId)
 }

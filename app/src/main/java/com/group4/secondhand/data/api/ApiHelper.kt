@@ -5,4 +5,5 @@ class ApiHelper(private val apiService: ApiService) {
 //    suspend fun getSellerProduct(apiKey: String) = apiService.getSellerProduct(apiKey)
 
     suspend fun getCategoryHome() = apiService.getCategoryHome()
+    suspend fun getProduct(status:String,categoryId:String) = apiService.getProduct(status,categoryId)
 }

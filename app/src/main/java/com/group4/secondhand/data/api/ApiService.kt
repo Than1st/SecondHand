@@ -1,10 +1,10 @@
 package com.group4.secondhand.data.api
 
 import com.group4.secondhand.data.api.model.ResponseCategoryHome
-import retrofit2.Call
+import com.group4.secondhand.data.api.model.ResponseGetProduct
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
+import retrofit2.http.Query
 
 interface ApiService {
 //    contoh header pakai access_code / API Key
@@ -15,4 +15,11 @@ interface ApiService {
 
     @GET("seller/category")
     suspend fun getCategoryHome() : List<ResponseCategoryHome>
+
+    // BUYER
+    @GET("buyer/product")
+    suspend fun getProduct(
+        @Query("status") status : String,
+        @Query("category_id") categoryId : String
+    ) : List<ResponseGetProduct>
 }
