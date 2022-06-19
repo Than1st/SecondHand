@@ -3,4 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Halo Adick adick</string>
     <string name="_text">logo_secondhand</string>
+<!--    <string-array name="Pilih kota">-->
+<!--        <item>Jakarta</item>-->
+<!--        <item>Tegal</item>-->
+<!--        <item>Brebes</item>-->
+<!--        <item>Kalimantan</item>-->
+<!--    </string-array>-->
 </resources>
