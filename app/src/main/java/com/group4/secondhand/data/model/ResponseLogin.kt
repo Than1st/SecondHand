@@ -9,5 +9,7 @@ data class ResponseLogin(
     @SerializedName("email")
     val email: String,
     @SerializedName("name")
-    val name: String
+    val name: String,
+    @SerializedName("id")
+    val id: Int
 )

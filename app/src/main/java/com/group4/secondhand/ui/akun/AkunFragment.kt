@@ -56,6 +56,7 @@ class AkunFragment : Fragment() {
                 }
                 .setCancelable(false)
                 .show()
+                viewModel.alreadyLogin.removeObservers(viewLifecycleOwner)
             }
         }
 

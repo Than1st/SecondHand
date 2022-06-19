@@ -14,7 +14,18 @@
         android:id="@+id/notifikasiFragment"
         android:name="com.group4.secondhand.ui.notifikasi.NotifikasiFragment"
         android:label="fragment_notifikasi"
-        tools:layout="@layout/fragment_notifikasi" />
+        tools:layout="@layout/fragment_notifikasi" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/notifikasiFragment"
+            android:id="@+id/action_notifikasiFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/notifikasiFragment"
+            android:id="@+id/action_notifikasiFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/jualFragment"
         android:name="com.group4.secondhand.ui.jual.JualFragment"

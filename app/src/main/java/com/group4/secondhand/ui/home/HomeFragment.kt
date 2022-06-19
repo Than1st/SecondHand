@@ -2,19 +2,18 @@ package com.group4.secondhand.ui.home
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
-import com.group4.secondhand.data.api.model.ResponseCategoryHome
 import com.group4.secondhand.data.api.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.FragmentHomeBinding
@@ -56,6 +55,7 @@ class HomeFragment : Fragment() {
         fetchProduct("4")
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun changeToolbar() {
         var toolbarColored = false
         var toolbarTransparent = true
@@ -104,22 +104,20 @@ class HomeFragment : Fragment() {
     private fun getCategory() {
         homeViewModel.getCategoryHome()
         homeViewModel.category.observe(viewLifecycleOwner) { category ->
-            when (category.status) {
-                Status.SUCCESS -> {
-                    categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
-                        override fun onClickItem(data: ResponseCategoryHome) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Menampilkan kategori ${data.name}",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            fetchProduct(data.id.toString())
-                        }
-                    })
-                    categoryAdapter.submitData(category.data)
-                    binding.rvCategory.adapter = categoryAdapter
-                }
+            if (category.status == Status.SUCCESS) {
+                categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
+                    override fun onClickItem(data: ResponseCategoryHome) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Menampilkan kategori ${data.name}",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        fetchProduct(data.id.toString())
+                    }
+                })
+                categoryAdapter.submitData(category.data)
+                binding.rvCategory.adapter = categoryAdapter
             }
         }
     }

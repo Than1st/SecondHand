@@ -33,4 +33,18 @@ interface ApiService {
 
     @PUT("auth/user/{id}")
     suspend fun updateDataUser(@Header("access_token") token : String) : ResponseUpdateUser
+
+    // NOTIFICATION
+    @GET("notification")
+    suspend fun getNofitication(@Header("access_token") token: String) : List<ResponseNotification>
+
+    @GET("notification/{id}")
+    suspend fun getNofiticationById(
+        @Header("access_token") token: String,
+        @Path("id") id: String
+    ) : List<ResponseNotification>
+
+    @PATCH("notification/{id}")
+    suspend fun markReadNotification(@Path("id") id: Int)
+
 }

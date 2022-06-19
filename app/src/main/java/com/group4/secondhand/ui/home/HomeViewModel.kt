@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
+import com.group4.secondhand.data.api.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
