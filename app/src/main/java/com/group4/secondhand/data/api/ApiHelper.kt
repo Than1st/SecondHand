@@ -1,10 +1,9 @@
 package com.group4.secondhand.data.api
 
-import com.group4.secondhand.data.model.*
-
 class ApiHelper(private val apiService: ApiService) {
     // SELLER
     suspend fun getCategoryHome() = apiService.getCategoryHome()
+    suspend fun getProduct(status:String,categoryId:String) = apiService.getProduct(status,categoryId)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) = apiService.authRegister(requestRegister)

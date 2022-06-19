@@ -2,13 +2,13 @@ package com.group4.secondhand.data
 
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.datastore.UserPreferences
-import com.group4.secondhand.data.model.RequestLogin
-import com.group4.secondhand.data.model.RequestRegister
-import com.group4.secondhand.data.model.User
 
 class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences) {
     // SELLER
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
+
+    // BUYER
+    suspend fun getProduct(status:String,categoryId:String) = apiHelper.getProduct(status,categoryId)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) = apiHelper.authRegister(requestRegister)
@@ -20,4 +20,5 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun setToken(user: User) = userPreferences.setToken(user)
     fun getToken() = userPreferences.getToken()
     suspend fun deleteToken() = userPreferences.deleteToken()
+
 }

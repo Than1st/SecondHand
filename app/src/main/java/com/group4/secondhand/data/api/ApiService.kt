@@ -1,5 +1,6 @@
 package com.group4.secondhand.data.api
 
+import com.group4.secondhand.data.api.model.ResponseGetProduct
 import com.group4.secondhand.data.model.*
 import retrofit2.http.*
 
@@ -12,6 +13,13 @@ interface ApiService {
 
     @GET("seller/category")
     suspend fun getCategoryHome() : List<ResponseCategoryHome>
+
+    // BUYER
+    @GET("buyer/product")
+    suspend fun getProduct(
+        @Query("status") status : String,
+        @Query("category_id") categoryId : String
+    ) : List<ResponseGetProduct>
 
     // AUTH
     @POST("auth/register")

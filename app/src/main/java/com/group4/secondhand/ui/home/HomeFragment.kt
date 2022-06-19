@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
+import com.group4.secondhand.data.api.model.ResponseCategoryHome
+import com.group4.secondhand.data.api.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +29,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var adapter: CategoryAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var productAdapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +52,8 @@ class HomeFragment : Fragment() {
         )
         getCategory()
         changeToolbar()
+        detailProduct()
+        fetchProduct("4")
     }
 
     private fun changeToolbar() {
@@ -100,17 +106,56 @@ class HomeFragment : Fragment() {
         homeViewModel.category.observe(viewLifecycleOwner) { category ->
             when (category.status) {
                 Status.SUCCESS -> {
-                    val adapter = CategoryAdapter(object:CategoryAdapter.OnClickListener{
+                    categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
                         override fun onClickItem(data: ResponseCategoryHome) {
-                            Toast.makeText(requireContext(), "${data.name}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Menampilkan kategori ${data.name}",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            fetchProduct(data.id.toString())
                         }
                     })
-                    adapter.submitData(category.data)
-                    binding.rvCategory.adapter = adapter
-
+                    categoryAdapter.submitData(category.data)
+                    binding.rvCategory.adapter = categoryAdapter
                 }
             }
         }
+    }
+
+    private fun fetchProduct(categoryId: String) {
+        val status = "available"
+        homeViewModel.product.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.lottieEmpty.visibility = View.GONE
+                }
+                Status.SUCCESS -> {
+                    binding.pbLoading.visibility = View.GONE
+                    if (it.data?.size == 0) {
+                        binding.lottieEmpty.visibility = View.VISIBLE
+                    }
+                    productAdapter.submitData(it.data)
+
+                }
+                Status.ERROR -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+        homeViewModel.getProduct(status, categoryId)
+    }
+
+    private fun detailProduct() {
+        productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
+            override fun onClickItem(data: ResponseGetProduct) {
+                Toast.makeText(requireContext(), "click product", Toast.LENGTH_SHORT).show()
+            }
+        })
+        binding.rvProduct.adapter = productAdapter
     }
 
 
