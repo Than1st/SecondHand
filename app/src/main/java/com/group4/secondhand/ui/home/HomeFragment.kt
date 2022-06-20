@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
         getCategory()
         changeToolbar()
         detailProduct()
-        fetchProduct("4")
+        fetchProduct("")
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -105,6 +105,7 @@ class HomeFragment : Fragment() {
         homeViewModel.getCategoryHome()
         homeViewModel.category.observe(viewLifecycleOwner) { category ->
             if (category.status == Status.SUCCESS) {
+                binding.shimmerCategory.visibility = View.GONE
                 categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
                     override fun onClickItem(data: ResponseCategoryHome) {
                         Toast.makeText(
@@ -127,16 +128,20 @@ class HomeFragment : Fragment() {
         homeViewModel.product.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
-                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.shimmer.visibility = View.VISIBLE
                     binding.lottieEmpty.visibility = View.GONE
+                    binding.tvEmptyProduct.visibility = View.GONE
+                    binding.rvProduct.visibility = View.GONE
                 }
                 Status.SUCCESS -> {
-                    binding.pbLoading.visibility = View.GONE
+                    binding.shimmer.visibility = View.GONE
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
-                    }
-                    productAdapter.submitData(it.data)
+                        binding.tvEmptyProduct.visibility = View.VISIBLE
 
+                    }
+                    binding.rvProduct.visibility = View.VISIBLE
+                    productAdapter.submitData(it.data)
                 }
                 Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
