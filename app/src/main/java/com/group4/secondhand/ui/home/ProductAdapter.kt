@@ -37,7 +37,9 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
                     .load(data.imageUrl)
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
-                tvKategori.text = data.categories[0].name
+//                if(data.categories[0].name!=null){
+//                    tvKategori.text = data.categories[0].name
+//                }
                 tvHarga.text = data.basePrice.toString()
                 root.setOnClickListener {
                     onItemClick.onClickItem(data)
