@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.group4.secondhand.databinding.FragmentDetailBinding
+import com.group4.secondhand.ui.penawar.BottomSheetInfoPenawarFragment
 
 
 class DetailFragment : Fragment() {
@@ -26,7 +27,9 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvDeskripsi.setOnClickListener {
-            var bottomFragment = BottomSheetDetailFragment()
+//            var bottomFragment = BottomSheetDetailFragment()
+//            bottomFragment.show(getParentFragmentManager() ,"Tag")
+            val bottomFragment = BottomSheetInfoPenawarFragment()
             bottomFragment.show(getParentFragmentManager() ,"Tag")
 
         }

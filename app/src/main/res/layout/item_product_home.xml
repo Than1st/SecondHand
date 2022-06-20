@@ -31,7 +31,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/tv_nama_produk"
+            android:id="@+id/tv_nama_pembeli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -55,7 +55,7 @@
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nama_produk" />
+            app:layout_constraintTop_toBottomOf="@id/tv_nama_pembeli" />
 
         <TextView
             android:id="@+id/tv_harga"
