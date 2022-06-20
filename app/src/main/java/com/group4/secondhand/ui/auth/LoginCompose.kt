@@ -77,9 +77,10 @@ class LoginCompose : Fragment() {
                         Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
                             .show()
                         progressDialog.dismiss()
-                        val user = resources.data?.let { User(it.accessToken) }
-                        if (user != null) {
-                            viewModel.setToken(user)
+                        resources.data.let {
+                            if (it != null) {
+                                viewModel.setToken(User(it.accessToken))
+                            }
                         }
                         findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
                     }
