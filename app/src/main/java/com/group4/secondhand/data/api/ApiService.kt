@@ -1,8 +1,8 @@
 package com.group4.secondhand.data.api
 
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
+import com.group4.secondhand.data.api.model.ResponseGetProduct
+import com.group4.secondhand.data.model.*
+import retrofit2.http.*
 
 interface ApiService {
 //    contoh header pakai access_code / API Key
@@ -11,5 +11,40 @@ interface ApiService {
 //        @Header ("access_token") apiKey : String
 //    ) : Response<GetSellerProductResponse>
 
+    @GET("seller/category")
+    suspend fun getCategoryHome() : List<ResponseCategoryHome>
+
+    // BUYER
+    @GET("buyer/product")
+    suspend fun getProduct(
+        @Query("status") status : String,
+        @Query("category_id") categoryId : String
+    ) : List<ResponseGetProduct>
+
+    // AUTH
+    @POST("auth/register")
+    suspend fun authRegister(@Body requestRegister: RequestRegister) : ResponseRegister
+
+    @POST("auth/login")
+    suspend fun authLogin(@Body requestLogin: RequestLogin) : ResponseLogin
+
+    @GET("auth/user/{id}")
+    suspend fun getDataUser(@Header("access_token") token : String) : ResponseGetDataUser
+
+    @PUT("auth/user/{id}")
+    suspend fun updateDataUser(@Header("access_token") token : String) : ResponseUpdateUser
+
+    // NOTIFICATION
+    @GET("notification")
+    suspend fun getNofitication(@Header("access_token") token: String) : List<ResponseNotification>
+
+    @GET("notification/{id}")
+    suspend fun getNofiticationById(
+        @Header("access_token") token: String,
+        @Path("id") id: String
+    ) : List<ResponseNotification>
+
+    @PATCH("notification/{id}")
+    suspend fun markReadNotification(@Path("id") id: Int)
 
 }

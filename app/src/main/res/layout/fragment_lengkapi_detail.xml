@@ -10,7 +10,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,42 +22,44 @@
             android:background="@drawable/round_outline"
             android:src="@drawable/ic_back_icon_smaller" />
     </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/tv_desk_detail"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:textSize="20sp"
-        android:layout_marginRight="110sp"
         android:text="Lengkapi detail produk"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/header_back"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header_back" />
+
     <TextView
         android:id="@+id/tv_nama"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Nama"
+        android:text="Nama*"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/nama_container"
         app:layout_constraintTop_toBottomOf="@id/tv_desk_detail"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="55dp" />
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nama_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
-        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_nama">
@@ -70,27 +72,27 @@
 
     <TextView
         android:id="@+id/tv_harga"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="harga produk"
+        android:layout_marginTop="8dp"
+        android:text="Harga produk*"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/harga_container"
         app:layout_constraintTop_toBottomOf="@id/nama_container"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="55dp" />
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/harga_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
-        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_harga">
@@ -100,24 +102,24 @@
             android:layout_height="wrap_content"
             android:hint="Rp  0.00" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tv_kategori"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="harga produk"
+        android:layout_marginTop="8dp"
+        android:text="Kategori*"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/spin_detail"
         app:layout_constraintTop_toBottomOf="@id/harga_container"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="55dp" />
+        tools:ignore="MissingConstraints" />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/spin_detail"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_kategori"
@@ -129,32 +131,31 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tv_deskripsi"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Deskrips"
+        android:layout_marginTop="8dp"
+        android:text="Deskripsi*"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/alamat_container"
         app:layout_constraintTop_toBottomOf="@id/spin_detail"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="56dp" />
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/alamat_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
-        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_deskripsi">
 
@@ -164,29 +165,6 @@
             android:layout_height="88dp"
             android:hint="Deskripsi" />
     </com.google.android.material.textfield.TextInputLayout>
-    <TextView
-        android:id="@+id/foto"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Foto  produk"
-        android:textColor="@color/black"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/alamat_container"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="56dp" />
-
-    <ImageView
-        android:id="@+id/iv_produk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/photo"
-        app:layout_constraintTop_toBottomOf="@id/foto"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="56dp" />
-
 
     <!--<com.google.android.material.textfield.TextInputLayout-->
 <!--    android:layout_width="match_parent"-->

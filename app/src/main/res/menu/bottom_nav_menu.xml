@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_notifikasi"
         android:title="Notifikasi" />
     <item
-        android:id="@+id/jualFragment"
+        android:id="@+id/detailFragment"
         android:icon="@drawable/ic_jual"
         android:title="Jual" />
     <item

@@ -144,7 +144,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
+
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
@@ -255,7 +255,7 @@
         android:layout_width="308dp"
         android:layout_height="46dp"
         android:background="@drawable/round_outline"
-        android:backgroundTint="#FF444444"
+        android:backgroundTint="@color/dark_blue"
         android:text="Saya Tertarik dan ingin Nego"
         android:textAllCaps="false"
         android:textColor="@color/white"

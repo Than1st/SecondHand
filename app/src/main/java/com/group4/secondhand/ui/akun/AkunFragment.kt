@@ -1,60 +1,255 @@
 package com.group4.secondhand.ui.akun
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
+import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AkunFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class AkunFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val viewModel : AkunViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        viewModel.getToken()
+        viewModel.alreadyLogin.observe(viewLifecycleOwner){
+            if (it.token == DEFAULT_TOKEN){
+                AlertDialog.Builder(requireContext())
+                .setTitle("Pesan")
+                .setMessage("Anda Belom Masuk")
+                .setPositiveButton("Login"){ dialogP, _ ->
+                    findNavController().navigate(R.id.action_akunFragment_to_loginCompose)
+                    dialogP.dismiss()
+                }
+                .setNegativeButton("Cancel"){ dialogN, _ ->
+                    findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
+                    dialogN.dismiss()
+                }
+                .setCancelable(false)
+                .show()
+                viewModel.alreadyLogin.removeObservers(viewLifecycleOwner)
+            }
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_akun, container, false)
+        return ComposeView(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            setContent {
+                AkunCompose()
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AkunFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AkunFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private val poppinsFamily = FontFamily(
+        Font(R.font.poppins_bold, FontWeight.Bold),
+        Font(R.font.poppins_regular, FontWeight.Normal)
+    )
+
+    @Composable
+    fun AkunCompose() {
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (title, imageProfile, btnGroup, versionText) = createRefs()
+            Text(
+                text = "Akun Saya",
+                style = TextStyle(
+                    fontFamily = poppinsFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                ),
+                modifier = Modifier
+                    .padding(start = 32.dp, top = 32.dp)
+                    .constrainAs(title) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                    }
+            )
+            Image(
+                painter = painterResource(id = R.drawable.image_profile),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(top = 98.dp)
+                    .size(width = 128.dp, height = 128.dp)
+                    .constrainAs(imageProfile) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                    }
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp)
+                    .constrainAs(btnGroup) {
+                        top.linkTo(imageProfile.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            ) {
+                // Ubah Akun Button
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            Toast
+                                .makeText(
+                                    requireContext(),
+                                    "Anda Mencet Ubah Akun",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
+                        }
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_edit),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
+                            .size(width = 32.dp, height = 32.dp)
+                    )
+                    Text(
+                        text = "Ubah Akun",
+                        style = TextStyle(
+                            fontFamily = poppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        ),
+                        modifier = Modifier
+                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
+                    )
                 }
+                Divider(
+                    color = Color.Gray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 27.dp)
+                )
+                // Pengaturan Akun Button
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            Toast
+                                .makeText(
+                                    requireContext(),
+                                    "Anda Mencet Pengaturan Akun",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
+                        }
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_setting),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
+                            .size(width = 32.dp, height = 32.dp)
+                    )
+                    Text(
+                        text = "Pengaturan Akun",
+                        style = TextStyle(
+                            fontFamily = poppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        ),
+                        modifier = Modifier
+                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
+                    )
+                }
+                Divider(
+                    color = Color.Gray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 27.dp)
+                )
+                // Logout Button
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Konfirmasi Keluar")
+                                .setMessage("Yakin ingin keluar?")
+                                .setPositiveButton("Iya"){ dialogPositive, _ ->
+                                    viewModel.deleteToken()
+                                    findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
+                                    dialogPositive.dismiss()
+                                }
+                                .setNegativeButton("Tidak"){ dialogNegative, _ ->
+                                    dialogNegative.dismiss()
+                                }
+                                .setCancelable(false)
+                                .show()
+                        }
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_logout),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
+                            .size(width = 32.dp, height = 32.dp)
+                    )
+                    Text(
+                        text = "Keluar",
+                        style = TextStyle(
+                            fontFamily = poppinsFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        ),
+                        modifier = Modifier
+                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
+                    )
+                }
+                Divider(
+                    color = Color.Gray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 27.dp)
+                )
             }
+            Text(text = "Version 1.0.0",
+                style = TextStyle(
+                    fontFamily = poppinsFamily,
+                    fontWeight = FontWeight.Thin,
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                ),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .constrainAs(versionText) {
+                        top.linkTo(btnGroup.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    })
+        }
     }
 }

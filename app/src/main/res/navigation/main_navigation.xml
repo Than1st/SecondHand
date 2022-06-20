@@ -3,19 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/splashscreenFragment">
+    app:startDestination="@id/homeFragment">
 
-    <fragment
-        android:id="@+id/splashscreenFragment"
-        android:name="com.group4.secondhand.ui.splashscreen.SplashscreenFragment"
-        android:label="fragment_splashscreen"
-        tools:layout="@layout/fragment_splashscreen" >
-        <action
-            app:popUpTo="@id/splashscreenFragment"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_splashscreenFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.group4.secondhand.ui.home.HomeFragment"
@@ -25,7 +14,18 @@
         android:id="@+id/notifikasiFragment"
         android:name="com.group4.secondhand.ui.notifikasi.NotifikasiFragment"
         android:label="fragment_notifikasi"
-        tools:layout="@layout/fragment_notifikasi" />
+        tools:layout="@layout/fragment_notifikasi" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/notifikasiFragment"
+            android:id="@+id/action_notifikasiFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/notifikasiFragment"
+            android:id="@+id/action_notifikasiFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/jualFragment"
         android:name="com.group4.secondhand.ui.jual.JualFragment"
@@ -40,5 +40,45 @@
         android:id="@+id/akunFragment"
         android:name="com.group4.secondhand.ui.akun.AkunFragment"
         android:label="fragment_akun"
-        tools:layout="@layout/fragment_akun" />
+        tools:layout="@layout/fragment_akun" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/akunFragment"
+            android:id="@+id/action_akunFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/akunFragment"
+            android:id="@+id/action_akunFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginCompose"
+        android:name="com.group4.secondhand.ui.auth.LoginCompose"
+        android:label="LoginCompose" >
+        <action
+            app:popUpTo="@id/loginCompose"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_loginCompose_to_registerCompose"
+            app:destination="@id/registerCompose" />
+        <action
+            app:popUpTo="@id/loginCompose"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_loginCompose_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerCompose"
+        android:name="com.group4.secondhand.ui.auth.RegisterCompose"
+        android:label="RegisterCompose" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/registerCompose"
+            android:id="@+id/action_registerCompose_to_loginCompose"
+            app:destination="@id/loginCompose" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.group4.secondhand.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>
