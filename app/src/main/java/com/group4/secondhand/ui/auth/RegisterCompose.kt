@@ -1,5 +1,9 @@
+@file:Suppress("DEPRECATION")
+
 package com.group4.secondhand.ui.auth
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.navigation.fragment.findNavController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,16 +38,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
+import com.group4.secondhand.data.api.Status
+import com.group4.secondhand.data.model.RequestRegister
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterCompose : Fragment() {
+
+    private val viewModel: AuthViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +64,30 @@ class RegisterCompose : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            val progressDialog = ProgressDialog(requireContext())
+            viewModel.register.observe(viewLifecycleOwner){ resources ->
+                when(resources.status){
+                    Status.LOADING ->{
+                        progressDialog.setMessage("Please Wait...")
+                        progressDialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT)
+                            .show()
+                        progressDialog.dismiss()
+                        findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
+                    }
+                    Status.ERROR ->{
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Pesan")
+                            .setMessage(resources.message)
+                            .setPositiveButton("Ok"){dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
+                }
+            }
             setContent {
                 MyTheme {
                     Surface(
@@ -62,8 +95,6 @@ class RegisterCompose : Fragment() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-
-
                         ImageWithBackground(
                             painter = painterResource(id = R.drawable.wallpapers),
                             backgroundDrawableResId = R.drawable.wallpapers,
@@ -91,7 +122,6 @@ class RegisterCompose : Fragment() {
         Font(R.font.poppins_semibold, FontWeight.Medium)
     )
 
-/////////////////////////////////
 
     @Composable
     fun ImageWithBackground(
@@ -205,6 +235,7 @@ class RegisterCompose : Fragment() {
         var confPassword by remember { mutableStateOf("") }
 
         var passwordVisibility by remember { mutableStateOf(false) }
+        var confirmPasswordVisibility by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -274,13 +305,13 @@ class RegisterCompose : Fragment() {
                     .fillMaxWidth()
                     .background(Color.White, RoundedCornerShape(22.dp)),
                 shape = RoundedCornerShape(22.dp),
-                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(onClick = {
-                        passwordVisibility = !passwordVisibility
+                        confirmPasswordVisibility = !confirmPasswordVisibility
                     }) {
                         Icon(
-                            imageVector = if (passwordVisibility)
+                            imageVector = if (confirmPasswordVisibility)
                                 Icons.Filled.Visibility
                             else
                                 Icons.Filled.VisibilityOff, ""
@@ -296,48 +327,39 @@ class RegisterCompose : Fragment() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    if (username == "" || email == "" || password == "" || confPassword == "") {
-                        android.app.AlertDialog.Builder(requireContext())
-                            .setTitle("")
-                            .setMessage("Semua kolom harus diisi")
-                            .setPositiveButton("Coba Regist kembali") { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .show()
-                    } else if (password != confPassword) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Password konfirmasi tidak sama",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        confPassword = ""
+                    when {
+                        username == "" || email == "" || password == "" || confPassword == "" -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Pesan")
+                                .setMessage("Semua kolom harus diisi")
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        password != confPassword -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Pesan")
+                                .setMessage("Password tidak sesuai")
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        password.length < 6 -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Pesan")
+                                .setMessage("Password harus lebih dari 6 huruf")
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        else -> {
+                            val requestRegister = RequestRegister(username, email, password)
+                            viewModel.authRegister(requestRegister)
+                        }
                     }
-                          //                    else {
-//                        val user = User(null, username, email, password, "")
-//                        authViewModel.register(user)
-//                        authViewModel.resultRegister.observe(viewLifecycleOwner) {
-//                            if (it != null) {
-//                                if (it != 0.toLong()) {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration success",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                    findNavController().navigate(
-//                                        R.id.action_registCompose_to_loginCompose
-//                                    )
-//                                } else {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration failed",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
-//                            }
-//                        }
-//                    }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -368,27 +390,27 @@ class RegisterCompose : Fragment() {
     }
 
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun DefaultPreview() {
-
-        MyTheme {
-
-            ImageWithBackground(
-                painter = painterResource(id = R.drawable.wallpapers),
-                backgroundDrawableResId = R.drawable.wallpapers,
-                contentDescription = "",
-                modifier = Modifier
-                    .height(2580.dp)
-                    .width(2960.dp)
-                    .padding(0.dp),
-            )
-            Column {
-                HeaderLogin()
-                ActionItem()
-
-            }
-
-        }
-    }
+//    @Preview(showBackground = true, showSystemUi = true)
+//    @Composable
+//    fun DefaultPreview() {
+//
+//        MyTheme {
+//
+//            ImageWithBackground(
+//                painter = painterResource(id = R.drawable.wallpapers),
+//                backgroundDrawableResId = R.drawable.wallpapers,
+//                contentDescription = "",
+//                modifier = Modifier
+//                    .height(2580.dp)
+//                    .width(2960.dp)
+//                    .padding(0.dp),
+//            )
+//            Column {
+//                HeaderLogin()
+//                ActionItem()
+//
+//            }
+//
+//        }
+//    }
 }

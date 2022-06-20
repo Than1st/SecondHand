@@ -10,15 +10,17 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:text="Notifikasi"
+        android:text="@string/notifikasi_text"
         android:fontFamily="@font/poppins_bold"
         android:textSize="28sp"
         android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

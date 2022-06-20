@@ -1,5 +1,9 @@
+@file:Suppress("DEPRECATION")
+
 package com.group4.secondhand.ui.auth
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
-import androidx.navigation.fragment.findNavController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,12 +42,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
+import com.group4.secondhand.data.api.Status
+import com.group4.secondhand.data.model.RequestLogin
+import com.group4.secondhand.data.model.User
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginCompose : Fragment() {
+
+    private val viewModel: AuthViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +66,31 @@ class LoginCompose : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            val progressDialog = ProgressDialog(requireContext())
+            viewModel.login.observe(viewLifecycleOwner){ resources ->
+                when(resources.status){
+                    Status.LOADING ->{
+                        progressDialog.setMessage("Please Wait...")
+                        progressDialog.show()
+                    }
+                    Status.SUCCESS ->{
+                        Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
+                            .show()
+                        progressDialog.dismiss()
+                        resources.data.let {
+                            if (it != null) {
+                                viewModel.setToken(User(it.accessToken))
+                            }
+                        }
+                        findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
+                    }
+                    Status.ERROR ->{
+                        Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
+                            .show()
+                        progressDialog.dismiss()
+                    }
+                }
+            }
             setContent {
                 MyTheme {
                     Surface(
@@ -90,8 +126,6 @@ class LoginCompose : Fragment() {
         Font(R.font.poppins_regular, FontWeight.Normal),
         Font(R.font.poppins_semibold, FontWeight.Medium)
     )
-
-/////////////////////////////////
 
     @Composable
     fun ImageWithBackground(
@@ -193,12 +227,8 @@ class LoginCompose : Fragment() {
 
     @Composable
     fun ActionItem() {
-
-        var username by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
-
         var password by remember { mutableStateOf("") }
-
         var passwordVisibility by remember { mutableStateOf(false) }
 
         Column(
@@ -253,42 +283,21 @@ class LoginCompose : Fragment() {
             Spacer(modifier = Modifier.height(100.dp))
             Button(
                 onClick = {
-                    if (username == "" || password == "") {
-                        android.app.AlertDialog.Builder(requireContext())
-                            .setTitle("")
-                            .setMessage("Username atau Password tidak boleh kosong")
-                            .setPositiveButton("Coba login kembali") { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .show()
+                    when {
+                        email == "" || password == "" -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("")
+                                .setMessage("Username atau Password tidak boleh kosong")
+                                .setPositiveButton("Ok") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                        else -> {
+                            val requestLogin = RequestLogin(email, password)
+                            viewModel.authLogin(requestLogin)
+                        }
                     }
-
-                          //                    else {
-//                        val user = User(null, username, email, password, "")
-//                        authViewModel.register(user)
-//                        authViewModel.resultRegister.observe(viewLifecycleOwner) {
-//                            if (it != null) {
-//                                if (it != 0.toLong()) {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration success",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                    findNavController().navigate(
-//                                        R.id.action_registCompose_to_loginCompose
-//                                    )
-//                                } else {
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "Registration failed",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
-//                            }
-//                        }
-//                    }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -321,27 +330,27 @@ class LoginCompose : Fragment() {
     }
 
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun DefaultPreview() {
-        MyTheme {
-
-            ImageWithBackground(
-                painter = painterResource(id = R.drawable.wallpapers),
-                backgroundDrawableResId = R.drawable.wallpapers,
-                contentDescription = "",
-                modifier = Modifier
-                    .height(2580.dp)
-                    .width(2960.dp)
-                    .padding(0.dp),
-            )
-            Column {
-                HeaderRegister()
-                ActionItem()
-
-            }
-
-        }
-    }
+//    @Preview(showBackground = true, showSystemUi = true)
+//    @Composable
+//    fun DefaultPreview() {
+//        MyTheme {
+//
+//            ImageWithBackground(
+//                painter = painterResource(id = R.drawable.wallpapers),
+//                backgroundDrawableResId = R.drawable.wallpapers,
+//                contentDescription = "",
+//                modifier = Modifier
+//                    .height(2580.dp)
+//                    .width(2960.dp)
+//                    .padding(0.dp),
+//            )
+//            Column {
+//                HeaderRegister()
+//                ActionItem()
+//
+//            }
+//
+//        }
+//    }
 }
 
