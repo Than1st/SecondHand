@@ -33,6 +33,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/img_banner"
+                android:layout_marginBottom="32dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <include layout="@layout/shimmer_placeholder_category"/>
+                    <include layout="@layout/shimmer_placeholder_category"/>
+                    <include layout="@layout/shimmer_placeholder_category"/>
+                    <include layout="@layout/shimmer_placeholder_category"/>
+                    <include layout="@layout/shimmer_placeholder_category"/>
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_category"
                 android:layout_width="match_parent"
@@ -59,35 +82,62 @@
                 app:spanCount="2"
                 tools:listitem="@layout/item_product_home" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_banner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_placeholder_product" />
+
+                    <include layout="@layout/shimmer_placeholder_product" />
+
+                    <include layout="@layout/shimmer_placeholder_product" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <View
                 android:id="@+id/view_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:indeterminate="true"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rv_product" />
-
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/img_banner"
                 app:lottie_autoPlay="true"
                 app:lottie_fileName="empty.json"
-                app:lottie_loop="true"
-                app:lottie_speed="1"/>
+                app:lottie_speed="1" />
+
+            <TextView
+                android:id="@+id/tv_empty_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="64dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Produk dalam kategori ini masih kosong"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lottie_empty" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

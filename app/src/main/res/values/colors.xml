@@ -13,5 +13,6 @@
     <color name="light_blue">#DFF6FF</color>
     <color name="gray">#E5E5E5</color>
     <color name="light_grey">#FAFAFA</color>
+    <color name="dark_grey">#dddddd</color>
 
 </resources>
