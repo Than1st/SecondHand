@@ -40,27 +40,64 @@ class NotifikasiFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
-        val progressDialog = ProgressDialog(requireContext())
+        val pd = ProgressDialog(requireContext())
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
-            if (it.token == UserPreferences.DEFAULT_TOKEN) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Pesan")
-                    .setMessage("Anda Belom Masuk")
-                    .setPositiveButton("Login") { dialogP, _ ->
-                        findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
-                        dialogP.dismiss()
+            when(it.status){
+                SUCCESS -> {
+                    pd.dismiss()
+                    if (it.data == UserPreferences.DEFAULT_TOKEN) {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Pesan")
+                            .setMessage("Anda Belom Masuk")
+                            .setPositiveButton("Login") { dialogP, _ ->
+                                findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
+                                dialogP.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialogN, _ ->
+                                findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
+                                dialogN.dismiss()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    } else {
+                        viewModel.getNotification(it.data.toString())
+                        getNotif()
                     }
-                    .setNegativeButton("Cancel") { dialogN, _ ->
-                        findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
-                        dialogN.dismiss()
-                    }
-                    .setCancelable(false)
-                    .show()
-            } else {
-                viewModel.getNotification(it.token)
+                    viewModel.user.removeObservers(viewLifecycleOwner)
+                }
+                ERROR -> {
+                    pd.dismiss()
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(it.message + "CEKCEKCEK")
+                        .show()
+                }
+                LOADING -> {
+                    pd.show()
+                }
             }
         }
+        //            if (it.token == UserPreferences.DEFAULT_TOKEN) {
+//                AlertDialog.Builder(requireContext())
+//                    .setTitle("Pesan")
+//                    .setMessage("Anda Belom Masuk")
+//                    .setPositiveButton("Login") { dialogP, _ ->
+//                        findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
+//                        dialogP.dismiss()
+//                    }
+//                    .setNegativeButton("Cancel") { dialogN, _ ->
+//                        findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
+//                        dialogN.dismiss()
+//                    }
+//                    .setCancelable(false)
+//                    .show()
+//            } else {
+//                iewModel.getNotification(it.token)v
+//            }
+    }
+
+    private fun getNotif() {
+        val progressDialog = ProgressDialog(requireContext())
         viewModel.notification.observe(viewLifecycleOwner) {
             if (it != null) {
                 when (it.status) {
@@ -85,14 +122,12 @@ class NotifikasiFragment : Fragment() {
                     ERROR -> {
                         progressDialog.dismiss()
                         AlertDialog.Builder(requireContext())
-                            .setMessage(it.message)
+                            .setMessage(it.message + "CEKCEKCEK")
                             .show()
                     }
                 }
             }
         }
-
     }
-
 
 }
