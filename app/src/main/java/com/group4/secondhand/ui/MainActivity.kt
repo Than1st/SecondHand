@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.registerCompose -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
+                R.id.detailFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
