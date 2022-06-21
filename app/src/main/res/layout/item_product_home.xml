@@ -52,6 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
             android:fontFamily="@font/poppins_regular"
             android:text="Kategori"
             android:textSize="14dp"
