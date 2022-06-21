@@ -5,6 +5,7 @@ package com.group4.secondhand.ui.auth
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
@@ -48,7 +48,6 @@ import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestLogin
-import com.group4.secondhand.data.model.User
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,31 +65,6 @@ class LoginCompose : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            val progressDialog = ProgressDialog(requireContext())
-            viewModel.login.observe(viewLifecycleOwner){ resources ->
-                when(resources.status){
-                    Status.LOADING ->{
-                        progressDialog.setMessage("Please Wait...")
-                        progressDialog.show()
-                    }
-                    Status.SUCCESS ->{
-                        Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
-                            .show()
-                        progressDialog.dismiss()
-                        resources.data.let {
-                            if (it != null) {
-                                viewModel.setToken(User(it.accessToken))
-                            }
-                        }
-                        findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
-                    }
-                    Status.ERROR ->{
-                        Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
-                            .show()
-                        progressDialog.dismiss()
-                    }
-                }
-            }
             setContent {
                 MyTheme {
                     Surface(
@@ -118,6 +92,37 @@ class LoginCompose : Fragment() {
                 }
             }
 
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val progressDialog = ProgressDialog(requireContext())
+        viewModel.login.observe(viewLifecycleOwner){ resources ->
+            when(resources.status){
+                Status.LOADING ->{
+                    progressDialog.setMessage("Please Wait...")
+                    progressDialog.show()
+                }
+                Status.SUCCESS ->{
+                    Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
+                        .show()
+                    val token = resources.data?.accessToken
+                    if (token != null) {
+                        viewModel.setToken(token)
+                        Handler().postDelayed({
+                            findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
+                            progressDialog.dismiss()
+                        }, 1000)
+                    }
+//                    viewModel.login.removeObservers(viewLifecycleOwner)
+                }
+                Status.ERROR ->{
+                    Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
+                        .show()
+                    progressDialog.dismiss()
+                }
+            }
         }
     }
 

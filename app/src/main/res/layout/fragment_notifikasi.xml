@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".ui.notifikasi.NotifikasiFragment">
 
+    <LinearLayout
+        android:id="@+id/empty_notif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="empty_notification.json"
+            app:lottie_speed="1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_notification_text"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_regular"/>
+    </LinearLayout>
+
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
