@@ -28,7 +28,7 @@ class UserPreferences(private val context: Context) {
 
     suspend fun deleteToken() {
         context.datastore.edit { preferences ->
-           preferences[TOKEN_KEY] = DEFAULT_TOKEN
+           preferences.clear()
         }
     }
 

@@ -69,31 +69,15 @@ class NotifikasiFragment : Fragment() {
                 ERROR -> {
                     pd.dismiss()
                     AlertDialog.Builder(requireContext())
-                        .setMessage(it.message + "CEKCEKCEK")
+                        .setMessage(it.message)
                         .show()
                 }
                 LOADING -> {
+                    pd.setMessage("Please Wait...")
                     pd.show()
                 }
             }
         }
-        //            if (it.token == UserPreferences.DEFAULT_TOKEN) {
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle("Pesan")
-//                    .setMessage("Anda Belom Masuk")
-//                    .setPositiveButton("Login") { dialogP, _ ->
-//                        findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
-//                        dialogP.dismiss()
-//                    }
-//                    .setNegativeButton("Cancel") { dialogN, _ ->
-//                        findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
-//                        dialogN.dismiss()
-//                    }
-//                    .setCancelable(false)
-//                    .show()
-//            } else {
-//                iewModel.getNotification(it.token)v
-//            }
     }
 
     private fun getNotif() {
@@ -105,18 +89,22 @@ class NotifikasiFragment : Fragment() {
                         progressDialog.show()
                     }
                     SUCCESS -> {
-                        val notificationAdapter =
-                            NotificationAdapter(object : NotificationAdapter.OnClickListener {
-                                override fun onClickItem(data: ResponseNotification) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Notif Id = ${data.id}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
-                        notificationAdapter.submitData(it.data)
-                        binding.rvNotification.adapter = notificationAdapter
+                        if (it.data!!.isNotEmpty()){
+                            val notificationAdapter =
+                                NotificationAdapter(object : NotificationAdapter.OnClickListener {
+                                    override fun onClickItem(data: ResponseNotification) {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Notif Id = ${data.id}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                })
+                            notificationAdapter.submitData(it.data)
+                            binding.rvNotification.adapter = notificationAdapter
+                        } else {
+                            binding.emptyNotif.visibility = View.VISIBLE
+                        }
                         progressDialog.dismiss()
                     }
                     ERROR -> {

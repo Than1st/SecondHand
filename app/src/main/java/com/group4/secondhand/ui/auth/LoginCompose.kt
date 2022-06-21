@@ -5,6 +5,7 @@ package com.group4.secondhand.ui.auth
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,13 +107,15 @@ class LoginCompose : Fragment() {
                 Status.SUCCESS ->{
                     Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
                         .show()
-                    progressDialog.dismiss()
                     val token = resources.data?.accessToken
                     if (token != null) {
                         viewModel.setToken(token)
+                        Handler().postDelayed({
+                            findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
+                            progressDialog.dismiss()
+                        }, 1000)
                     }
 //                    viewModel.login.removeObservers(viewLifecycleOwner)
-                    findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
                 }
                 Status.ERROR ->{
                     Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
