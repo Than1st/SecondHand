@@ -10,11 +10,11 @@
         android:icon="@drawable/ic_notifikasi"
         android:title="Notifikasi" />
     <item
-        android:id="@+id/detailFragment"
+        android:id="@+id/jualFragment"
         android:icon="@drawable/ic_jual"
         android:title="Jual" />
     <item
-        android:id="@+id/daftarJualFragment"
+        android:id="@+id/previewProductFragment"
         android:icon="@drawable/ic_daftar_jual"
         android:title="Daftar Jual" />
     <item

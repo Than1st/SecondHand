@@ -24,6 +24,15 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.jualFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                R.id.previewProductFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                R.id.detailFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
                 R.id.loginCompose -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }

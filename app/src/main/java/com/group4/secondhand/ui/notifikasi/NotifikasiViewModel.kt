@@ -18,13 +18,18 @@ class NotifikasiViewModel @Inject constructor(private val repository: Repository
     private var _notification = MutableLiveData<Resource<List<ResponseNotification>>>()
     val notification : MutableLiveData<Resource<List<ResponseNotification>>> get() = _notification
 
-    private var _user = MutableLiveData<User>()
-    val user : LiveData<User> get() = _user
+    private var _user = MutableLiveData<Resource<String>>()
+    val user : LiveData<Resource<String>> get() = _user
 
     fun getToken(){
         viewModelScope.launch {
-            repository.getToken().collect{
-                _user.postValue(it)
+            _user.postValue(Resource.loading())
+            try {
+                repository.getToken().collect{
+                    _user.postValue(Resource.success(it))
+                }
+            } catch (e: Exception){
+                _user.postValue(Resource.error(e.localizedMessage?:"Error occured"))
             }
         }
     }

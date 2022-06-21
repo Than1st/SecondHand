@@ -40,27 +40,48 @@ class NotifikasiFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
-        val progressDialog = ProgressDialog(requireContext())
+        val pd = ProgressDialog(requireContext())
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
-            if (it.token == UserPreferences.DEFAULT_TOKEN) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Pesan")
-                    .setMessage("Anda Belom Masuk")
-                    .setPositiveButton("Login") { dialogP, _ ->
-                        findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
-                        dialogP.dismiss()
+            when(it.status){
+                SUCCESS -> {
+                    pd.dismiss()
+                    if (it.data == UserPreferences.DEFAULT_TOKEN) {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Pesan")
+                            .setMessage("Anda Belom Masuk")
+                            .setPositiveButton("Login") { dialogP, _ ->
+                                findNavController().navigate(R.id.action_notifikasiFragment_to_loginCompose)
+                                dialogP.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialogN, _ ->
+                                findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
+                                dialogN.dismiss()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    } else {
+                        viewModel.getNotification(it.data.toString())
+                        getNotif()
                     }
-                    .setNegativeButton("Cancel") { dialogN, _ ->
-                        findNavController().navigate(R.id.action_notifikasiFragment_to_homeFragment2)
-                        dialogN.dismiss()
-                    }
-                    .setCancelable(false)
-                    .show()
-            } else {
-                viewModel.getNotification(it.token)
+                    viewModel.user.removeObservers(viewLifecycleOwner)
+                }
+                ERROR -> {
+                    pd.dismiss()
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(it.message)
+                        .show()
+                }
+                LOADING -> {
+                    pd.setMessage("Please Wait...")
+                    pd.show()
+                }
             }
         }
+    }
+
+    private fun getNotif() {
+        val progressDialog = ProgressDialog(requireContext())
         viewModel.notification.observe(viewLifecycleOwner) {
             if (it != null) {
                 when (it.status) {
@@ -68,31 +89,33 @@ class NotifikasiFragment : Fragment() {
                         progressDialog.show()
                     }
                     SUCCESS -> {
-                        val notificationAdapter =
-                            NotificationAdapter(object : NotificationAdapter.OnClickListener {
-                                override fun onClickItem(data: ResponseNotification) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Notif Id = ${data.id}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
-                        notificationAdapter.submitData(it.data)
-                        binding.rvNotification.adapter = notificationAdapter
+                        if (it.data!!.isNotEmpty()){
+                            val notificationAdapter =
+                                NotificationAdapter(object : NotificationAdapter.OnClickListener {
+                                    override fun onClickItem(data: ResponseNotification) {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Notif Id = ${data.id}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                })
+                            notificationAdapter.submitData(it.data)
+                            binding.rvNotification.adapter = notificationAdapter
+                        } else {
+                            binding.emptyNotif.visibility = View.VISIBLE
+                        }
                         progressDialog.dismiss()
                     }
                     ERROR -> {
                         progressDialog.dismiss()
                         AlertDialog.Builder(requireContext())
-                            .setMessage(it.message)
+                            .setMessage(it.message + "CEKCEKCEK")
                             .show()
                     }
                 }
             }
         }
-
     }
-
 
 }

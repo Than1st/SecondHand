@@ -23,7 +23,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getNotification(token: String) = apiHelper.getNotification(token)
 
     // DATA STORE
-    suspend fun setToken(user: User) = userPreferences.setToken(user)
+    suspend fun setToken(token: String) = userPreferences.setToken(token)
     fun getToken() = userPreferences.getToken()
     suspend fun deleteToken() = userPreferences.deleteToken()
 

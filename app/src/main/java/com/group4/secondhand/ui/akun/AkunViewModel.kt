@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AkunViewModel @Inject constructor(private val repository: Repository): ViewModel() {
-    private var _alreadyLogin = MutableLiveData<User>()
-    val alreadyLogin : LiveData<User> get() = _alreadyLogin
+    private var _alreadyLogin = MutableLiveData<String>()
+    val alreadyLogin : LiveData<String> get() = _alreadyLogin
 
     fun getToken(){
         viewModelScope.launch {

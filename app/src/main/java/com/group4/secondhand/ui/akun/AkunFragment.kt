@@ -42,7 +42,7 @@ class AkunFragment : Fragment() {
     ): View {
         viewModel.getToken()
         viewModel.alreadyLogin.observe(viewLifecycleOwner){
-            if (it.token == DEFAULT_TOKEN){
+            if (it == DEFAULT_TOKEN){
                 AlertDialog.Builder(requireContext())
                 .setTitle("Pesan")
                 .setMessage("Anda Belom Masuk")
@@ -197,15 +197,23 @@ class AkunFragment : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            AlertDialog.Builder(requireContext())
+                            AlertDialog
+                                .Builder(requireContext())
                                 .setTitle("Konfirmasi Keluar")
                                 .setMessage("Yakin ingin keluar?")
-                                .setPositiveButton("Iya"){ dialogPositive, _ ->
+                                .setPositiveButton("Iya") { dialogPositive, _ ->
                                     viewModel.deleteToken()
+                                    Toast
+                                        .makeText(
+                                            requireContext(),
+                                            "Logout Success",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
                                     findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
                                     dialogPositive.dismiss()
                                 }
-                                .setNegativeButton("Tidak"){ dialogNegative, _ ->
+                                .setNegativeButton("Tidak") { dialogNegative, _ ->
                                     dialogNegative.dismiss()
                                 }
                                 .setCancelable(false)
