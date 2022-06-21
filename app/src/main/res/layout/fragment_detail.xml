@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_produk_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
+        android:layout_height="270dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,8 +17,8 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         app:cardCornerRadius="20dp"
@@ -27,8 +27,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/round_outline"
             android:src="@drawable/ic_back_icon_smaller" />
     </com.google.android.material.card.MaterialCardView>
@@ -39,11 +39,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_produk_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/iv_produk_image">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -207,7 +207,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
@@ -238,7 +238,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris vAksesoris Aksesoris Aksesoris Aksesoris Aksesoris vAksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris vAksesoris Aksesoris Aksesoris Aksesoris Aksesoris vAksesoris Aksesoris Aksesoris Aksesoris AksesorisAksesoris Aksesoris Aksesoris Aksesori Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris "
+                        android:text=" oris Aksesoris Aksesori Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris Aksesoris "
                         android:textColor="@color/dialog_choose_icon_color"
                         android:textSize="12sp" />
 
@@ -263,7 +263,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uu" />
+        app:layout_constraintTop_toBottomOf="@+id/uu"
+        app:layout_constraintVertical_bias="0.195" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
