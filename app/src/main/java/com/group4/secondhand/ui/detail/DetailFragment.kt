@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentDetailBinding
-import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.penawar.BottomSheetStatusProdukFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -55,7 +51,7 @@ class DetailFragment : Fragment() {
 //            bottomFragment.show(getParentFragmentManager() ,"Tag")
 
             val bottomFragment = BottomSheetStatusProdukFragment()
-            bottomFragment.show(getParentFragmentManager() ,"Tag")
+            bottomFragment.show(getParentFragmentManager(), "Tag")
 
         }
         val bundle = arguments
@@ -63,18 +59,20 @@ class DetailFragment : Fragment() {
         val basePrice = bundle?.getInt(BASEPRICE)
         val productDescription = bundle?.getString(DESCRIPTION)
         val imageURL = bundle?.getString(IMAGEURL)
-
+        if (basePrice != null) {
+            val convertBasePrice = currency(basePrice)
+            binding.tvProdukHarga.text = convertBasePrice
+        }
 
         Glide.with(binding.imageView)
             .load(imageURL)
             .into(binding.imageView)
-        binding.tvProdukName.text =  productName
-        binding.tvProdukHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(basePrice!!)).dropLast(3)
+        binding.tvProdukName.text = productName
         binding.tvDeskripsiProduk.text = productDescription
 
 
         binding.btnBack.setOnClickListener {
-           findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
         }
         binding.btnSayaTertarikNego.setOnClickListener {
             val bottomFragment = BottomSheetDetailFragment()
