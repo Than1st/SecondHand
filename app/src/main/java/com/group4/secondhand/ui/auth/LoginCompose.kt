@@ -44,10 +44,10 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestLogin
+import com.group4.secondhand.ui.theme.MyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -98,13 +98,13 @@ class LoginCompose : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val progressDialog = ProgressDialog(requireContext())
-        viewModel.login.observe(viewLifecycleOwner){ resources ->
-            when(resources.status){
-                Status.LOADING ->{
+        viewModel.login.observe(viewLifecycleOwner) { resources ->
+            when (resources.status) {
+                Status.LOADING -> {
                     progressDialog.setMessage("Please Wait...")
                     progressDialog.show()
                 }
-                Status.SUCCESS ->{
+                Status.SUCCESS -> {
                     Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT)
                         .show()
                     val token = resources.data?.accessToken
@@ -117,7 +117,7 @@ class LoginCompose : Fragment() {
                     }
 //                    viewModel.login.removeObservers(viewLifecycleOwner)
                 }
-                Status.ERROR ->{
+                Status.ERROR -> {
                     Toast.makeText(requireContext(), "Username/Password Salah!", Toast.LENGTH_SHORT)
                         .show()
                     progressDialog.dismiss()
