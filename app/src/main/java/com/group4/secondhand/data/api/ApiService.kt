@@ -28,11 +28,14 @@ interface ApiService {
     @POST("auth/login")
     suspend fun authLogin(@Body requestLogin: RequestLogin) : ResponseLogin
 
-    @GET("auth/user/{id}")
+    @GET("auth/user")
     suspend fun getDataUser(@Header("access_token") token : String) : ResponseGetDataUser
 
-    @PUT("auth/user/{id}")
-    suspend fun updateDataUser(@Header("access_token") token : String) : ResponseUpdateUser
+    @PUT("auth/user")
+    suspend fun updateDataUser(
+        @Header("access_token") token : String,
+        @Body requestUpdateUser: RequestUpdateUser
+    ) : ResponseUpdateUser
 
     // NOTIFICATION
     @GET("notification")

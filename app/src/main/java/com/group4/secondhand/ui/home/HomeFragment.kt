@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.ResponseCategoryHome
-import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
