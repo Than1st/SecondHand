@@ -9,13 +9,14 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentDetailBinding
+import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
+import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import com.group4.secondhand.ui.penawar.BottomSheetStatusProdukFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
 import java.util.*
 
 
@@ -44,7 +45,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, HomeFragment.result
+            ViewGroup.LayoutParams.MATCH_PARENT, result
         )
 
         binding.tvDeskripsi.setOnClickListener {
@@ -81,7 +82,7 @@ class DetailFragment : Fragment() {
         }
         binding.btnSayaTertarikNego.setOnClickListener {
             val bottomFragment = BottomSheetDetailFragment()
-            bottomFragment.show(getParentFragmentManager(), "Tag")
+            bottomFragment.show(parentFragmentManager, "Tag")
 
         }
 
