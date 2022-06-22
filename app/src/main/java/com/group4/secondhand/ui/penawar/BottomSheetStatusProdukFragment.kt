@@ -30,12 +30,12 @@ class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val radio: RadioButton = binding.root.findViewById(checkedId)
-            Toast.makeText(
-                context, " Kamu memilih :" +
-                        " ${radio.text}",
-                Toast.LENGTH_SHORT
-            ).show()
+//            val radio: RadioButton = binding.root.findViewById(checkedId)
+//            Toast.makeText(
+//                context, " Kamu memilih :" +
+//                        " ${radio.text}",
+//                Toast.LENGTH_SHORT
+//            ).show()
             val id: Int = binding.radioGroup.checkedRadioButtonId
             if (id != -1) {
                 binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_blue)

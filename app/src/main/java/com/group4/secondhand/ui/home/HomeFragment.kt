@@ -163,8 +163,6 @@ class HomeFragment : Fragment() {
     private fun detailProduct() {
         productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
             override fun onClickItem(data: ResponseGetProduct) {
-
-                    Toast.makeText(requireContext(), "click product", Toast.LENGTH_SHORT).show()
                     if (data  != null) {
                         val productBundle = Bundle()
 
