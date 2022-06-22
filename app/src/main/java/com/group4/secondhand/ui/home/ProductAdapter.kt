@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.group4.secondhand.data.api.model.ResponseGetProduct
 import com.group4.secondhand.databinding.ItemProductHomeBinding
-import java.text.NumberFormat
-import java.util.*
 
 class ProductAdapter(private val onItemClick: OnClickListener) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
@@ -39,10 +37,16 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
                     .load(data.imageUrl)
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
-//                if(data.categories[0].name!=null){
-//                    tvKategori.text = data.categories[0].name
-//                }
-                tvHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(data.basePrice)).dropLast(3)
+                if(data.categories.isNotEmpty()){
+                    if (data.categories.size > 2 ) {
+                        tvKategori.text = "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
+                    }else if (data.categories.size > 1){
+                        tvKategori.text = "${data.categories[0].name}, ${data.categories[1].name}"
+                    }else{
+                        tvKategori.text = "${data.categories[0].name}"
+                    }
+                }
+                tvHarga.text = data.basePrice.toString()
                 root.setOnClickListener {
                     onItemClick.onClickItem(data)
                 }
