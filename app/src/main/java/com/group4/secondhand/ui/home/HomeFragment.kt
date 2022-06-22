@@ -163,20 +163,12 @@ class HomeFragment : Fragment() {
     private fun detailProduct() {
         productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
             override fun onClickItem(data: ResponseGetProduct) {
-
-                    Toast.makeText(requireContext(), "click product", Toast.LENGTH_SHORT).show()
-                    if (data  != null) {
-                        val productBundle = Bundle()
-
-
-                        productBundle.putString(PRODUCTNAME, data.name)
-                        productBundle.putString(IMAGEURL, data.imageUrl)
-                        productBundle.putString(DESCRIPTION, data.description)
-                        productBundle.putInt(BASEPRICE, data.basePrice)
-
-                        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
-                    }
-
+                val productBundle = Bundle()
+                productBundle.putString(PRODUCTNAME, data.name)
+                productBundle.putString(IMAGEURL, data.imageUrl)
+                productBundle.putString(DESCRIPTION, data.description)
+                productBundle.putInt(BASEPRICE, data.basePrice)
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
             }
         })
         binding.rvProduct.adapter = productAdapter

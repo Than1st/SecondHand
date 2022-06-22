@@ -34,12 +34,12 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
+                android:layout_height="270dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/onboarding_pict1" />
+                app:srcCompat="@drawable/default_image" />
 
 
             <androidx.cardview.widget.CardView
@@ -121,10 +121,11 @@
                         android:layout_height="64dp"
                         android:background="@drawable/round_outline"
                         android:clipToOutline="true"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@tools:sample/avatars" />
+                        tools:srcCompat="@drawable/default_image" />
 
                     <TextView
                         android:id="@+id/tv_nama_penjual"
@@ -211,7 +212,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_saya_tertarik_nego"
+        android:id="@+id/btn_terbitkan"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:background="@drawable/round_outline"

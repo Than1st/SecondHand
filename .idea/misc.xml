@@ -8,18 +8,19 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/round_outline.xml" value="0.153" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/activity_opening.xml" value="0.1953125" />
-        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.209375" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_daftar_jual.xml" value="0.1718683197947841" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_detail.xml" value="0.16" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_edit_akun.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_info_penawaran.xml" value="0.33" />
-        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.14" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_detail.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_detail_produk.xml" value="0.33" />
-        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_info_akun.xml" value="0.33" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_info_akun.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_notifikasi.xml" value="0.25" />
-        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_preview_product.xml" value="0.25" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_preview_product.xml" value="0.15" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_splashscreen.xml" value="0.1" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_tawar.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/item_product_home.xml" value="0.209375" />
