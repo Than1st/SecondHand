@@ -1,4 +1,4 @@
-package com.group4.secondhand.data.api.model
+package com.group4.secondhand.data.model
 
 
 import com.google.gson.annotations.SerializedName

@@ -1,7 +1,6 @@
 package com.group4.secondhand.ui.onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 
@@ -54,7 +54,7 @@ class SecondOnBoardingFragment : Fragment() {
     @Composable
     fun SecondOnBoarding() {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val(image, fade, title, subTitle, btnNext) = createRefs()
+            val (image, fade, title, subTitle, btnNext) = createRefs()
             Image(
                 painter = painterResource(id = R.drawable.onboarding_pict2),
                 contentDescription = "",
@@ -86,7 +86,7 @@ class SecondOnBoardingFragment : Fragment() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 32.sp
                 ),
-                modifier = Modifier.constrainAs(title){
+                modifier = Modifier.constrainAs(title) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -110,7 +110,7 @@ class SecondOnBoardingFragment : Fragment() {
             )
             Row(
                 modifier = Modifier
-                    .padding(end = 12.dp, bottom = 12.dp)
+                    .padding(end = 12.dp, bottom = 64.dp)
                     .clickable {
                         findNavController().navigate(R.id.action_secondOnBoardingFragment_to_thirdOnBoardingFragment)
                     }

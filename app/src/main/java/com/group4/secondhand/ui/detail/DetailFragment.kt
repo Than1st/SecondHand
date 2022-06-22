@@ -10,13 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.group4.secondhand.R
-import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.databinding.FragmentDetailBinding
+import com.group4.secondhand.databinding.FragmentPreviewProductBinding
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
-import com.group4.secondhand.ui.penawar.BottomSheetInfoPenawarFragment
 import com.group4.secondhand.ui.penawar.BottomSheetStatusProdukFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -66,11 +65,11 @@ class DetailFragment : Fragment() {
         val imageURL = bundle?.getString(IMAGEURL)
 
 
-        Glide.with(binding.ivProdukImage)
+        Glide.with(binding.imageView)
             .load(imageURL)
-            .into(binding.ivProdukImage)
+            .into(binding.imageView)
         binding.tvProdukName.text =  productName
-        binding.tvProdukHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(basePrice!!))
+        binding.tvProdukHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(basePrice!!)).dropLast(3)
         binding.tvDeskripsiProduk.text = productDescription
 
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.notifikasi.NotifikasiFragment">
 
     <LinearLayout
@@ -12,38 +13,38 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
             app:lottie_fileName="empty_notification.json"
+            app:lottie_loop="true"
             app:lottie_speed="1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/empty_notification_text"
-            android:textSize="24sp"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center"
-            android:fontFamily="@font/poppins_regular"/>
+            android:text="@string/empty_notification_text"
+            android:textSize="24sp" />
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:text="@string/notifikasi_text"
-        android:fontFamily="@font/poppins_bold"
-        android:textSize="28sp"
-        android:gravity="center_vertical"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center_vertical"
+        android:text="@string/notifikasi_text"
+        android:textColor="@color/black"
+        android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_bar" />
 

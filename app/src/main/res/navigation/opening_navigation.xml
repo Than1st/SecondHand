@@ -12,7 +12,12 @@
         tools:layout="@layout/fragment_splashscreen" >
         <action
             android:id="@+id/action_splashscreenFragment_to_firstOnBoardingFragment"
-            app:destination="@id/firstOnBoardingFragment" />
+            app:destination="@id/firstOnBoardingFragment"
+            app:exitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            app:popUpTo="@id/splashscreenFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
     <fragment
         android:id="@+id/firstOnBoardingFragment"
@@ -23,7 +28,10 @@
             app:popUpTo="@id/firstOnBoardingFragment"
             app:popUpToInclusive="true"
             android:id="@+id/action_firstOnBoardingFragment_to_secondOnBoardingFragment"
-            app:destination="@id/secondOnBoardingFragment" />
+            app:destination="@id/secondOnBoardingFragment"
+            app:exitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            />
     </fragment>
     <fragment
         android:id="@+id/secondOnBoardingFragment"
@@ -34,7 +42,10 @@
             app:popUpTo="@id/secondOnBoardingFragment"
             app:popUpToInclusive="true"
             android:id="@+id/action_secondOnBoardingFragment_to_thirdOnBoardingFragment"
-            app:destination="@id/thirdOnBoardingFragment" />
+            app:destination="@id/thirdOnBoardingFragment"
+            app:exitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            />
     </fragment>
     <fragment
         android:id="@+id/thirdOnBoardingFragment"
@@ -43,7 +54,12 @@
         tools:layout="@layout/fragment_third_on_boarding" >
         <action
             android:id="@+id/action_thirdOnBoardingFragment_to_main_navigation"
-            app:destination="@id/main_navigation" />
+            app:destination="@id/main_navigation"
+            app:exitAnim="@anim/slide_out"
+            app:enterAnim="@anim/slide_in"
+            app:popUpTo="@id/thirdOnBoardingFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
     <include app:graph="@navigation/main_navigation" />
 

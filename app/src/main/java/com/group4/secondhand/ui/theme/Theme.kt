@@ -1,7 +1,7 @@
-package com.farhanfarkaann.mycomposeapp.ui.theme
+package com.group4.secondhand.ui.theme
 
+import MediumBlue
 import Purple200
-import Purple500
 import Purple700
 import Teal200
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,7 +17,7 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
+    primary = MediumBlue,
     primaryVariant = Purple700,
     secondary = Teal200
 
@@ -37,7 +37,7 @@ fun MyTheme(
     content: @Composable() () -> Unit
 ) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        LightColorPalette
     } else {
         LightColorPalette
     }

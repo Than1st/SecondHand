@@ -43,10 +43,10 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.farhanfarkaann.mycomposeapp.ui.theme.MyTheme
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestRegister
+import com.group4.secondhand.ui.theme.MyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,23 +65,23 @@ class RegisterCompose : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             val progressDialog = ProgressDialog(requireContext())
-            viewModel.register.observe(viewLifecycleOwner){ resources ->
-                when(resources.status){
-                    Status.LOADING ->{
+            viewModel.register.observe(viewLifecycleOwner) { resources ->
+                when (resources.status) {
+                    Status.LOADING -> {
                         progressDialog.setMessage("Please Wait...")
                         progressDialog.show()
                     }
-                    Status.SUCCESS ->{
+                    Status.SUCCESS -> {
                         Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT)
                             .show()
                         progressDialog.dismiss()
                         findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
                     }
-                    Status.ERROR ->{
+                    Status.ERROR -> {
                         AlertDialog.Builder(requireContext())
                             .setTitle("Pesan")
                             .setMessage(resources.message)
-                            .setPositiveButton("Ok"){dialog, _ ->
+                            .setPositiveButton("Ok") { dialog, _ ->
                                 dialog.dismiss()
                             }
                             .show()
@@ -167,7 +167,10 @@ class RegisterCompose : Fragment() {
         Button(
             onClick = onClick,
             contentPadding = PaddingValues(),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White, contentColor = color),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.White,
+                contentColor = color
+            ),
             shape = RoundedCornerShape(22.dp),
             elevation = elevation,
             modifier = Modifier
@@ -247,7 +250,7 @@ class RegisterCompose : Fragment() {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                placeholder = { Text(text = "Username",fontFamily = poppinsFamily) },
+                placeholder = { Text(text = "Username", fontFamily = poppinsFamily) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -370,7 +373,11 @@ class RegisterCompose : Fragment() {
 
 
             {
-                Text(text = "Sign Up!", style = TextStyle(Color.White, fontWeight = FontWeight.Bold), fontFamily = poppinsFamily)
+                Text(
+                    text = "Sign Up!",
+                    style = TextStyle(Color.White, fontWeight = FontWeight.Bold),
+                    fontFamily = poppinsFamily
+                )
 
             }
             Text(

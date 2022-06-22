@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SecondHand" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SecondHand" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q" >false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/dark_blue</item>
@@ -14,13 +15,4 @@
         <!-- Customize your theme here. -->
 
     </style>
-
-    <style name="Theme.SecondHand.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.SecondHand.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.SecondHand.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

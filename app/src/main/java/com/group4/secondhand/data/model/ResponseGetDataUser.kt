@@ -23,5 +23,5 @@ data class ResponseGetDataUser(
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("city")
-    val city: String,
+    val city: String
 )
