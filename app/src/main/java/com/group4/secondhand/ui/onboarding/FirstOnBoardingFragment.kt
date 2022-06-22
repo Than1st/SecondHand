@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -51,7 +54,7 @@ class FirstOnBoardingFragment : Fragment() {
     @Composable
     fun FirstOnBoarding() {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val(image, fade, title, subTitle, btnNext) = createRefs()
+            val (image, fade, title, subTitle, btnNext) = createRefs()
             Image(
                 painter = painterResource(id = R.drawable.onboarding_pict1),
                 contentDescription = "",
@@ -83,7 +86,7 @@ class FirstOnBoardingFragment : Fragment() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 32.sp
                 ),
-                modifier = Modifier.constrainAs(title){
+                modifier = Modifier.constrainAs(title) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -107,7 +110,7 @@ class FirstOnBoardingFragment : Fragment() {
             )
             Row(
                 modifier = Modifier
-                    .padding(end = 12.dp, bottom = 12.dp)
+                    .padding(end = 12.dp, bottom = 64.dp)
                     .clickable {
                         findNavController().navigate(R.id.action_firstOnBoardingFragment_to_secondOnBoardingFragment)
                     }
