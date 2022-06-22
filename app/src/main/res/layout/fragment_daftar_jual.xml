@@ -4,19 +4,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="ui.daftarjual.DaftarJualFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center_vertical"
+            android:text="@string/daftar_jual_saya"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/white"
+                android:paddingHorizontal="10dp"
+                app:cardCornerRadius="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        android:paddingHorizontal="10dp"-->
-<!--        -->
-<!--        />-->
+                    <ImageView
+                        android:id="@+id/iv_avatar_penjual"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/round_outline"
+                        android:clipToOutline="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars" />
 
+                    <TextView
+                        android:id="@+id/tv_nama_penjual"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Nama Penjual"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_avatar_penjual"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_kota_penjual"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="21dp"
+                        android:layout_marginTop="7dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Kota"
+                        android:textColor="@color/dialog_choose_icon_color"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_avatar_penjual"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_nama_penjual" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/medium_blue"
+                        app:cornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/medium_blue"
+                        app:strokeWidth="2dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_produk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableLeft="@drawable/ic_box"
+                        android:text="Produk"
+                        android:textAllCaps="false"
+                        app:cornerRadius="10dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_diminati"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableLeft="@drawable/ic_heart"
+                        android:text="Diminati"
+                        android:textAllCaps="false"
+                        app:cornerRadius="10dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_terjual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableLeft="@drawable/ic_dollar"
+                        android:text="Terjual"
+                        android:textAllCaps="false"
+                        app:cornerRadius="10dp" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_product_home" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
