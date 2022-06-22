@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.group4.secondhand.data.api.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.ItemProductHomeBinding
 
 class ProductAdapter(private val onItemClick: OnClickListener) :

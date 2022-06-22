@@ -1,6 +1,6 @@
 package com.group4.secondhand.data.api
 
-import com.group4.secondhand.data.api.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.*
 import retrofit2.http.*
 
