@@ -42,6 +42,7 @@
         android:backgroundTint="@color/light_grey"
         android:text="Kirim"
         android:textAllCaps="false"
+        android:enabled="false"
         android:layout_marginBottom="20dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

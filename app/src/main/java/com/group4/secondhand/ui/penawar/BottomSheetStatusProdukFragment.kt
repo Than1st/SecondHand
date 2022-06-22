@@ -29,15 +29,23 @@ class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnSayaTertarikNego.setOnClickListener {
+            when (binding.radioGroup.checkedRadioButtonId) {
+                R.id.rb_berhasil_terjual -> {
+                    Toast.makeText(context, "Berhasil Terjual ", Toast.LENGTH_SHORT).show()
+
+                }
+                R.id.rb_batalkan_transaksi -> {
+                    Toast.makeText(context, "Batalkan Transaksi", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-//            val radio: RadioButton = binding.root.findViewById(checkedId)
-//            Toast.makeText(
-//                context, " Kamu memilih :" +
-//                        " ${radio.text}",
-//                Toast.LENGTH_SHORT
-//            ).show()
             val id: Int = binding.radioGroup.checkedRadioButtonId
             if (id != -1) {
+                binding.btnSayaTertarikNego.isEnabled = true
                 binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_blue)
             }
         }
