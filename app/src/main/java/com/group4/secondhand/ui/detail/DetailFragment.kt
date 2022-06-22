@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentDetailBinding
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.home.HomeFragment
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
@@ -46,6 +47,9 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.statusBar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, HomeFragment.result
+        )
 
         binding.tvDeskripsi.setOnClickListener {
 //            var bottomFragment = BottomSheetDetailFragment()
@@ -63,7 +67,6 @@ class DetailFragment : Fragment() {
         val basePrice = bundle?.getInt(BASEPRICE)
         val productDescription = bundle?.getString(DESCRIPTION)
         val imageURL = bundle?.getString(IMAGEURL)
-
 
         Glide.with(binding.imageView)
             .load(imageURL)

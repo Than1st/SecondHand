@@ -163,7 +163,6 @@ class HomeFragment : Fragment() {
     private fun detailProduct() {
         productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
             override fun onClickItem(data: ResponseGetProduct) {
-                    if (data  != null) {
                         val productBundle = Bundle()
 
 
@@ -173,7 +172,7 @@ class HomeFragment : Fragment() {
                         productBundle.putInt(BASEPRICE, data.basePrice)
 
                         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
-                    }
+
 
             }
         })

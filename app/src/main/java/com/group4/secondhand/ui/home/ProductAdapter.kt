@@ -48,7 +48,7 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
                         tvKategori.text = "${data.categories[0].name}"
                     }
                 }
-                tvHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(data.basePrice)).dropLast(3)
+                tvHarga.text =  NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(data.basePrice)).dropLast(3)
                 root.setOnClickListener {
                     onItemClick.onClickItem(data)
                 }
