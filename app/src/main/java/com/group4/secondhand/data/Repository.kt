@@ -12,6 +12,7 @@ import okhttp3.RequestBody
 class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences) {
     // SELLER
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
+    suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
     suspend fun uploadProduct(
         token: String,
         file : MultipartBody.Part,

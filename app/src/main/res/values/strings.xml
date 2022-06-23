@@ -13,6 +13,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="rp_250_000"><strike>Rp. 250.000</strike></string>
+    <string name="rp_300_000">Rp. 300.000</string>
     <string name="harga_seller"><strike> Rp 250.000 </strike></string>
     <string name="notifikasi_text">Notifikasi</string>
     <string name="empty_notification_text">Empty Notification</string>
