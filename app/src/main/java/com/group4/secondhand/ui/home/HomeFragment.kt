@@ -5,7 +5,6 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -163,17 +162,12 @@ class HomeFragment : Fragment() {
     private fun detailProduct() {
         productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
             override fun onClickItem(data: ResponseGetProduct) {
-                        val productBundle = Bundle()
-
-
-                        productBundle.putString(PRODUCTNAME, data.name)
-                        productBundle.putString(IMAGEURL, data.imageUrl)
-                        productBundle.putString(DESCRIPTION, data.description)
-                        productBundle.putInt(BASEPRICE, data.basePrice)
-
-                        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
-
-
+                val productBundle = Bundle()
+                productBundle.putString(PRODUCTNAME, data.name)
+                productBundle.putString(IMAGEURL, data.imageUrl)
+                productBundle.putString(DESCRIPTION, data.description)
+                productBundle.putInt(BASEPRICE, data.basePrice)
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
             }
         })
         binding.rvProduct.adapter = productAdapter

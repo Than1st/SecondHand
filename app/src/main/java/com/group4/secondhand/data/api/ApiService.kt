@@ -2,6 +2,8 @@ package com.group4.secondhand.data.api
 
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -13,6 +15,10 @@ interface ApiService {
 
     @GET("seller/category")
     suspend fun getCategoryHome() : List<ResponseCategoryHome>
+
+    @GET("seller/product")
+    suspend fun getSellerProduct(@Header("access_token") token: String) : List<ResponseSellerProduct>
+
 
     // BUYER
     @GET("buyer/product")
@@ -31,10 +37,12 @@ interface ApiService {
     @GET("auth/user")
     suspend fun getDataUser(@Header("access_token") token : String) : ResponseGetDataUser
 
+    @Multipart
     @PUT("auth/user")
     suspend fun updateDataUser(
         @Header("access_token") token : String,
-        @Body requestUpdateUser: RequestUpdateUser
+        @Part file: MultipartBody.Part?,
+        @Part("full_name") name : RequestBody?
     ) : ResponseUpdateUser
 
     // NOTIFICATION

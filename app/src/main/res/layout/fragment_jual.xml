@@ -109,7 +109,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/harga_container">
 
                 <Spinner
-                    android:id="@+id/tv_Spinn"
+                    android:id="@+id/sp_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -162,50 +162,48 @@
                 app:layout_constraintStart_toStartOf="@id/drop_foto"
                 app:layout_constraintTop_toBottomOf="@id/drop_foto" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guide_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_preview"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_btn"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Preview"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guide_line"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_foto" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_terbitkan"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/bg_btn_two"
-                android:backgroundTint="@color/dark_blue"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Terbitkan"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guide_line"
-                app:layout_constraintTop_toBottomOf="@+id/iv_foto" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_preview"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_btn"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginBottom="24dp"
+        android:text="Preview"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guide_line"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_terbitkan"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_btn_two"
+        android:backgroundTint="@color/dark_blue"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Terbitkan"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guide_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
