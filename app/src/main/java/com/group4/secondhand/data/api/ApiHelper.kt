@@ -9,6 +9,7 @@ import okhttp3.RequestBody
 class ApiHelper(private val apiService: ApiService) {
     // SELLER
     suspend fun getCategoryHome() = apiService.getCategoryHome()
+    suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
 
     // BUYER
     suspend fun getProduct(status:String,categoryId:String) = apiService.getProduct(status,categoryId)

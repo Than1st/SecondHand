@@ -101,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="Edit"
                         android:textAllCaps="false"
                         android:textColor="@color/medium_blue"
@@ -113,46 +114,63 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <HorizontalScrollView
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/btn_produk"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:background="@drawable/background_rounded"
+                    android:drawableLeft="@drawable/ic_box"
+                    android:drawablePadding="12dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Produk"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_diminati"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_produk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:drawableLeft="@drawable/ic_box"
-                        android:text="Produk"
-                        android:textAllCaps="false"
-                        app:cornerRadius="10dp" />
+                <TextView
+                    android:id="@+id/btn_diminati"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_rounded"
+                    android:drawableLeft="@drawable/ic_heart"
+                    android:drawablePadding="12dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Diminati"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_terjual"
+                    app:layout_constraintStart_toEndOf="@id/btn_produk"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_diminati"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:drawableLeft="@drawable/ic_heart"
-                        android:text="Diminati"
-                        android:textAllCaps="false"
-                        app:cornerRadius="10dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_terjual"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:drawableLeft="@drawable/ic_dollar"
-                        android:text="Terjual"
-                        android:textAllCaps="false"
-                        app:cornerRadius="10dp" />
-                </LinearLayout>
-            </HorizontalScrollView>
+                <TextView
+                    android:id="@+id/btn_terjual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_rounded"
+                    android:drawableLeft="@drawable/ic_dollar"
+                    android:drawablePadding="12dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Terjual"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_diminati"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_product"
@@ -161,6 +179,34 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/item_product_home" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_diminati"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_diminati" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_terjual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_product_home" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:progressTint="@color/medium_blue"
+        android:visibility="gone"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

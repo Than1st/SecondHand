@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.group4.secondhand.data.api.Status.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.group4.secondhand.data.model.ResponseSellerProduct
 import com.group4.secondhand.databinding.FragmentDaftarJualBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +35,15 @@ class DaftarJualFragment : Fragment() {
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
             daftarJualViewModel.getDataUser(it)
+            daftarJualViewModel.getProduct(it)
         }
+        setSellerName()
+        setRecycler()
+        getSellerProduct()
+
+    }
+
+    private fun setSellerName() {
         val progressBar = ProgressDialog(requireContext())
         daftarJualViewModel.user.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -58,6 +68,53 @@ class DaftarJualFragment : Fragment() {
                 LOADING -> {
                     progressBar.setMessage("Please Wait...")
                     progressBar.show()
+                }
+            }
+        }
+    }
+    private fun setRecycler(){
+        binding.btnProduk.setOnClickListener {
+            binding.rvProduct.visibility = View.VISIBLE
+            binding.rvDiminati.visibility = View.GONE
+            binding.rvTerjual.visibility = View.GONE
+        }
+        binding.btnDiminati.setOnClickListener {
+            binding.rvProduct.visibility = View.GONE
+            binding.rvDiminati.visibility = View.VISIBLE
+            binding.rvTerjual.visibility = View.GONE
+        }
+        binding.btnTerjual.setOnClickListener {
+            binding.rvProduct.visibility = View.GONE
+            binding.rvDiminati.visibility = View.GONE
+            binding.rvTerjual.visibility = View.VISIBLE
+        }
+    }
+    private fun getSellerProduct(){
+        daftarJualViewModel.product.observe(viewLifecycleOwner){
+            when(it.status){
+                LOADING ->{
+                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.rvProduct.visibility = View.GONE
+                    binding.rvDiminati.visibility = View.GONE
+                    binding.rvTerjual.visibility = View.GONE
+                }
+                SUCCESS ->{
+                    if (it.data != null){
+                        val sellerProductAdapter = SellerProductAdapter(object : SellerProductAdapter.OnclickListener{
+                            override fun onClickItem(data: ResponseSellerProduct) {
+                                Toast.makeText(requireContext(), "go to edit", Toast.LENGTH_SHORT).show()
+                            }
+
+                        })
+                        sellerProductAdapter.submitData(it.data)
+                        binding.rvProduct.adapter = sellerProductAdapter
+                        binding.pbLoading.visibility = View.GONE
+                        binding.rvProduct.visibility = View.VISIBLE
+                    }
+
+                }
+                ERROR ->{
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }

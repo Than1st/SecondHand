@@ -16,6 +16,10 @@ interface ApiService {
     @GET("seller/category")
     suspend fun getCategoryHome() : List<ResponseCategoryHome>
 
+    @GET("seller/product")
+    suspend fun getSellerProduct(@Header("access_token") token: String) : List<ResponseSellerProduct>
+
+
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
