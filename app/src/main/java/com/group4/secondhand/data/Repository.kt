@@ -13,6 +13,15 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     // SELLER
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
+    suspend fun uploadProduct(
+        token: String,
+        file : MultipartBody.Part,
+        name: RequestBody,
+        description: RequestBody,
+        base_price: RequestBody,
+        categoryIds: List<Int>,
+        location: RequestBody,
+    ) = apiHelper.uploadProduct(token, file, name, description, base_price, categoryIds, location)
 
     // BUYER
     suspend fun getProduct(status:String,categoryId:String) = apiHelper.getProduct(status,categoryId)
@@ -21,7 +30,14 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun authRegister(requestRegister: RequestRegister) = apiHelper.authRegister(requestRegister)
     suspend fun authLogin(requestLogin: RequestLogin) = apiHelper.authLogin(requestLogin)
     suspend fun getDataUser(token : String) = apiHelper.getDataUser(token)
-    suspend fun updateDataUser(token : String, image: MultipartBody.Part?, name: RequestBody?) = apiHelper.updateDataUser(token, image, name)
+    suspend fun updateDataUser(
+        token : String,
+        image: MultipartBody.Part?,
+        name: RequestBody?,
+        phoneNumber: RequestBody?,
+        address: RequestBody?,
+        city: RequestBody?,
+    ) = apiHelper.updateDataUser(token, image, name, phoneNumber, address, city)
 
     // NOTIFICATION
     suspend fun getNotification(token: String) = apiHelper.getNotification(token)

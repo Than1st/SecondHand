@@ -38,6 +38,16 @@
         <action
             android:id="@+id/action_jualFragment_to_previewProductFragment"
             app:destination="@id/previewProductFragment" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/jualFragment"
+            android:id="@+id/action_jualFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/jualFragment"
+            android:id="@+id/action_jualFragment_to_lengkapiInfoAkunFragment"
+            app:destination="@id/lengkapiInfoAkunFragment" />
     </fragment>
     <fragment
         android:id="@+id/daftarJualFragment"
@@ -105,5 +115,10 @@
         android:name="com.group4.secondhand.ui.editakun.EditAkunFragment"
         android:label="fragment_edit_akun"
         tools:layout="@layout/fragment_edit_akun" />
+    <fragment
+        android:id="@+id/lengkapiInfoAkunFragment"
+        android:name="com.group4.secondhand.ui.lengkapiinfoakun.LengkapiInfoAkunFragment"
+        android:label="fragment_lengkapi_info_akun"
+        tools:layout="@layout/fragment_lengkapi_info_akun" />
 
 </navigation>
