@@ -109,7 +109,13 @@
     <fragment
         android:id="@+id/previewProductFragment"
         android:name="com.group4.secondhand.ui.previewproduct.PreviewProductFragment"
-        android:label="PreviewProductFragment" />
+        android:label="PreviewProductFragment" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/previewProductFragment"
+            android:id="@+id/action_previewProductFragment_to_daftarJualFragment"
+            app:destination="@id/daftarJualFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editAkunFragment"
         android:name="com.group4.secondhand.ui.editakun.EditAkunFragment"

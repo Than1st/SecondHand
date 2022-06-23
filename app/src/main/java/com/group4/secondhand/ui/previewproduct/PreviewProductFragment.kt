@@ -16,8 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.jual.JualFragment
 import com.group4.secondhand.ui.jual.JualFragment.Companion.ADDRESS_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.HARGA_PRODUK_KEY
@@ -141,6 +143,7 @@ class PreviewProductFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
+                    findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment)
                     Toast.makeText(requireContext(), "Sukses Upload Produk!", Toast.LENGTH_SHORT)
                         .show()
                 }
