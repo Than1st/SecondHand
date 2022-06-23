@@ -78,7 +78,7 @@ class DetailFragment : Fragment() {
 
 
         binding.btnBack.setOnClickListener {
-            findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+            findNavController().popBackStack()
         }
         binding.btnSayaTertarikNego.setOnClickListener {
             val bottomFragment = BottomSheetDetailFragment()
