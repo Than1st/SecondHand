@@ -15,9 +15,8 @@ import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
-import com.group4.secondhand.ui.penawar.BottomSheetStatusProdukFragment
+import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -54,9 +53,13 @@ class DetailFragment : Fragment() {
 
 //            val bottomFragment = BottomSheetInfoPenawarFragment()
 //            bottomFragment.show(getParentFragmentManager() ,"Tag")
+//
+//            val bottomFragment = BottomSheetStatusProdukFragment()
+//            bottomFragment.show(getParentFragmentManager(), "Tag")
 
-            val bottomFragment = BottomSheetStatusProdukFragment()
+            val bottomFragment = BottomSheetPilihCategoryFragment()
             bottomFragment.show(getParentFragmentManager(), "Tag")
+
 
         }
         val bundle = arguments
