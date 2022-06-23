@@ -13,12 +13,15 @@ import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.HARGA_PRODUK_KEY
+import com.group4.secondhand.ui.jual.JualFragment.Companion.IMAGE_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAMA_PRODUK_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,6 +63,7 @@ class PreviewProductFragment : Fragment() {
                         binding.tvKotaPenjual.text = it.data.city ?: "Bandung"
                         Glide.with(requireContext())
                             .load(it.data.imageUrl ?: R.drawable.default_image)
+                            .transform(CenterCrop(), RoundedCorners(12))
                             .into(binding.ivAvatarPenjual)
                         progressBar.dismiss()
                     }
@@ -82,10 +86,15 @@ class PreviewProductFragment : Fragment() {
         val namaProduk = bundle?.getString(NAMA_PRODUK_KEY)
         val hargaProduk = bundle?.getString(HARGA_PRODUK_KEY)
         val deskripsiProduk = bundle?.getString(DESKRIPSI_PRODUK_KEY)
+        val imageProduk = bundle?.getString(IMAGE_PRODUK_KEY)
 
         binding.tvProdukName.text = namaProduk
         binding.tvProdukHarga.text = hargaProduk
         binding.tvDeskripsiProduk.text = deskripsiProduk
+        Glide.with(requireContext())
+            .load(imageProduk)
+            .centerCrop()
+            .into(binding.imageProduk)
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()

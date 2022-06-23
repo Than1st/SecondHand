@@ -120,6 +120,7 @@ class AkunFragment : Fragment() {
                         if (it.data.imageUrl != null) {
                             Glide.with(requireContext())
                                 .load(it.data.imageUrl.toString())
+                                .placeholder(R.drawable.image_profile)
                                 .transform(CenterCrop(), RoundedCorners(12))
                                 .into(binding.ivProfile)
                             bundle.putString(USER_IMAGE, it.data.imageUrl.toString() ?: "no_image")
