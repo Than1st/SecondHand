@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LengkapiInfoAkunFragment">
+    tools:context=".lengkapiinfoakun.LengkapiInfoAkunFragment">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/header_back"
         android:layout_width="40dp"
@@ -46,7 +46,7 @@
             android:paddingBottom="142dp">
 
             <ImageView
-                android:id="@+id/iv_bg_camera"
+                android:id="@+id/iv_profile"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginTop="40dp"
@@ -55,85 +55,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_nama"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Nama*"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:fontFamily="@font/poppins_regular"
-                app:layout_constraintStart_toStartOf="@+id/nama_container"
-                app:layout_constraintTop_toBottomOf="@id/iv_bg_camera"
-                tools:ignore="MissingConstraints" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nama_container"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_nama">
+                app:layout_constraintTop_toBottomOf="@id/iv_profile">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_nama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nama"/>
+                    android:hint="Nama" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tv_kota"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Kota*"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:fontFamily="@font/poppins_regular"
-                app:layout_constraintStart_toStartOf="@+id/spin"
-                app:layout_constraintTop_toBottomOf="@id/nama_container"
-                tools:ignore="MissingConstraints" />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/spin"
+                android:id="@+id/kota_container"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginHorizontal="16dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_kota">
+                app:layout_constraintTop_toBottomOf="@id/nama_container">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_kota"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Kota"/>
+                    android:hint="Kota" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/alamat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Alamat*"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:fontFamily="@font/poppins_regular"
-                app:layout_constraintStart_toStartOf="@+id/alamat_container"
-                app:layout_constraintTop_toBottomOf="@id/spin" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/alamat_container"
@@ -145,58 +110,48 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintTop_toBottomOf="@id/alamat">
+                app:layout_constraintTop_toBottomOf="@id/kota_container">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_alamat"
                     android:layout_width="match_parent"
                     android:layout_height="88dp"
-                    android:inputType="text|textMultiLine"
                     android:gravity="top"
-                    android:hint="Alamat" />
+                    android:hint="Alamat"
+                    android:inputType="text|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/no_hp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Nomor Handphone*"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                app:layout_constraintStart_toStartOf="@+id/noHp_container"
-                app:layout_constraintTop_toBottomOf="@id/alamat_container" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/noHp_container"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="16dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/no_hp">
+                app:layout_constraintTop_toBottomOf="@id/alamat_container">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_noHp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="contoh : 0812345678976"/>
+                    android:inputType="number"
+                    android:hint="No Handphone" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/simpan"
+        android:id="@+id/btn_simpan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_outline"

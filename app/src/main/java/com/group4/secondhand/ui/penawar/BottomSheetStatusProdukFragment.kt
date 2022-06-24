@@ -29,7 +29,7 @@ class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSayaTertarikNego.setOnClickListener {
+        binding.btnKirimStatus.setOnClickListener {
             when (binding.radioGroup.checkedRadioButtonId) {
                 R.id.rb_berhasil_terjual -> {
                     Toast.makeText(context, "Berhasil Terjual ", Toast.LENGTH_SHORT).show()
@@ -45,8 +45,8 @@ class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             val id: Int = binding.radioGroup.checkedRadioButtonId
             if (id != -1) {
-                binding.btnSayaTertarikNego.isEnabled = true
-                binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_blue)
+                binding.btnKirimStatus.isEnabled = true
+                binding.btnKirimStatus.backgroundTintList = requireContext().getColorStateList(R.color.dark_blue)
             }
         }
     }

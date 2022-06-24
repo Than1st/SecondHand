@@ -1,9 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package com.group4.secondhand.ui.editakun
 
 import android.app.Activity
-import android.content.Intent
+import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,32 +22,25 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.group4.secondhand.R
-import com.group4.secondhand.data.model.RequestUpdateUser
 import com.group4.secondhand.databinding.FragmentEditAkunBinding
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_EMAIL
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_IMAGE
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_TOKEN
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 
 @AndroidEntryPoint
 class EditAkunFragment : Fragment() {
-    private var _binding : FragmentEditAkunBinding? = null
+    private var _binding: FragmentEditAkunBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : EditAkunViewModel by viewModels()
-    private var uri : String = ""
-    private var fileImage : File? = null
+    private val viewModel: EditAkunViewModel by viewModels()
+    private var uri: String = ""
+    private var fileImage: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +60,13 @@ class EditAkunFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Please Wait...")
+        progressDialog.setCancelable(false)
         val bundle = arguments
         binding.apply {
             etNama.setText(
                 cekNull(bundle?.getString(USER_NAME).toString())
-            )
-            etEmail.setText(
-                cekNull(bundle?.getString(USER_EMAIL).toString())
             )
             etKota.setText(
                 cekNull(bundle?.getString(USER_CITY).toString())
@@ -82,7 +78,7 @@ class EditAkunFragment : Fragment() {
                 cekNull(bundle?.getString(USER_PHONE_NUMBER).toString())
             )
             Glide.with(requireContext())
-                .load(bundle?.getString(USER_IMAGE)?:R.drawable.default_image)
+                .load(bundle?.getString(USER_IMAGE) ?: R.drawable.default_image)
                 .transform(CenterCrop(), RoundedCorners(8))
                 .into(ivProfile)
         }
@@ -96,48 +92,30 @@ class EditAkunFragment : Fragment() {
             Log.d("cek path", fileImage?.path ?: "gada")
             resetErrors()
             val nama = binding.etNama.text.toString()
-            val email = binding.etEmail.text.toString()
             val kota = binding.etKota.text.toString()
             val alamat = binding.etAlamat.text.toString()
             val noHp = binding.etNoHp.text.toString()
-            val isValid = validation(nama, email, kota, alamat, noHp)
-            if (isValid){
-//                val request = RequestUpdateUser(
-//                    nama,
-//                    email,
-//                    noHp,
-//                    alamat,
-//                    uri,
-//                    kota
-//                )
+            val isValid = validation(nama, kota, alamat, noHp)
+            if (isValid) {
                 val token = bundle?.getString(USER_TOKEN)
                 if (token != null) {
-                    val requestFile = fileImage?.asRequestBody("image/*".toMediaTypeOrNull())
-                    val image = requestFile?.let { it1 ->
-                        MultipartBody.Part.createFormData("image", fileImage?.name ?: "avatar.jpg",
-                            it1
-                        )
-                    }
-                    val name = nama.toRequestBody("text/plain".toMediaType())
-                    viewModel.updateDataUser(token, image, name)
-//                    if(uri != ""){
-//                        val file = File(uri)
-//                        val filename = file.name
-//                        val multipartBody = MultipartBody.Builder()
-//                            .setType(MultipartBody.FORM)
-//                            .addFormDataPart("image", filename, file.asRequestBody())
-//                            .build()
-//                        viewModel.updateDataUser(token, request, multipartBody)
-//                    } else {
-//                        val multipartBody = MultipartBody.Builder()
-//                            .setType(MultipartBody.FORM)
-//                            .build()
-//                        viewModel.updateDataUser(token, request, multipartBody)
-//                    }
 
-                    findNavController().popBackStack()
-                    Toast.makeText(requireContext(), "Berhasil Update Data!", Toast.LENGTH_SHORT)
-                        .show()
+                    viewModel.updateDataUser(
+                        token,
+                        fileImage,
+                        nama,
+                        noHp,
+                        alamat,
+                        kota
+                    )
+                    progressDialog.show()
+                    Handler().postDelayed({
+                        progressDialog.dismiss()
+
+                        findNavController().popBackStack()
+                        Toast.makeText(requireContext(), "Berhasil Update Data!", Toast.LENGTH_SHORT)
+                            .show()
+                    }, 1500)
                 }
             }
         }
@@ -146,21 +124,21 @@ class EditAkunFragment : Fragment() {
     private fun resetErrors() {
         binding.apply {
             namaContainer.error = ""
-            emailContainer.error = ""
             kotaContainer.error = ""
             alamatContainer.error = ""
             noHpContainer.error = ""
         }
     }
 
-    private fun validation(nama: String, email: String, kota: String, alamat: String, nohp: String): Boolean {
+    private fun validation(
+        nama: String,
+        kota: String,
+        alamat: String,
+        nohp: String
+    ): Boolean {
         return when {
             nama.isEmpty() -> {
                 binding.namaContainer.error = "Nama tidak boleh kosong!"
-                false
-            }
-            email.isEmpty() -> {
-                binding.emailContainer.error = "Email tidak boleh kosong!"
                 false
             }
             kota.isEmpty() -> {
@@ -181,7 +159,7 @@ class EditAkunFragment : Fragment() {
         }
     }
 
-    private fun cekNull(value: String): String{
+    private fun cekNull(value: String): String {
         return when (value) {
             "no_image" -> {
                 ""
@@ -203,25 +181,6 @@ class EditAkunFragment : Fragment() {
             }
         }
     }
-
-    private fun openGallery() {
-        activity?.intent?.type = "image/*"
-        galleryResult.launch(arrayOf("image/*"))
-    }
-
-    private val galleryResult =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { result ->
-            result?.let {
-                requireActivity().contentResolver.takePersistableUriPermission(
-                    it, Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-                fileImage = uriToFile(it, requireContext())
-                uri = it.toString()
-            }
-            if (result != null) {
-                loadImage(result)
-            }
-        }
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->

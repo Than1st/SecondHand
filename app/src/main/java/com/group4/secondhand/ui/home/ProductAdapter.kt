@@ -1,5 +1,8 @@
+@file:Suppress("RemoveSingleExpressionStringTemplate")
+
 package com.group4.secondhand.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,8 +12,6 @@ import com.bumptech.glide.Glide
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.ItemProductHomeBinding
 import com.group4.secondhand.ui.currency
-import java.text.NumberFormat
-import java.util.*
 
 class ProductAdapter(private val onItemClick: OnClickListener) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
@@ -34,6 +35,7 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
 
     inner class ViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(data: ResponseGetProduct) {
             binding.apply {
                 Glide.with(binding.root)
@@ -41,13 +43,17 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
                 if (data.categories.isNotEmpty()) {
-                    if (data.categories.size > 2) {
-                        tvKategori.text =
-                            "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
-                    } else if (data.categories.size > 1) {
-                        tvKategori.text = "${data.categories[0].name}, ${data.categories[1].name}"
-                    } else {
-                        tvKategori.text = "${data.categories[0].name}"
+                    when {
+                        data.categories.size > 2 -> {
+                            tvKategori.text =
+                                "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
+                        }
+                        data.categories.size > 1 -> {
+                            tvKategori.text = "${data.categories[0].name}, ${data.categories[1].name}"
+                        }
+                        else -> {
+                            tvKategori.text = "${data.categories[0].name}"
+                        }
                     }
                 }
                 val price = currency(data.basePrice)

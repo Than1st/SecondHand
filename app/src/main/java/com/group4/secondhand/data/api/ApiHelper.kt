@@ -11,6 +11,15 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
     suspend fun getSellerOrder(token: String) = apiService.getSellerOrder(token)
 
+    suspend fun uploadProduct(
+        token: String,
+        file : MultipartBody.Part,
+        name: RequestBody,
+        description: RequestBody,
+        base_price: RequestBody,
+        categoryIds: List<Int>,
+        location: RequestBody,
+    ) = apiService.uploadProduct(token, file, name, description, base_price, categoryIds, location)
 
     // BUYER
     suspend fun getProduct(status: String, categoryId: String) =
@@ -24,6 +33,15 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getDataUser(token: String) = apiService.getDataUser(token)
     suspend fun updateDataUser(token: String, image: MultipartBody.Part?, name: RequestBody?) =
         apiService.updateDataUser(token, image, name)
+    suspend fun getDataUser(token : String) = apiService.getDataUser(token)
+    suspend fun updateDataUser(
+        token : String,
+        image: MultipartBody.Part?,
+        name: RequestBody?,
+        phoneNumber: RequestBody?,
+        address: RequestBody?,
+        city: RequestBody?,
+    ) = apiService.updateDataUser(token, image, name, phoneNumber, address, city)
 
     // NOTIFICATION
     suspend fun getNotification(token: String) = apiService.getNofitication(token)

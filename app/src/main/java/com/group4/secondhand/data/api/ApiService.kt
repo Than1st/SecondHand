@@ -7,12 +7,7 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
-//    contoh header pakai access_code / API Key
-//    @GET("seller/product")
-//    suspend fun getSellerProduct(
-//        @Header ("access_token") apiKey : String
-//    ) : Response<GetSellerProductResponse>
-
+    // SELLER
     @GET("seller/category")
     suspend fun getCategoryHome(): List<ResponseCategoryHome>
 
@@ -22,6 +17,18 @@ interface ApiService {
     @GET("seller/order")
     suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
 
+
+    @Multipart
+    @POST("seller/product")
+    suspend fun uploadProduct(
+        @Header("access_token") token : String,
+        @Part file: MultipartBody.Part,
+        @Part("name") name : RequestBody?,
+        @Part("description") description : RequestBody?,
+        @Part("base_price") base_price : RequestBody?,
+        @Part("category_ids") categoryIds : List<Int>,
+        @Part("location") location : RequestBody?,
+    ) : ResponseUploadProduct
 
     // BUYER
     @GET("buyer/product")
@@ -47,6 +54,15 @@ interface ApiService {
         @Part file: MultipartBody.Part?,
         @Part("full_name") name: RequestBody?
     ): ResponseUpdateUser
+        @Header("access_token") token : String,
+        @Part file: MultipartBody.Part?  = null,
+        @Part("full_name") name : RequestBody?,
+        @Part("phone_number") phoneNumber : RequestBody?,
+        @Part("address") address : RequestBody?,
+        @Part("city") city : RequestBody?,
+        @Part("email") email : RequestBody? = null,
+        @Part("password") password : RequestBody? = null
+    ) : ResponseUpdateUser
 
     // NOTIFICATION
     @GET("notification")
