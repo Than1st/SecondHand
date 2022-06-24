@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
+import com.group4.secondhand.data.model.Category
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.FragmentHomeBinding
@@ -29,6 +30,7 @@ class HomeFragment : Fragment() {
         const val BASEPRICE = "BASEPRICE"
         const val DESCRIPTION = "DESCRIPTION"
         const val KATEGORI = "KATEGORI"
+        const val LOCATION  = "LOCATION"
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -167,6 +169,30 @@ class HomeFragment : Fragment() {
                 productBundle.putString(IMAGEURL, data.imageUrl)
                 productBundle.putString(DESCRIPTION, data.description)
                 productBundle.putInt(BASEPRICE, data.basePrice)
+
+//              INI BISA TAPI MASIH NGE BUG (biar ngeloop)
+//                data.categories.forEachIndexed{ index, item ->
+//                    productBundle.putString(KATEGORI,item.name)
+//                }
+
+                if (data.categories.isNotEmpty()) {
+                    when {
+                        data.categories.size > 2 -> {
+
+                                "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
+                            productBundle.putString(KATEGORI, data.categories[0].name+data.categories[1].name+data.categories[2])
+                        }
+                        data.categories.size > 1 -> {
+                            "${data.categories[0].name}, ${data.categories[1].name}"
+                            productBundle.putString(KATEGORI, data.categories[0].name+data.categories[1].name)
+                        }
+                        else -> {
+                             "${data.categories[0].name}"
+                            productBundle.putString(KATEGORI, data.categories[0].name)
+                        }
+                    }
+                }
+                productBundle.putString(LOCATION, data.location)
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
             }
         })

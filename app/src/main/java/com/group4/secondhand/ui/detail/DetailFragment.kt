@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.group4.secondhand.R
+import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.FragmentDetailBinding
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
+import com.group4.secondhand.ui.home.HomeFragment.Companion.KATEGORI
+import com.group4.secondhand.ui.home.HomeFragment.Companion.LOCATION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
+import com.group4.secondhand.ui.home.HomeViewModel
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,6 +72,8 @@ class DetailFragment : Fragment() {
         val basePrice = bundle?.getInt(BASEPRICE)
         val productDescription = bundle?.getString(DESCRIPTION)
         val imageURL = bundle?.getString(IMAGEURL)
+        val kategoriProduct = bundle?.getString(KATEGORI)
+        val locationProduct = bundle?.getString(LOCATION)
         if (basePrice != null) {
             val convertBasePrice = currency(basePrice)
             binding.tvProdukHarga.text = convertBasePrice
@@ -78,6 +85,11 @@ class DetailFragment : Fragment() {
             .into(binding.imageView)
         binding.tvProdukName.text = productName
         binding.tvDeskripsiProduk.text = productDescription
+        binding.tvProdukKategori.text = kategoriProduct
+        binding.tvKotaPenjual.text = locationProduct
+
+
+
 
 
         binding.btnBack.setOnClickListener {
