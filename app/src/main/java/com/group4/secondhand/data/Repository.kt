@@ -32,9 +32,6 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun authLogin(requestLogin: RequestLogin) = apiHelper.authLogin(requestLogin)
     suspend fun getDataUser(token: String) = apiHelper.getDataUser(token)
-    suspend fun updateDataUser(token: String, image: MultipartBody.Part?, name: RequestBody?) =
-        apiHelper.updateDataUser(token, image, name)
-    suspend fun getDataUser(token : String) = apiHelper.getDataUser(token)
     suspend fun updateDataUser(
         token : String,
         image: MultipartBody.Part?,

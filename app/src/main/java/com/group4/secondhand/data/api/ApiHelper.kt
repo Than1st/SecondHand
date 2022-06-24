@@ -31,9 +31,6 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun authLogin(requestLogin: RequestLogin) = apiService.authLogin(requestLogin)
     suspend fun getDataUser(token: String) = apiService.getDataUser(token)
-    suspend fun updateDataUser(token: String, image: MultipartBody.Part?, name: RequestBody?) =
-        apiService.updateDataUser(token, image, name)
-    suspend fun getDataUser(token : String) = apiService.getDataUser(token)
     suspend fun updateDataUser(
         token : String,
         image: MultipartBody.Part?,
