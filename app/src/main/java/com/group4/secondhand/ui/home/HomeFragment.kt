@@ -172,8 +172,14 @@ class HomeFragment : Fragment() {
 
 //              INI BISA TAPI MASIH NGE BUG (biar ngeloop)
 //                data.categories.forEachIndexed{ index, item ->
+//
 //                    productBundle.putString(KATEGORI,item.name)
 //                }
+
+//                INI JUGA BISA TAPI BUG DI KATEGORI YANG ISINYA 2
+//                data.categories.filterIndexed{index, category -> index > -1 }.forEach { productBundle.putString(
+//                    KATEGORI, it.name ) }
+
 
                 if (data.categories.isNotEmpty()) {
                     when {
