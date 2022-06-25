@@ -37,6 +37,12 @@ interface ApiService {
         @Query("category_id") categoryId: String
     ): List<ResponseGetProduct>
 
+    @POST("buyer/order")
+    suspend fun buyerOrder(
+        @Header("access_token") token:String,
+        @Body requestBuyerOrder: RequestBuyerOrder
+    ) : ResponseBuyerOrder
+
     // AUTH
     @POST("auth/register")
     suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister

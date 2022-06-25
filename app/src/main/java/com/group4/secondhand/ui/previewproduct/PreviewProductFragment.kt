@@ -19,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.home.HomeFragment
 import com.group4.secondhand.ui.jual.JualFragment
 import com.group4.secondhand.ui.jual.JualFragment.Companion.ADDRESS_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
@@ -60,6 +61,9 @@ class PreviewProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.statusBar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, HomeFragment.result
+        )
 //        viewModel.getToken()
 //        viewModel.token.observe(viewLifecycleOwner){
 //            viewModel.getDataUser(it)
