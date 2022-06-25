@@ -51,7 +51,6 @@ class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickL
         fun bind(data: ResponseNotification){
             binding.apply {
                 tvHargaDitawarProduk.text = currency(data.bidPrice)
-                tvHargaDitawarProduk.text = data.bidPrice.toString()
                 tvTanggal.text = convertDate(data.transactionDate)
                 Glide.with(binding.root)
                     .load(data.imageUrl)
