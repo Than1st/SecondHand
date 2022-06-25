@@ -3,6 +3,7 @@ package com.group4.secondhand.ui.daftarjual
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.data.model.ResponseSellerProduct
 import com.group4.secondhand.databinding.FragmentDaftarJualBinding
+import com.group4.secondhand.ui.previewproduct.PreviewProductFragment.Companion.PESAN
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,16 +24,38 @@ class DaftarJualFragment : Fragment() {
     private var _binding: FragmentDaftarJualBinding? = null
     private val binding get() = _binding!!
     private val daftarJualViewModel: DaftarJualViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDaftarJualBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bundle = arguments
+        val success = bundle?.getInt(PESAN)
+
+        if (success == 1){
+            binding.alertSuccess.visibility = View.VISIBLE
+            Handler().postDelayed({
+                binding.alertSuccess.visibility = View.GONE
+            }, 3000)
+        }
+
+        binding.btnClose.setOnClickListener {
+            binding.alertSuccess.visibility = View.GONE
+        }
+
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
             daftarJualViewModel.getDataUser(it)
