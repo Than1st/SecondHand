@@ -64,7 +64,7 @@ class SellerProductAdapter(private val onItemClick: OnclickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(ItemProductHomeBinding.inflate(inflater,parent,false))
+        return ViewHolder(ItemProductHomeBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

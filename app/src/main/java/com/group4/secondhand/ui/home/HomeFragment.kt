@@ -200,6 +200,7 @@ class HomeFragment : Fragment() {
                 }
                 productBundle.putString(LOCATION, data.location)
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
+
             }
         })
         binding.rvProduct.adapter = productAdapter

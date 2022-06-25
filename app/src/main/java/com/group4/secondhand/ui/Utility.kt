@@ -7,10 +7,11 @@ import android.os.Environment
 import android.view.Window
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import java.io.*
+import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -67,4 +68,64 @@ fun uriToFile(
     inputStream.close()
 
     return myFile
+}
+
+fun formatDate(date: String) {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z'", Locale.ROOT)
+    val date = format.parse(date) as Date
+    return
+    DateFormat.getDateInstance(DateFormat.FULL).format(date)
+}
+
+fun convertDate(date: String) : String{
+    var kotlin = date
+    kotlin = kotlin.drop(5)
+    var bulan = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val tanggal = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val jam = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val menit = kotlin.take(2)
+
+    when (bulan){
+        "01" -> {
+            bulan = "Jan"
+        }
+        "02" -> {
+            bulan = "Feb"
+        }
+        "03" -> {
+            bulan = "Mar"
+        }
+        "04" -> {
+            bulan = "Apr"
+        }
+        "05" -> {
+            bulan = "Mei"
+        }
+        "06" -> {
+            bulan = "Jun"
+        }
+        "07" -> {
+            bulan = "Jul"
+        }
+        "08" -> {
+            bulan = "Agu"
+        }
+        "09" -> {
+            bulan = "Sep"
+        }
+        "10" -> {
+            bulan = "Okt"
+        }
+        "11" -> {
+            bulan = "Nov"
+        }
+        "12" -> {
+            bulan = "Des"
+        }
+    }
+
+    return "$tanggal $bulan, $jam:$menit"
 }

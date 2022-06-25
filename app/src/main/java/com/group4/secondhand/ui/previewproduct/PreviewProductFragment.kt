@@ -16,8 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.jual.JualFragment
 import com.group4.secondhand.ui.jual.JualFragment.Companion.ADDRESS_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.HARGA_PRODUK_KEY
@@ -35,6 +37,10 @@ class PreviewProductFragment : Fragment() {
     private var _binding: FragmentPreviewProductBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PreviewViewModel by viewModels()
+
+    companion object{
+        const val PESAN = "pesanSukses"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +131,7 @@ class PreviewProductFragment : Fragment() {
                             namaProduk.toString(),
                             deskripsiProduk.toString(),
                             hargaProduk.toString(),
-                            18, //eleltronik
+                            18, //elektronik
                             userAddress.toString(),
                             uriToFile(Uri.parse(imageProduk), requireContext())
                         )
@@ -141,13 +147,26 @@ class PreviewProductFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
+                    val pesan = Bundle()
+                    pesan.putInt(PESAN, 1)
+                    findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment, pesan)
                     Toast.makeText(requireContext(), "Sukses Upload Produk!", Toast.LENGTH_SHORT)
                         .show()
                 }
                 ERROR -> {
                     progressDialog.dismiss()
+                    var message = ""
+                    when (it.message) {
+                        "HTTP 400 Bad Request" -> {
+                            message = "Anda Hanya Bisa Upload Maksimal 5 Produk"
+                        }
+                    }
                     AlertDialog.Builder(requireContext())
-                        .setMessage(it.message)
+                        .setTitle("Pesan")
+                        .setMessage(message)
+                        .setPositiveButton("Iya"){ positiveButton, _ ->
+                            positiveButton.dismiss()
+                        }
                         .show()
                 }
                 LOADING -> {

@@ -48,12 +48,24 @@
             app:popUpTo="@id/jualFragment"
             android:id="@+id/action_jualFragment_to_lengkapiInfoAkunFragment"
             app:destination="@id/lengkapiInfoAkunFragment" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/jualFragment"
+            android:id="@+id/action_jualFragment_to_daftarJualFragment"
+            app:destination="@id/daftarJualFragment" />
     </fragment>
     <fragment
         android:id="@+id/daftarJualFragment"
         android:name="com.group4.secondhand.ui.daftarjual.DaftarJualFragment"
         android:label="fragment_daftar_jual"
-        tools:layout="@layout/fragment_daftar_jual" />
+        tools:layout="@layout/fragment_daftar_jual" >
+        <action
+            android:id="@+id/action_daftarJualFragment_to_loginCompose"
+            app:destination="@id/loginCompose" />
+        <action
+            android:id="@+id/action_daftarJualFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/akunFragment"
         android:name="com.group4.secondhand.ui.akun.AkunFragment"
@@ -109,7 +121,13 @@
     <fragment
         android:id="@+id/previewProductFragment"
         android:name="com.group4.secondhand.ui.previewproduct.PreviewProductFragment"
-        android:label="PreviewProductFragment" />
+        android:label="PreviewProductFragment" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/previewProductFragment"
+            android:id="@+id/action_previewProductFragment_to_daftarJualFragment"
+            app:destination="@id/daftarJualFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editAkunFragment"
         android:name="com.group4.secondhand.ui.editakun.EditAkunFragment"

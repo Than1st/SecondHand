@@ -73,7 +73,7 @@
 
 
                 <ImageView
-                    android:id="@+id/iv_avatar_penjual"
+                    android:id="@+id/iv_product_image"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginStart="16dp"
@@ -82,15 +82,15 @@
                     android:background="@drawable/round_outline"
                     android:clipToOutline="true"
 
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
 
-                    android:src="@drawable/megawati" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_nama_pembeli"
+                    android:id="@+id/tv_nama_produk"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -100,11 +100,11 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_avatar_penjual"
+                    app:layout_constraintStart_toEndOf="@+id/iv_product_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_kota_penjual"
+                    android:id="@+id/tv_harga_awal"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
@@ -115,8 +115,8 @@
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_avatar_penjual"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_nama_pembeli" />
+                    app:layout_constraintStart_toEndOf="@+id/iv_product_image"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nama_produk" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -138,7 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tf_username"
+        android:id="@+id/harga_tawar_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -159,8 +159,8 @@
             android:id="@+id/et_harga_tawar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
             android:fontFamily="@font/poppins_semibold"
+            android:inputType="numberDecimal"
             android:textStyle="bold" />
 
 
@@ -170,21 +170,21 @@
         android:id="@+id/btn_saya_tertarik_nego"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/round_outline"
         android:backgroundTint="@color/dark_blue"
         android:text="Kirim"
-        android:layout_marginEnd="22dp"
-        android:layout_marginStart="22dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tf_username"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginBottom="30dp"/>
+        app:layout_constraintTop_toBottomOf="@id/harga_tawar_container"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

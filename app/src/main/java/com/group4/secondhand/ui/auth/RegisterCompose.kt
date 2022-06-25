@@ -78,11 +78,18 @@ class RegisterCompose : Fragment() {
                         findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
                     }
                     Status.ERROR -> {
+                        progressDialog.dismiss()
+                        var message = ""
+                        when (resources.message) {
+                            "HTTP 400 Bad Request" -> {
+                                message = "Email sudah dipakai, silahkan pakai email lain"
+                            }
+                        }
                         AlertDialog.Builder(requireContext())
                             .setTitle("Pesan")
-                            .setMessage(resources.message)
-                            .setPositiveButton("Ok") { dialog, _ ->
-                                dialog.dismiss()
+                            .setMessage(message)
+                            .setPositiveButton("Iya"){ positiveButton, _ ->
+                                positiveButton.dismiss()
                             }
                             .show()
                     }
