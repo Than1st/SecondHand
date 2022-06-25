@@ -182,19 +182,19 @@ class HomeFragment : Fragment() {
 
 
                 if (data.categories.isNotEmpty()) {
+
                     when {
                         data.categories.size > 2 -> {
 
-                                "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
-                            productBundle.putString(KATEGORI, data.categories[0].name+data.categories[1].name+data.categories[2])
+                            productBundle.putString(KATEGORI,  "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} ")
                         }
                         data.categories.size > 1 -> {
-                            "${data.categories[0].name}, ${data.categories[1].name}"
-                            productBundle.putString(KATEGORI, data.categories[0].name+data.categories[1].name)
+
+                            productBundle.putString(KATEGORI,  "${data.categories[0].name}, ${data.categories[1].name}")
                         }
                         else -> {
-                             "${data.categories[0].name}"
-                            productBundle.putString(KATEGORI, data.categories[0].name)
+
+                            productBundle.putString(KATEGORI,  "${data.categories[0].name}" )
                         }
                     }
                 }
