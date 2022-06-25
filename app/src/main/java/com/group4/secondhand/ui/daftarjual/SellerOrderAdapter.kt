@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.data.model.ResponseSellerOrder
 import com.group4.secondhand.databinding.ItemDiminatiBinding
+import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.formatDate
 
@@ -40,7 +41,7 @@ class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
         fun bind(data: ResponseSellerOrder) {
             val basePrice = currency(data.product.basePrice)
             val priceNego = currency(data.price)
-            val date = formatDate(data.createdAt)
+            val date = convertDate(data.createdAt)
             binding.apply {
                 if (data.status != "declined" && data.status != "accepted") {
                     Glide.with(binding.root)

@@ -24,6 +24,8 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentJualBinding
+import com.group4.secondhand.ui.previewproduct.PreviewProductFragment
+import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -33,6 +35,8 @@ class JualFragment : Fragment() {
     private var _binding: FragmentJualBinding? = null
     private val binding get() = _binding!!
     private var uri : String = ""
+    private var token: String = ""
+    private var alamatPenjual: String = ""
     private val viewModel: JualViewModel by viewModels()
 
     companion object{
@@ -86,6 +90,7 @@ class JualFragment : Fragment() {
                 viewModel.alreadyLogin.removeObservers(viewLifecycleOwner)
             } else {
                 bundle.putString(TOKEN_USER_KEY, it)
+                token = it
                 viewModel.getUserData(it)
             }
         }
@@ -115,6 +120,7 @@ class JualFragment : Fragment() {
                                 }
                                 .show()
                         } else {
+                            alamatPenjual = it.data.address
                             bundle.putString(NAME_USER_KEY, it.data.fullName)
                             bundle.putString(ADDRESS_USER_KEY, it.data.address)
                             bundle.putString(IMAGE_USER_KEY, it.data.imageUrl.toString())
@@ -135,10 +141,6 @@ class JualFragment : Fragment() {
                     progressDialog.show()
                 }
             }
-        }
-
-        binding.btnTerbitkan.setOnClickListener {
-
         }
 
         binding.btnBack.setOnClickListener{
@@ -166,6 +168,62 @@ class JualFragment : Fragment() {
                 bundle.putString(DESKRIPSI_PRODUK_KEY, deskripsiProduk)
                 bundle.putString(IMAGE_PRODUK_KEY, uri)
                 findNavController().navigate(R.id.action_jualFragment_to_previewProductFragment, bundle)
+            }
+        }
+
+        binding.btnTerbitkan.setOnClickListener {
+            resetError()
+            val namaProduk = binding.etNama.text.toString()
+            val hargaProduk = binding.etHarga.text.toString()
+            val deskripsiProduk = binding.etDeskripsi.text.toString()
+            val validation = validation(
+                namaProduk,
+                hargaProduk,
+                deskripsiProduk,
+                uri
+            )
+            if (validation == "passed"){
+                viewModel.uploadProduk(
+                    token,
+                    namaProduk,
+                    deskripsiProduk,
+                    hargaProduk,
+                    18,
+                    alamatPenjual,
+                    uriToFile(Uri.parse(uri), requireContext())
+                )
+            }
+        }
+
+        viewModel.uploadResponse.observe(viewLifecycleOwner){
+            when(it.status){
+                SUCCESS -> {
+                    progressDialog.dismiss()
+                    val pesan = Bundle()
+                    pesan.putInt(PreviewProductFragment.PESAN, 1)
+                    Toast.makeText(requireContext(), "Berhasil di Upload!", Toast.LENGTH_SHORT)
+                        .show()
+                    findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment, pesan)
+                }
+                ERROR -> {
+                    progressDialog.dismiss()
+                    var message = ""
+                    when (it.message) {
+                        "HTTP 400 Bad Request" -> {
+                            message = "Anda Hanya Bisa Upload Maksimal 5 Produk"
+                        }
+                    }
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Pesan")
+                        .setMessage(message)
+                        .setPositiveButton("Iya"){ positiveButton, _ ->
+                            positiveButton.dismiss()
+                        }
+                        .show()
+                }
+                LOADING -> {
+                    progressDialog.show()
+                }
             }
         }
     }
@@ -242,7 +300,7 @@ class JualFragment : Fragment() {
                     "ImagePicker"
                 )
             ) //Crop image(Optional), Check Customization for more option
-            .compress(1024)            //Final image size will be less than 1 MB(Optional)
+            .compress(1024) //Final image size will be less than 1 MB(Optional)
             .maxResultSize(
                 1080,
                 1080

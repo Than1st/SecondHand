@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.NotificationItemBinding
+import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
 
 class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickListener) :
@@ -50,6 +51,8 @@ class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickL
         fun bind(data: ResponseNotification){
             binding.apply {
                 tvHargaDitawarProduk.text = currency(data.bidPrice)
+                tvHargaDitawarProduk.text = data.bidPrice.toString()
+                tvTanggal.text = convertDate(data.transactionDate)
                 Glide.with(binding.root)
                     .load(data.imageUrl)
                     .centerCrop()

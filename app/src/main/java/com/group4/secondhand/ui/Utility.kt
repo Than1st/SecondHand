@@ -76,3 +76,56 @@ fun formatDate(date: String) {
     return
     DateFormat.getDateInstance(DateFormat.FULL).format(date)
 }
+
+fun convertDate(date: String) : String{
+    var kotlin = date
+    kotlin = kotlin.drop(5)
+    var bulan = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val tanggal = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val jam = kotlin.take(2)
+    kotlin = kotlin.drop(3)
+    val menit = kotlin.take(2)
+
+    when (bulan){
+        "01" -> {
+            bulan = "Jan"
+        }
+        "02" -> {
+            bulan = "Feb"
+        }
+        "03" -> {
+            bulan = "Mar"
+        }
+        "04" -> {
+            bulan = "Apr"
+        }
+        "05" -> {
+            bulan = "Mei"
+        }
+        "06" -> {
+            bulan = "Jun"
+        }
+        "07" -> {
+            bulan = "Jul"
+        }
+        "08" -> {
+            bulan = "Agu"
+        }
+        "09" -> {
+            bulan = "Sep"
+        }
+        "10" -> {
+            bulan = "Okt"
+        }
+        "11" -> {
+            bulan = "Nov"
+        }
+        "12" -> {
+            bulan = "Des"
+        }
+    }
+
+    return "$tanggal $bulan, $jam:$menit"
+}

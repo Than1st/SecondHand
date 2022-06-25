@@ -37,6 +37,10 @@ class NotifikasiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.emptyNotif.visibility = View.GONE
+        binding.statusBar.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, result
+        )
         val pd = ProgressDialog(requireContext())
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
