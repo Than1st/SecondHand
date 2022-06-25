@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
     companion object {
         var result = 0
+        const val PRODUCT_ID = "id"
         const val PRODUCTNAME = "NAMA"
         const val IMAGEURL = "IMAGEURL"
         const val BASEPRICE = "BASEPRICE"
@@ -164,6 +165,7 @@ class HomeFragment : Fragment() {
         productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
             override fun onClickItem(data: ResponseGetProduct) {
                 val productBundle = Bundle()
+                productBundle.putInt(PRODUCT_ID, data.id)
                 productBundle.putString(PRODUCTNAME, data.name)
                 productBundle.putString(IMAGEURL, data.imageUrl)
                 productBundle.putString(DESCRIPTION, data.description)

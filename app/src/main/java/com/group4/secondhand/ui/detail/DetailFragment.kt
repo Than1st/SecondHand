@@ -14,6 +14,7 @@ import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
+import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,7 @@ class DetailFragment : Fragment() {
 
         }
         val bundle = arguments
+        val productId = bundle?.getInt(PRODUCT_ID)
         val productName = bundle?.getString(PRODUCTNAME)
         val basePrice = bundle?.getInt(BASEPRICE)
         val productDescription = bundle?.getString(DESCRIPTION)
@@ -85,7 +87,7 @@ class DetailFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.btnSayaTertarikNego.setOnClickListener {
-            val bottomFragment = BottomSheetDetailFragment(productName.toString(),convertBasePrice,imageURL.toString())
+            val bottomFragment = BottomSheetDetailFragment(productId!!,productName.toString(),convertBasePrice,imageURL.toString())
             bottomFragment.show(parentFragmentManager, "Tag")
         }
 

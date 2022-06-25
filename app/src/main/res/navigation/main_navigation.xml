@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_daftarJualFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_daftarJualFragment_to_editAkunFragment"
+            app:destination="@id/editAkunFragment" />
     </fragment>
     <fragment
         android:id="@+id/akunFragment"

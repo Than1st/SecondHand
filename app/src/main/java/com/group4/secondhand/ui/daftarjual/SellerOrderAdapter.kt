@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui.daftarjual
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -41,16 +42,20 @@ class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
             val priceNego = currency(data.price)
             val date = formatDate(data.createdAt)
             binding.apply {
-                Glide.with(binding.root)
-                    .load(data.product.imageUrl)
-                    .transform(CenterCrop(), RoundedCorners(12))
-                    .into(binding.ivProductImage)
-                tvNamaProduk.text = data.product.name
-                tvHargaAwalProduk.text = basePrice
-                tvHargaDitawarProduk.text = "Ditawar $priceNego"
-                tvTanggal.text = date.toString()
-                root.setOnClickListener {
-                    OnItemClick.onClickItem(data)
+                if (data.status != "declined" && data.status != "accepted") {
+                    Glide.with(binding.root)
+                        .load(data.product.imageUrl)
+                        .transform(CenterCrop(), RoundedCorners(12))
+                        .into(binding.ivProductImage)
+                    tvNamaProduk.text = data.product.name
+                    tvHargaAwalProduk.text = basePrice
+                    tvHargaDitawarProduk.text = "Ditawar $priceNego"
+                    tvTanggal.text = date.toString()
+                    root.setOnClickListener {
+                        OnItemClick.onClickItem(data)
+                    }
+                } else {
+                    binding.root.visibility = View.GONE
                 }
             }
         }

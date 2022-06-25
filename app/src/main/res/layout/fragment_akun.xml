@@ -14,9 +14,9 @@
         android:layout_height="?attr/actionBarSize"
         android:text="Akun Saya"
         android:fontFamily="@font/poppins_bold"
-        android:textSize="28sp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
         android:gravity="center_vertical"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -52,8 +52,8 @@
             app:layout_constraintTop_toBottomOf="@id/iv_profile">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_edit" />
 
@@ -64,7 +64,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="Ubah Akun"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -83,8 +83,8 @@
             app:layout_constraintTop_toBottomOf="@id/iv_profile">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_setting" />
 
@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="Pengaturan Akun"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -114,8 +114,8 @@
             app:layout_constraintTop_toBottomOf="@id/iv_profile">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_logout" />
 
@@ -126,7 +126,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:text="Keluar"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="16dp"
+            android:layout_marginTop="16dp"
             android:text="Version 1.0.0"/>
 
     </LinearLayout>

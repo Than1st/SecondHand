@@ -20,6 +20,11 @@ import com.group4.secondhand.data.model.ResponseSellerOrder
 import com.group4.secondhand.data.model.ResponseSellerProduct
 import com.group4.secondhand.databinding.FragmentDaftarJualBinding
 import com.group4.secondhand.ui.akun.AkunFragment
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_EMAIL
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +32,7 @@ class DaftarJualFragment : Fragment() {
     private var _binding: FragmentDaftarJualBinding? = null
     private val binding get() = _binding!!
     private val daftarJualViewModel: DaftarJualViewModel by viewModels()
+    private val bundle = Bundle()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,14 +80,26 @@ class DaftarJualFragment : Fragment() {
                     binding.btnTerjual.visibility = View.VISIBLE
                     binding.btnProduk.visibility = View.VISIBLE
                     if (it.data != null) {
+                        if(it.data.city == "no_city"){
+                            binding.tvKotaPenjual.text = "-"
+                        }else{
+                            binding.tvKotaPenjual.text = it.data.city
+                        }
                         binding.tvNamaPenjual.text = it.data.fullName
-                        binding.tvKotaPenjual.text = it.data.city
                         Glide.with(requireContext())
                             .load(it.data.imageUrl)
                             .transform(CenterCrop(), RoundedCorners(12))
+                            .placeholder(R.drawable.default_image)
                             .into(binding.ivAvatarPenjual)
                         binding.cardSeller.visibility = View.VISIBLE
                         binding.shimmerCard.visibility = View.GONE
+                        bundle.putString(USER_NAME, it.data.fullName)
+                        bundle.putString(USER_CITY, it.data.city)
+                        bundle.putString(USER_ADDRESS,it.data.address)
+                        bundle.putString(USER_PHONE_NUMBER,it.data.phoneNumber)
+                        if (it.data.imageUrl != null){
+                            bundle.putString(AkunFragment.USER_IMAGE, it.data.imageUrl.toString())
+                        }
                     }
                 }
                 ERROR -> {
@@ -95,6 +113,9 @@ class DaftarJualFragment : Fragment() {
                     binding.shimmerCard.visibility = View.VISIBLE
                 }
             }
+        }
+        binding.btnEdit.setOnClickListener {
+            findNavController().navigate(R.id.action_daftarJualFragment_to_editAkunFragment,bundle)
         }
     }
 
