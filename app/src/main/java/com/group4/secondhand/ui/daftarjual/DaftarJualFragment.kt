@@ -70,6 +70,9 @@ class DaftarJualFragment : Fragment() {
         daftarJualViewModel.user.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
+                    binding.btnDiminati.visibility = View.VISIBLE
+                    binding.btnTerjual.visibility = View.VISIBLE
+                    binding.btnProduk.visibility = View.VISIBLE
                     if (it.data != null) {
                         binding.tvNamaPenjual.text = it.data.fullName
                         binding.tvKotaPenjual.text = it.data.city
