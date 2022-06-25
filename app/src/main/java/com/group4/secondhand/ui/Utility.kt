@@ -7,10 +7,11 @@ import android.os.Environment
 import android.view.Window
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import java.io.*
+import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -67,4 +68,11 @@ fun uriToFile(
     inputStream.close()
 
     return myFile
+}
+
+fun formatDate(date: String) {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z'", Locale.ROOT)
+    val date = format.parse(date) as Date
+    return
+    DateFormat.getDateInstance(DateFormat.FULL).format(date)
 }

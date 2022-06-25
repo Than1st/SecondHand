@@ -9,10 +9,13 @@ import retrofit2.http.*
 interface ApiService {
     // SELLER
     @GET("seller/category")
-    suspend fun getCategoryHome() : List<ResponseCategoryHome>
+    suspend fun getCategoryHome(): List<ResponseCategoryHome>
 
     @GET("seller/product")
-    suspend fun getSellerProduct(@Header("access_token") token: String) : List<ResponseSellerProduct>
+    suspend fun getSellerProduct(@Header("access_token") token: String): List<ResponseSellerProduct>
+
+    @GET("seller/order")
+    suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
 
 
     @Multipart
@@ -30,19 +33,19 @@ interface ApiService {
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
-        @Query("status") status : String,
-        @Query("category_id") categoryId : String
-    ) : List<ResponseGetProduct>
+        @Query("status") status: String,
+        @Query("category_id") categoryId: String
+    ): List<ResponseGetProduct>
 
     // AUTH
     @POST("auth/register")
-    suspend fun authRegister(@Body requestRegister: RequestRegister) : ResponseRegister
+    suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister
 
     @POST("auth/login")
-    suspend fun authLogin(@Body requestLogin: RequestLogin) : ResponseLogin
+    suspend fun authLogin(@Body requestLogin: RequestLogin): ResponseLogin
 
     @GET("auth/user")
-    suspend fun getDataUser(@Header("access_token") token : String) : ResponseGetDataUser
+    suspend fun getDataUser(@Header("access_token") token: String): ResponseGetDataUser
 
     @Multipart
     @PUT("auth/user")
@@ -59,13 +62,13 @@ interface ApiService {
 
     // NOTIFICATION
     @GET("notification")
-    suspend fun getNofitication(@Header("access_token") token: String) : List<ResponseNotification>
+    suspend fun getNofitication(@Header("access_token") token: String): List<ResponseNotification>
 
     @GET("notification/{id}")
     suspend fun getNofiticationById(
         @Header("access_token") token: String,
         @Path("id") id: String
-    ) : List<ResponseNotification>
+    ): List<ResponseNotification>
 
     @PATCH("notification/{id}")
     suspend fun markReadNotification(@Path("id") id: Int)

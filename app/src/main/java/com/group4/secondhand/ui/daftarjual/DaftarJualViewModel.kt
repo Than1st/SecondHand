@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.ResponseGetDataUser
+import com.group4.secondhand.data.model.ResponseSellerOrder
 import com.group4.secondhand.data.model.ResponseSellerProduct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,39 +16,54 @@ import javax.inject.Inject
 @HiltViewModel
 class DaftarJualViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     private var _user = MutableLiveData<Resource<ResponseGetDataUser>>()
-    val user : MutableLiveData<Resource<ResponseGetDataUser>> get() = _user
+    val user: MutableLiveData<Resource<ResponseGetDataUser>> get() = _user
 
     private var _token = MutableLiveData<String>()
-    val token : MutableLiveData<String> get() = _token
+    val token: MutableLiveData<String> get() = _token
 
-    private val _product : MutableLiveData<Resource<List<ResponseSellerProduct>>> = MutableLiveData()
-    val product : LiveData<Resource<List<ResponseSellerProduct>>> get() = _product
+    private val _product: MutableLiveData<Resource<List<ResponseSellerProduct>>> = MutableLiveData()
+    val product: LiveData<Resource<List<ResponseSellerProduct>>> get() = _product
 
-    fun getDataUser(token : String){
+    private val _order: MutableLiveData<Resource<List<ResponseSellerOrder>>> = MutableLiveData()
+    val order: LiveData<Resource<List<ResponseSellerOrder>>> get() = _order
+
+    fun getDataUser(token: String) {
         viewModelScope.launch {
             _user.postValue(Resource.loading())
             try {
                 _user.postValue(Resource.success(repository.getDataUser(token)))
-            } catch (e: Exception){
-                _user.postValue((Resource.error(e.localizedMessage?:"Error occured")))
+            } catch (e: Exception) {
+                _user.postValue((Resource.error(e.localizedMessage ?: "Error occured")))
             }
         }
     }
 
-    fun getToken (){
+    fun getToken() {
         viewModelScope.launch {
-            repository.getToken().collect{
+            repository.getToken().collect {
                 _token.postValue(it)
             }
         }
     }
-    fun getProduct(token: String){
+
+    fun getProduct(token: String) {
         viewModelScope.launch {
             _product.postValue(Resource.loading())
             try {
                 _product.postValue(Resource.success(repository.getSellerProduct(token)))
-            }catch (e:Exception){
-                _product.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            } catch (e: Exception) {
+                _product.postValue(Resource.error(e.localizedMessage ?: "Error occured"))
+            }
+        }
+    }
+
+    fun getOrder(token: String) {
+        viewModelScope.launch {
+            _order.postValue(Resource.loading())
+            try {
+                _order.postValue(Resource.success(repository.getSellerOrder(token)))
+            } catch (e: Exception) {
+                _order.postValue(Resource.error(e.localizedMessage ?: "Error occured"))
             }
         }
     }
