@@ -24,6 +24,7 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+    private lateinit var convertBasePrice : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,7 @@ class DetailFragment : Fragment() {
         val productDescription = bundle?.getString(DESCRIPTION)
         val imageURL = bundle?.getString(IMAGEURL)
         if (basePrice != null) {
-            val convertBasePrice = currency(basePrice)
+            convertBasePrice = currency(basePrice)
             binding.tvProdukHarga.text = convertBasePrice
         }
 
@@ -84,9 +85,8 @@ class DetailFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.btnSayaTertarikNego.setOnClickListener {
-            val bottomFragment = BottomSheetDetailFragment()
+            val bottomFragment = BottomSheetDetailFragment(productName.toString(),convertBasePrice,imageURL.toString())
             bottomFragment.show(parentFragmentManager, "Tag")
-
         }
 
     }

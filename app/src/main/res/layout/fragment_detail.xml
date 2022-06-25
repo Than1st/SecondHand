@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btn_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -15,7 +16,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/round_outline"
