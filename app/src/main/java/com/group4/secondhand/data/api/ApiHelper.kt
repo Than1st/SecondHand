@@ -1,5 +1,6 @@
 package com.group4.secondhand.data.api
 
+import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.data.model.RequestLogin
 import com.group4.secondhand.data.model.RequestRegister
 import okhttp3.MultipartBody
@@ -13,7 +14,7 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun uploadProduct(
         token: String,
-        file : MultipartBody.Part,
+        file: MultipartBody.Part,
         name: RequestBody,
         description: RequestBody,
         base_price: RequestBody,
@@ -25,6 +26,9 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getProduct(status: String, categoryId: String) =
         apiService.getProduct(status, categoryId)
 
+    suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) =
+        apiService.buyerOrder(token, requestBuyerOrder)
+
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =
         apiService.authRegister(requestRegister)
@@ -32,7 +36,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun authLogin(requestLogin: RequestLogin) = apiService.authLogin(requestLogin)
     suspend fun getDataUser(token: String) = apiService.getDataUser(token)
     suspend fun updateDataUser(
-        token : String,
+        token: String,
         image: MultipartBody.Part?,
         name: RequestBody?,
         phoneNumber: RequestBody?,

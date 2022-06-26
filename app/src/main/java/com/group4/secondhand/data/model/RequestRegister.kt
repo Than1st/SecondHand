@@ -17,4 +17,5 @@ data class RequestRegister(
     val imageUrl: Any? = "no_image",
     @SerializedName("city")
     val city: String? = "no_city"
+
 )

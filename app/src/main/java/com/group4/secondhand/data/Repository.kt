@@ -2,6 +2,7 @@ package com.group4.secondhand.data
 
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.datastore.UserPreferences
+import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.data.model.RequestLogin
 import com.group4.secondhand.data.model.RequestRegister
 import okhttp3.MultipartBody
@@ -25,6 +26,9 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     // BUYER
     suspend fun getProduct(status: String, categoryId: String) =
         apiHelper.getProduct(status, categoryId)
+
+    suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
+        apiHelper.buyerOrder(token, requestBuyerOrder)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =

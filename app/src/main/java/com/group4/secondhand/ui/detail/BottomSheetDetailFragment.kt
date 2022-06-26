@@ -12,7 +12,12 @@ import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 
-class BottomSheetDetailFragment(namaProduk : String, hargaProduk:String, gambarProduk:String) : BottomSheetDialogFragment() {
+class BottomSheetDetailFragment(
+    productId:Int,
+    namaProduk : String,
+    hargaProduk:String,
+    gambarProduk:String
+) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetDetailBinding? =null
     private val binding get() = _binding!!

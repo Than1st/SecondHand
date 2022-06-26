@@ -21,7 +21,7 @@
             android:gravity="center_vertical"
             android:text="@string/daftar_jual_saya"
             android:textColor="@color/black"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
@@ -62,6 +62,7 @@
                         android:layout_marginStart="16dp"
                         android:background="@drawable/round_outline"
                         android:clipToOutline="true"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -192,15 +193,7 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
-                android:layout_marginBottom="128dp"
-                tools:listitem="@layout/item_product_home"
-                />
-
-            <View
-                android:id="@+id/view_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                tools:listitem="@layout/item_product_home" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_diminati"
@@ -218,6 +211,13 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/item_product_home" />
+
+            <View
+                android:id="@+id/view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
