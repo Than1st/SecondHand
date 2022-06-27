@@ -78,6 +78,7 @@ fun formatDate(date: String) {
 }
 
 fun convertDate(date: String) : String{
+    // yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z
     var kotlin = date
     kotlin = kotlin.drop(5)
     var bulan = kotlin.take(2)

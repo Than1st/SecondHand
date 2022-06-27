@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_daftarJualFragment_to_editAkunFragment"
             app:destination="@id/editAkunFragment" />
+        <action
+            android:id="@+id/action_daftarJualFragment_to_infoPenawarFragment"
+            app:destination="@id/infoPenawarFragment" />
     </fragment>
     <fragment
         android:id="@+id/akunFragment"
@@ -141,5 +144,10 @@
         android:name="com.group4.secondhand.ui.lengkapiinfoakun.LengkapiInfoAkunFragment"
         android:label="fragment_lengkapi_info_akun"
         tools:layout="@layout/fragment_lengkapi_info_akun" />
+    <fragment
+        android:id="@+id/infoPenawarFragment"
+        android:name="com.group4.secondhand.ui.infopenawar.InfoPenawarFragment"
+        android:label="fragment_info_penawar"
+        tools:layout="@layout/fragment_info_penawar" />
 
 </navigation>
