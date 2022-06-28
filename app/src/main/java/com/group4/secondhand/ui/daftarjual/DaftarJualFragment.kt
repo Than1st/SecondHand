@@ -2,6 +2,7 @@ package com.group4.secondhand.ui.daftarjual
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -124,16 +125,28 @@ class DaftarJualFragment : Fragment() {
             binding.rvProduct.visibility = View.VISIBLE
             binding.rvDiminati.visibility = View.GONE
             binding.rvTerjual.visibility = View.GONE
+            binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
+            binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         }
         binding.btnDiminati.setOnClickListener {
             getSellerOrder()
             binding.rvProduct.visibility = View.GONE
             binding.rvTerjual.visibility = View.GONE
+            binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
+            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         }
         binding.btnTerjual.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
             binding.rvDiminati.visibility = View.GONE
             binding.rvTerjual.visibility = View.VISIBLE
+            binding.btnProduk.setBackgroundColor(R.color.medium_blue)
+            binding.btnDiminati.setBackgroundColor(R.color.medium_blue)
+            binding.btnTerjual.setBackgroundColor(R.color.dark_blue)
+            binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnTerjual.setBackgroundColor(Color.parseColor("#06283D"))
         }
     }
 
@@ -163,6 +176,7 @@ class DaftarJualFragment : Fragment() {
                         binding.rvProduct.adapter = sellerProductAdapter
                         binding.pbLoading.visibility = View.GONE
                         binding.rvProduct.visibility = View.VISIBLE
+                        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                     }
 
                 }
