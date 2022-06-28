@@ -4,6 +4,7 @@ import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -36,6 +37,13 @@ interface ApiService {
         @Query("status") status: String,
         @Query("category_id") categoryId: String
     ): List<ResponseGetProduct>
+
+    @GET("buyer/product/{id}")
+    suspend fun getProdukById(
+        @Path("id") id: Int
+    ): Response <ResponseBuyerProductById>
+
+
 
     @POST("buyer/order")
     suspend fun buyerOrder(

@@ -26,6 +26,8 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getProduct(status: String, categoryId: String) =
         apiService.getProduct(status, categoryId)
 
+    suspend fun getProductById ( id : Int ) = apiService.getProdukById(id)
+
     suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) =
         apiService.buyerOrder(token, requestBuyerOrder)
 

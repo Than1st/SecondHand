@@ -55,6 +55,7 @@ class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickL
                 Glide.with(binding.root)
                     .load(data.imageUrl)
                     .centerCrop()
+
                     .into(ivProductImage)
                 root.setOnClickListener{
                     onItemClick.onClickItem(data)

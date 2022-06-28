@@ -27,6 +27,8 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getProduct(status: String, categoryId: String) =
         apiHelper.getProduct(status, categoryId)
 
+    suspend fun getProductById (id : Int) = apiHelper.getProductById(id)
+
     suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
         apiHelper.buyerOrder(token, requestBuyerOrder)
 
