@@ -1,7 +1,6 @@
 package com.group4.secondhand.ui.daftarjual
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +22,6 @@ import com.group4.secondhand.databinding.FragmentDaftarJualBinding
 import com.group4.secondhand.ui.akun.AkunFragment
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_EMAIL
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,21 +67,16 @@ class DaftarJualFragment : Fragment() {
         setSellerName()
         setRecycler()
         getSellerProduct()
-
-
     }
 
     private fun setSellerName() {
         daftarJualViewModel.user.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    binding.btnDiminati.visibility = View.VISIBLE
-                    binding.btnTerjual.visibility = View.VISIBLE
-                    binding.btnProduk.visibility = View.VISIBLE
                     if (it.data != null) {
-                        if(it.data.city == "no_city"){
+                        if (it.data.city == "no_city") {
                             binding.tvKotaPenjual.text = "-"
-                        }else{
+                        } else {
                             binding.tvKotaPenjual.text = it.data.city
                         }
                         binding.tvNamaPenjual.text = it.data.fullName
@@ -93,12 +86,12 @@ class DaftarJualFragment : Fragment() {
                             .placeholder(R.drawable.default_image)
                             .into(binding.ivAvatarPenjual)
                         binding.cardSeller.visibility = View.VISIBLE
-                        binding.shimmerCard.visibility = View.GONE
+                        binding.shimmerCard.visibility = View.INVISIBLE
                         bundle.putString(USER_NAME, it.data.fullName)
                         bundle.putString(USER_CITY, it.data.city)
-                        bundle.putString(USER_ADDRESS,it.data.address)
-                        bundle.putString(USER_PHONE_NUMBER,it.data.phoneNumber)
-                        if (it.data.imageUrl != null){
+                        bundle.putString(USER_ADDRESS, it.data.address)
+                        bundle.putString(USER_PHONE_NUMBER, it.data.phoneNumber)
+                        if (it.data.imageUrl != null) {
                             bundle.putString(AkunFragment.USER_IMAGE, it.data.imageUrl.toString())
                         }
                     }
@@ -107,43 +100,28 @@ class DaftarJualFragment : Fragment() {
                     binding.cardSeller.visibility = View.GONE
                 }
                 LOADING -> {
-                    binding.btnDiminati.visibility = View.GONE
-                    binding.btnTerjual.visibility = View.GONE
-                    binding.btnProduk.visibility = View.GONE
+
                     binding.cardSeller.visibility = View.GONE
                     binding.shimmerCard.visibility = View.VISIBLE
                 }
             }
         }
         binding.btnEdit.setOnClickListener {
-            findNavController().navigate(R.id.action_daftarJualFragment_to_editAkunFragment,bundle)
+            findNavController().navigate(R.id.action_daftarJualFragment_to_editAkunFragment, bundle)
         }
     }
 
     private fun setRecycler() {
         binding.btnProduk.setOnClickListener {
-            binding.rvProduct.visibility = View.VISIBLE
-            binding.rvDiminati.visibility = View.GONE
-            binding.rvTerjual.visibility = View.GONE
-            binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
-            binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
-            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
+            getSellerProduct()
         }
         binding.btnDiminati.setOnClickListener {
             getSellerOrder()
-            binding.rvProduct.visibility = View.GONE
-            binding.rvTerjual.visibility = View.GONE
-            binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
-            binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
-            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         }
         binding.btnTerjual.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
             binding.rvDiminati.visibility = View.GONE
             binding.rvTerjual.visibility = View.VISIBLE
-            binding.btnProduk.setBackgroundColor(R.color.medium_blue)
-            binding.btnDiminati.setBackgroundColor(R.color.medium_blue)
-            binding.btnTerjual.setBackgroundColor(R.color.dark_blue)
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#06283D"))
@@ -151,13 +129,17 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun getSellerProduct() {
+        binding.rvProduct.visibility = View.GONE
+        binding.rvDiminati.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
+        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
+        binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
+        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         daftarJualViewModel.product.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                 }
                 SUCCESS -> {
                     if (it.data != null) {
@@ -174,11 +156,15 @@ class DaftarJualFragment : Fragment() {
                             })
                         sellerProductAdapter.submitData(it.data)
                         binding.rvProduct.adapter = sellerProductAdapter
-                        binding.pbLoading.visibility = View.GONE
                         binding.rvProduct.visibility = View.VISIBLE
-                        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
+                    }
+                    if (it.data?.size == 0) {
+                        binding.lottieEmpty.visibility = View.VISIBLE
                     }
 
+                    binding.buttonGrup.visibility = View.VISIBLE
+                    binding.pbLoading.visibility = View.GONE
+                    binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -188,13 +174,17 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun getSellerOrder() {
+        binding.rvProduct.visibility = View.GONE
+        binding.rvDiminati.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
+        binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
+        binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
+        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         daftarJualViewModel.order.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                 }
                 SUCCESS -> {
                     if (it.data != null) {
@@ -206,10 +196,12 @@ class DaftarJualFragment : Fragment() {
                             })
                         sellerOrderAdapter.submitData(it.data)
                         binding.rvDiminati.adapter = sellerOrderAdapter
-                        binding.pbLoading.visibility = View.GONE
                         binding.rvDiminati.visibility = View.VISIBLE
                     }
-
+                    if (it.data?.size == 0) {
+                        binding.lottieEmpty.visibility = View.VISIBLE
+                    }
+                    binding.pbLoading.visibility = View.GONE
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
