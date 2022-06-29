@@ -1,10 +1,8 @@
 package com.group4.secondhand.ui.daftarjual
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,11 +22,9 @@ import com.group4.secondhand.databinding.FragmentDaftarJualBinding
 import com.group4.secondhand.ui.akun.AkunFragment
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_EMAIL
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_TOKEN
-import com.group4.secondhand.ui.previewproduct.PreviewProductFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,13 +48,6 @@ class DaftarJualFragment : Fragment() {
         const val PENAWAR_PRODUCT_BID_DATE = "penawarProductBidDate"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,19 +58,7 @@ class DaftarJualFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bundleStatus = arguments
-        val success = bundleStatus?.getInt(PreviewProductFragment.PESAN)
 
-        if (success == 1){
-            binding.alertSuccess.visibility = View.VISIBLE
-            Handler().postDelayed({
-                binding.alertSuccess.visibility = View.GONE
-            }, 3000)
-        }
-
-        binding.btnClose.setOnClickListener {
-            binding.alertSuccess.visibility = View.GONE
-        }
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
             daftarJualViewModel.getDataUser(it)
@@ -182,9 +159,6 @@ class DaftarJualFragment : Fragment() {
             binding.rvProduct.visibility = View.GONE
             binding.rvDiminati.visibility = View.GONE
             binding.rvTerjual.visibility = View.VISIBLE
-            binding.btnProduk.setBackgroundColor(R.color.medium_blue)
-            binding.btnDiminati.setBackgroundColor(R.color.medium_blue)
-            binding.btnTerjual.setBackgroundColor(R.color.dark_blue)
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#06283D"))

@@ -1,15 +1,19 @@
 package com.group4.secondhand.ui.notifikasi
 
+import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.group4.secondhand.R
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.NotificationItemBinding
 import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
+
 
 class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickListener) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
@@ -48,14 +52,17 @@ class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickL
 
     inner class ViewHolder(private val binding: NotificationItemBinding):
         RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("SetTextI18n")
         fun bind(data: ResponseNotification){
             binding.apply {
                 tvHargaDitawarProduk.text = currency(data.bidPrice)
                 tvTanggal.text = convertDate(data.transactionDate)
-                Glide.with(binding.root)
-                    .load(data.imageUrl)
-                    .centerCrop()
-                    .into(ivProductImage)
+                if (!data.read){
+                    Glide.with(binding.root)
+                        .load(data.imageUrl)
+                        .centerCrop()
+                        .into(ivProductImage)
+                }
                 root.setOnClickListener{
                     onItemClick.onClickItem(data)
                 }
