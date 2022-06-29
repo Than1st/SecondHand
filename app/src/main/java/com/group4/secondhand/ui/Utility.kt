@@ -2,9 +2,11 @@ package com.group4.secondhand.ui
 
 import android.content.ContentResolver
 import android.content.Context
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
 import android.view.Window
+import android.widget.TextView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import java.io.File
@@ -77,8 +79,7 @@ fun formatDate(date: String) {
     DateFormat.getDateInstance(DateFormat.FULL).format(date)
 }
 
-fun convertDate(date: String) : String{
-    // yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z
+fun convertDate(date: String): String {
     var kotlin = date
     kotlin = kotlin.drop(5)
     var bulan = kotlin.take(2)
@@ -89,7 +90,7 @@ fun convertDate(date: String) : String{
     kotlin = kotlin.drop(3)
     val menit = kotlin.take(2)
 
-    when (bulan){
+    when (bulan) {
         "01" -> {
             bulan = "Jan"
         }
@@ -130,3 +131,9 @@ fun convertDate(date: String) : String{
 
     return "$tanggal $bulan, $jam:$menit"
 }
+
+fun striketroughtText(tv: TextView, textChange: String): String {
+    tv.paintFlags = tv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    return textChange
+}
+
