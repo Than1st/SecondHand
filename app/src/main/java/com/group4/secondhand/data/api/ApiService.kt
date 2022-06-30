@@ -49,7 +49,12 @@ interface ApiService {
     suspend fun buyerOrder(
         @Header("access_token") token:String,
         @Body requestBuyerOrder: RequestBuyerOrder
-    ) : ResponseBuyerOrder
+    ) : Response <ResponseBuyerOrder>
+
+    @GET("buyer/order")
+    suspend fun getBuyerOrder(
+        @Header("access_token") token:String
+    ) : List<ResponseGetBuyerOrder>
 
     // AUTH
     @POST("auth/register")

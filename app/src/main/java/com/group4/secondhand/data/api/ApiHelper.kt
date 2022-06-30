@@ -30,6 +30,8 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) =
         apiService.buyerOrder(token, requestBuyerOrder)
+    suspend fun getBuyerOrder(token: String) =
+        apiService.getBuyerOrder(token)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =

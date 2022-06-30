@@ -32,6 +32,9 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
         apiHelper.buyerOrder(token, requestBuyerOrder)
 
+    suspend fun getBuyerOrder(token: String) =
+        apiHelper.getBuyerOrder(token)
+
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =
         apiHelper.authRegister(requestRegister)
