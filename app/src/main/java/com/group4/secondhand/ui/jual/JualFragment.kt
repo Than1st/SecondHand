@@ -2,14 +2,17 @@
 
 package com.group4.secondhand.ui.jual
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,11 +23,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentJualBinding
-import com.group4.secondhand.ui.previewproduct.PreviewProductFragment
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -199,11 +203,8 @@ class JualFragment : Fragment() {
             when(it.status){
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    val pesan = Bundle()
-                    pesan.putInt(PreviewProductFragment.PESAN, 1)
-                    Toast.makeText(requireContext(), "Berhasil di Upload!", Toast.LENGTH_SHORT)
-                        .show()
-                    findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment, pesan)
+                    showToastSuccess()
+                    findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
                 }
                 ERROR -> {
                     progressDialog.dismiss()
@@ -226,6 +227,24 @@ class JualFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showToastSuccess(){
+        val snackBarView = Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_INDEFINITE)
+        val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
+        snackBarView.setAction(" ") {
+            snackBarView.dismiss()
+        }
+        val textView = snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+        textView.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_close, 0)
+        textView.compoundDrawablePadding = 16
+        layoutParams.gravity = Gravity.TOP
+        layoutParams.setMargins(32,150,32,0)
+        snackBarView.view.setPadding(24, 16, 0, 16)
+        snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
+        snackBarView.view.layoutParams = layoutParams
+        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        snackBarView.show()
     }
 
     private fun resetError() {

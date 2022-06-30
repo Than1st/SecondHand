@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.infoPenawarFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
                 R.id.lengkapiInfoAkunFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }

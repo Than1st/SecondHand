@@ -24,6 +24,7 @@ import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
+import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_TOKEN
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,16 +33,32 @@ class DaftarJualFragment : Fragment() {
     private val binding get() = _binding!!
     private val daftarJualViewModel: DaftarJualViewModel by viewModels()
     private val bundle = Bundle()
+    private val bundlePenawar = Bundle()
+
+    companion object{
+        const val PENAWAR_USER_TOKEN = "penawarUserToken"
+        const val PENAWAR_USER_NAME = "penawarUserName"
+        const val PENAWAR_USER_CITY = "penawarUserCity"
+        const val PENAWAR_USER_IMAGE = "penawarUserCity"
+        const val PENAWAR_ORDER_ID = "penawarOrderId"
+        const val PENAWAR_PRODUCT_IMAGE = "penawarProductImage"
+        const val PENAWAR_PRODUCT_NAME = "penawarProductName"
+        const val PENAWAR_PRODUCT_PRICE = "penawarProductPrice"
+        const val PENAWAR_PRODUCT_BID = "penawarProductBid"
+        const val PENAWAR_PRODUCT_BID_DATE = "penawarProductBidDate"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDaftarJualBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
             daftarJualViewModel.getDataUser(it)
@@ -62,6 +79,9 @@ class DaftarJualFragment : Fragment() {
                     .setCancelable(false)
                     .show()
                 daftarJualViewModel.token.removeObservers(viewLifecycleOwner)
+            } else {
+                bundle.putString(USER_TOKEN, it)
+                bundlePenawar.putString(PENAWAR_USER_TOKEN, it)
             }
         }
         setSellerName()
@@ -191,7 +211,15 @@ class DaftarJualFragment : Fragment() {
                         val sellerOrderAdapter =
                             SellerOrderAdapter(object : SellerOrderAdapter.OnClickListener {
                                 override fun onClickItem(data: ResponseSellerOrder) {
-                                    "go to info penawar"
+                                    bundlePenawar.putString(PENAWAR_USER_NAME, data.buyerInformation.fullName)
+                                    bundlePenawar.putString(PENAWAR_USER_CITY, data.buyerInformation.city.toString())
+                                    bundlePenawar.putInt(PENAWAR_ORDER_ID, data.id)
+                                    bundlePenawar.putString(PENAWAR_PRODUCT_NAME, data.product.name)
+                                    bundlePenawar.putString(PENAWAR_PRODUCT_PRICE, data.product.basePrice.toString())
+                                    bundlePenawar.putString(PENAWAR_PRODUCT_BID, data.price.toString())
+                                    bundlePenawar.putString(PENAWAR_PRODUCT_IMAGE, data.product.imageUrl)
+                                    bundlePenawar.putString(PENAWAR_PRODUCT_BID_DATE, data.createdAt)
+                                    findNavController().navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment, bundlePenawar)
                                 }
                             })
                         sellerOrderAdapter.submitData(it.data)
