@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_daftarJualFragment_to_infoPenawarFragment"
             app:destination="@id/infoPenawarFragment" />
+        <action
+            android:id="@+id/action_daftarJualFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/akunFragment"
@@ -149,5 +152,10 @@
         android:name="com.group4.secondhand.ui.infopenawar.InfoPenawarFragment"
         android:label="fragment_info_penawar"
         tools:layout="@layout/fragment_info_penawar" />
+    <fragment
+        android:id="@+id/editProductFragment"
+        android:name="com.group4.secondhand.ui.editproduct.EditProductFragment"
+        android:label="fragment_edit_product"
+        tools:layout="@layout/fragment_edit_product" />
 
 </navigation>

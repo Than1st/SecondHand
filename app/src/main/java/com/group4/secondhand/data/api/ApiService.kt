@@ -15,6 +15,12 @@ interface ApiService {
     @GET("seller/product")
     suspend fun getSellerProduct(@Header("access_token") token: String): List<ResponseSellerProduct>
 
+    @DELETE("seller/product/{id}")
+    suspend fun deleteSellerProduct(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ) : ResponseDeleteSellerProduct
+
     @GET("seller/order")
     suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
 
@@ -22,14 +28,14 @@ interface ApiService {
     @Multipart
     @POST("seller/product")
     suspend fun uploadProduct(
-        @Header("access_token") token : String,
+        @Header("access_token") token: String,
         @Part file: MultipartBody.Part,
-        @Part("name") name : RequestBody?,
-        @Part("description") description : RequestBody?,
-        @Part("base_price") base_price : RequestBody?,
-        @Part("category_ids") categoryIds : List<Int>,
-        @Part("location") location : RequestBody?,
-    ) : ResponseUploadProduct
+        @Part("name") name: RequestBody?,
+        @Part("description") description: RequestBody?,
+        @Part("base_price") base_price: RequestBody?,
+        @Part("category_ids") categoryIds: List<Int>,
+        @Part("location") location: RequestBody?,
+    ): ResponseUploadProduct
 
     // BUYER
     @GET("buyer/product")
@@ -41,15 +47,14 @@ interface ApiService {
     @GET("buyer/product/{id}")
     suspend fun getProdukById(
         @Path("id") id: Int
-    ): Response <ResponseBuyerProductById>
-
+    ): Response<ResponseBuyerProductById>
 
 
     @POST("buyer/order")
     suspend fun buyerOrder(
-        @Header("access_token") token:String,
+        @Header("access_token") token: String,
         @Body requestBuyerOrder: RequestBuyerOrder
-    ) : ResponseBuyerOrder
+    ): ResponseBuyerOrder
 
     // AUTH
     @POST("auth/register")
@@ -64,15 +69,15 @@ interface ApiService {
     @Multipart
     @PUT("auth/user")
     suspend fun updateDataUser(
-        @Header("access_token") token : String,
-        @Part file: MultipartBody.Part?  = null,
-        @Part("full_name") name : RequestBody?,
-        @Part("phone_number") phoneNumber : RequestBody?,
-        @Part("address") address : RequestBody?,
-        @Part("city") city : RequestBody?,
-        @Part("email") email : RequestBody? = null,
-        @Part("password") password : RequestBody? = null
-    ) : ResponseUpdateUser
+        @Header("access_token") token: String,
+        @Part file: MultipartBody.Part? = null,
+        @Part("full_name") name: RequestBody?,
+        @Part("phone_number") phoneNumber: RequestBody?,
+        @Part("address") address: RequestBody?,
+        @Part("city") city: RequestBody?,
+        @Part("email") email: RequestBody? = null,
+        @Part("password") password: RequestBody? = null
+    ): ResponseUpdateUser
 
     // NOTIFICATION
     @GET("notification")

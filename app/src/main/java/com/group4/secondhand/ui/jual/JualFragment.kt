@@ -38,12 +38,12 @@ class JualFragment : Fragment() {
 
     private var _binding: FragmentJualBinding? = null
     private val binding get() = _binding!!
-    private var uri : String = ""
+    private var uri: String = ""
     private var token: String = ""
     private var alamatPenjual: String = ""
     private val viewModel: JualViewModel by viewModels()
 
-    companion object{
+    companion object {
         const val NAMA_PRODUK_KEY = "namaProduk"
         const val HARGA_PRODUK_KEY = "hargaProduk"
         const val DESKRIPSI_PRODUK_KEY = "deskripsiProduk"
@@ -76,8 +76,8 @@ class JualFragment : Fragment() {
         val progressDialog = ProgressDialog(requireContext())
         progressDialog.setMessage("Please Wait...")
         viewModel.getToken()
-        viewModel.alreadyLogin.observe(viewLifecycleOwner){
-            if(it == DEFAULT_TOKEN){
+        viewModel.alreadyLogin.observe(viewLifecycleOwner) {
+            if (it == DEFAULT_TOKEN) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Pesan")
                     .setMessage("Anda Belom Masuk")
@@ -99,26 +99,29 @@ class JualFragment : Fragment() {
             }
         }
 
-        viewModel.user.observe(viewLifecycleOwner){
-            when(it.status){
+        viewModel.user.observe(viewLifecycleOwner) {
+            when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    if (it.data != null){
+                    if (it.data != null) {
                         val kota = it.data.city
                         val alamat = it.data.address
                         val gambar = it.data.imageUrl ?: "noImage"
                         val noHp = it.data.phoneNumber
-                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()){
+                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()) {
                             AlertDialog.Builder(requireContext())
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
-                                .setPositiveButton("Iya"){ positiveButton, _ ->
+                                .setPositiveButton("Iya") { positiveButton, _ ->
                                     val bundleNama = Bundle()
                                     bundleNama.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment, bundleNama)
+                                    findNavController().navigate(
+                                        R.id.action_jualFragment_to_lengkapiInfoAkunFragment,
+                                        bundleNama
+                                    )
                                     positiveButton.dismiss()
                                 }
-                                .setNegativeButton("Tidak"){ negativeButton, _ ->
+                                .setNegativeButton("Tidak") { negativeButton, _ ->
                                     findNavController().popBackStack()
                                     negativeButton.dismiss()
                                 }
@@ -135,7 +138,7 @@ class JualFragment : Fragment() {
                     progressDialog.dismiss()
                     AlertDialog.Builder(requireContext())
                         .setMessage(it.message)
-                        .setPositiveButton("Ok"){ dialog, _ ->
+                        .setPositiveButton("Ok") { dialog, _ ->
                             dialog.dismiss()
                             findNavController().popBackStack()
                         }
@@ -147,7 +150,7 @@ class JualFragment : Fragment() {
             }
         }
 
-        binding.btnBack.setOnClickListener{
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -166,12 +169,15 @@ class JualFragment : Fragment() {
                 deskripsiProduk,
                 uri
             )
-            if (validation == "passed"){
+            if (validation == "passed") {
                 bundle.putString(NAMA_PRODUK_KEY, namaProduk)
                 bundle.putString(HARGA_PRODUK_KEY, hargaProduk)
                 bundle.putString(DESKRIPSI_PRODUK_KEY, deskripsiProduk)
                 bundle.putString(IMAGE_PRODUK_KEY, uri)
-                findNavController().navigate(R.id.action_jualFragment_to_previewProductFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_jualFragment_to_previewProductFragment,
+                    bundle
+                )
             }
         }
 
@@ -186,7 +192,7 @@ class JualFragment : Fragment() {
                 deskripsiProduk,
                 uri
             )
-            if (validation == "passed"){
+            if (validation == "passed") {
                 viewModel.uploadProduk(
                     token,
                     namaProduk,
@@ -199,8 +205,8 @@ class JualFragment : Fragment() {
             }
         }
 
-        viewModel.uploadResponse.observe(viewLifecycleOwner){
-            when(it.status){
+        viewModel.uploadResponse.observe(viewLifecycleOwner) {
+            when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
                     showToastSuccess()
@@ -217,7 +223,7 @@ class JualFragment : Fragment() {
                     AlertDialog.Builder(requireContext())
                         .setTitle("Pesan")
                         .setMessage(message)
-                        .setPositiveButton("Iya"){ positiveButton, _ ->
+                        .setPositiveButton("Iya") { positiveButton, _ ->
                             positiveButton.dismiss()
                         }
                         .show()
@@ -229,17 +235,19 @@ class JualFragment : Fragment() {
         }
     }
 
-    private fun showToastSuccess(){
-        val snackBarView = Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_INDEFINITE)
+    private fun showToastSuccess() {
+        val snackBarView =
+            Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_LONG)
         val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
         snackBarView.setAction(" ") {
             snackBarView.dismiss()
         }
-        val textView = snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-        textView.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_close, 0)
+        val textView =
+            snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close, 0)
         textView.compoundDrawablePadding = 16
         layoutParams.gravity = Gravity.TOP
-        layoutParams.setMargins(32,150,32,0)
+        layoutParams.setMargins(32, 150, 32, 0)
         snackBarView.view.setPadding(24, 16, 0, 16)
         snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
         snackBarView.view.layoutParams = layoutParams
@@ -253,7 +261,12 @@ class JualFragment : Fragment() {
         binding.deskripsiContainer.error = null
     }
 
-    private fun validation(namaProduk: String, hargaProduk: String, deskripsiProduk: String, uriFoto: String): String {
+    private fun validation(
+        namaProduk: String,
+        hargaProduk: String,
+        deskripsiProduk: String,
+        uriFoto: String
+    ): String {
         when {
             namaProduk.isEmpty() -> {
                 binding.namaContainer.error = "Nama Produk tidak boleh kosong"
@@ -262,6 +275,10 @@ class JualFragment : Fragment() {
             hargaProduk.isEmpty() -> {
                 binding.hargaContainer.error = "Harga Produk tidak boleh kosong"
                 return "Harga Produk Kosong!"
+            }
+            hargaProduk.toInt() >= 2000000 -> {
+                binding.hargaContainer.error = "Harga Produk tidak boleh lebih dari 2M"
+                return "Harga Produk Melebihi Batas!"
             }
             deskripsiProduk.isEmpty() -> {
                 binding.deskripsiContainer.error = "Nama Produk tidak boleh kosong"

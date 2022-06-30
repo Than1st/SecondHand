@@ -55,19 +55,18 @@ class BottomSheetDetailFragment(
             .into(binding.ivProductImage)
 
         binding.btnSayaTertarikNego.setOnClickListener {
-
             detailViewModel.getToken()
-            detailViewModel.token.observe(viewLifecycleOwner) {
-                val inputHargaTawar = binding.etHargaTawar.text
-                val requestHargaTawar = RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+        }
+        detailViewModel.token.observe(viewLifecycleOwner) {
+            val inputHargaTawar = binding.etHargaTawar.text
+            val requestHargaTawar = RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
 
-                Toast.makeText(context, "Harga Tawarmu berhasil dikirim ke Penjual", Toast.LENGTH_SHORT).show()
-                detailViewModel.buyerOrder(it, requestHargaTawar)
-                dismiss()
-                val coba  = FragmentDetailBinding.inflate(layoutInflater)
-                coba.btnSayaTertarikNego.isEnabled = false
-                binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_grey)
-            }
+            Toast.makeText(context, "Harga Tawarmu berhasil dikirim ke Penjual", Toast.LENGTH_SHORT).show()
+            detailViewModel.buyerOrder(it, requestHargaTawar)
+            dismiss()
+            val coba  = FragmentDetailBinding.inflate(layoutInflater)
+            coba.btnSayaTertarikNego.isEnabled = false
+            binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_grey)
         }
     }
 
