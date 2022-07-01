@@ -49,6 +49,7 @@ class JualFragment : Fragment() {
         const val NAMA_PRODUK_KEY = "namaProduk"
         const val HARGA_PRODUK_KEY = "hargaProduk"
         const val DESKRIPSI_PRODUK_KEY = "deskripsiProduk"
+        const val KATEGORI_PRODUK_KEY = "kategoriProduk"
         const val IMAGE_PRODUK_KEY = "imageProduk"
         const val NAME_USER_KEY = "userName"
         const val ADDRESS_USER_KEY = "userAlamat"
@@ -179,6 +180,7 @@ class JualFragment : Fragment() {
             val namaProduk = binding.etNama.text.toString()
             val hargaProduk = binding.etHarga.text.toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
+            val kategoriProduk = binding.etKategori.text.toString()
             val validation = validation(
                 namaProduk,
                 hargaProduk,
@@ -190,6 +192,7 @@ class JualFragment : Fragment() {
                 bundle.putString(NAMA_PRODUK_KEY, namaProduk)
                 bundle.putString(HARGA_PRODUK_KEY, hargaProduk)
                 bundle.putString(DESKRIPSI_PRODUK_KEY, deskripsiProduk)
+                bundle.putString(KATEGORI_PRODUK_KEY, kategoriProduk)
                 bundle.putString(IMAGE_PRODUK_KEY, uri)
                 findNavController().navigate(
                     R.id.action_jualFragment_to_previewProductFragment,
