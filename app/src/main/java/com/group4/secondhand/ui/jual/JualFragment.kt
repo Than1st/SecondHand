@@ -29,6 +29,8 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentJualBinding
+import com.group4.secondhand.ui.listCategory
+import com.group4.secondhand.ui.listCategoryId
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -114,7 +116,7 @@ class JualFragment : Fragment() {
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
                                 .setPositiveButton("Iya"){ positiveButton, _ ->
 //                                    bundleLengkapiAkun.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment, bundleLengkapiAkun)
+                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment)
                                     positiveButton.dismiss()
                                 }
                                 .setNegativeButton("Tidak") { negativeButton, _ ->
@@ -164,7 +166,6 @@ class JualFragment : Fragment() {
             bottomFragment.show(parentFragmentManager, "Tag")
         }
 
-        binding.btnBack.setOnClickListener{
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
