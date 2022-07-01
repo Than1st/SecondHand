@@ -217,7 +217,7 @@ class JualFragment : Fragment() {
                     var message = ""
                     when (it.message) {
                         "HTTP 400 Bad Request" -> {
-                            message = "Anda Hanya Bisa Upload Maksimal 5 Produk"
+                            message = "${it.message}"
                         }
                     }
                     AlertDialog.Builder(requireContext())
