@@ -108,7 +108,7 @@ class NotifikasiFragment : Fragment() {
                     ERROR -> {
                         progressDialog.dismiss()
                         AlertDialog.Builder(requireContext())
-                            .setMessage(it.message + "CEKCEKCEK")
+                            .setMessage(it.message)
                             .show()
                     }
                 }

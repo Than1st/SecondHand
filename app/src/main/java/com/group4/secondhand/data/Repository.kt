@@ -13,6 +13,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
     suspend fun getSellerOrder(token: String) = apiHelper.getSellerOrder(token)
+    suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
     suspend fun uploadProduct(
         token: String,
         file : MultipartBody.Part,
@@ -26,6 +27,8 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     // BUYER
     suspend fun getProduct(status: String, categoryId: String) =
         apiHelper.getProduct(status, categoryId)
+
+    suspend fun getProductById (id : Int) = apiHelper.getProductById(id)
 
     suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
         apiHelper.buyerOrder(token, requestBuyerOrder)

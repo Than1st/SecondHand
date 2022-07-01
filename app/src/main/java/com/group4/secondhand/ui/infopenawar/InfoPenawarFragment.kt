@@ -13,16 +13,16 @@ import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentInfoPenawarBinding
 import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_ORDER_ID
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_PRODUCT_BID
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_PRODUCT_BID_DATE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_PRODUCT_IMAGE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_PRODUCT_NAME
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_PRODUCT_PRICE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_USER_CITY
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_USER_IMAGE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_USER_NAME
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PENAWAR_USER_TOKEN
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.ORDER_ID
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_BID
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_BID_DATE
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_IMAGE
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_NAME
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_PRICE
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CITY
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
 
 class InfoPenawarFragment : Fragment() {
 
@@ -47,23 +47,23 @@ class InfoPenawarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bundlePenawar = arguments
-        val idOrder = bundlePenawar?.getInt(PENAWAR_ORDER_ID)
-        val token = bundlePenawar?.getString(PENAWAR_USER_TOKEN)
+        val idOrder = bundlePenawar?.getInt(ORDER_ID)
+        val token = bundlePenawar?.getString(USER_TOKEN)
         val status = "accepted"
         binding.apply {
-            tvNamaPenawar.text = bundlePenawar?.getString(PENAWAR_USER_NAME)
-            tvKotaPenawar.text = bundlePenawar?.getString(PENAWAR_USER_CITY)
+            tvNamaPenawar.text = bundlePenawar?.getString(USER_NAME)
+            tvKotaPenawar.text = bundlePenawar?.getString(USER_CITY)
             Glide.with(requireContext())
-                .load(bundlePenawar?.getString(PENAWAR_USER_IMAGE))
+                .load(bundlePenawar?.getString(USER_IMAGE))
                 .placeholder(R.drawable.default_image)
                 .transform(CenterCrop(), RoundedCorners(12))
                 .into(ivAvatarPenawar)
-            tvNamaProduk.text = bundlePenawar?.getString(PENAWAR_PRODUCT_NAME)
-            tvHargaAwalProduk.text = currency(bundlePenawar?.getString(PENAWAR_PRODUCT_PRICE).toString().toInt())
-            tvHargaDitawarProduk.text = getString(R.string.ditawar, currency(bundlePenawar?.getString(PENAWAR_PRODUCT_BID).toString().toInt()))
-            tvTanggal.text = convertDate(bundlePenawar?.getString(PENAWAR_PRODUCT_BID_DATE).toString())
+            tvNamaProduk.text = bundlePenawar?.getString(PRODUCT_NAME)
+            tvHargaAwalProduk.text = currency(bundlePenawar?.getString(PRODUCT_PRICE).toString().toInt())
+            tvHargaDitawarProduk.text = getString(R.string.ditawar, currency(bundlePenawar?.getString(PRODUCT_BID).toString().toInt()))
+            tvTanggal.text = convertDate(bundlePenawar?.getString(PRODUCT_BID_DATE).toString())
             Glide.with(requireContext())
-                .load(bundlePenawar?.getString(PENAWAR_PRODUCT_IMAGE))
+                .load(bundlePenawar?.getString(PRODUCT_IMAGE))
                 .transform(CenterCrop(), RoundedCorners(12))
                 .into(ivProductImage)
 

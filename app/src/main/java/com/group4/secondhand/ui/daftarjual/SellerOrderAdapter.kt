@@ -1,7 +1,8 @@
 package com.group4.secondhand.ui.daftarjual
 
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +14,8 @@ import com.group4.secondhand.data.model.ResponseSellerOrder
 import com.group4.secondhand.databinding.ItemDiminatiBinding
 import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
-import com.group4.secondhand.ui.formatDate
+import com.group4.secondhand.ui.striketroughtText
+
 
 class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
     RecyclerView.Adapter<SellerOrderAdapter.ViewHolder>() {
@@ -43,20 +45,24 @@ class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
             val priceNego = currency(data.price)
             val date = convertDate(data.createdAt)
             binding.apply {
+                Glide.with(binding.root)
+                    .load(data.product.imageUrl)
+                    .transform(CenterCrop(), RoundedCorners(12))
+                    .into(binding.ivProductImage)
+                tvNamaProduk.text = data.product.name
+                tvHargaAwalProduk.text = basePrice
+                tvHargaDitawarProduk.text = "Ditawar $priceNego"
+                tvTanggal.text = date
                 if (data.status != "declined" && data.status != "accepted") {
-                    Glide.with(binding.root)
-                        .load(data.product.imageUrl)
-                        .transform(CenterCrop(), RoundedCorners(12))
-                        .into(binding.ivProductImage)
-                    tvNamaProduk.text = data.product.name
-                    tvHargaAwalProduk.text = basePrice
-                    tvHargaDitawarProduk.text = "Ditawar $priceNego"
-                    tvTanggal.text = date.toString()
                     root.setOnClickListener {
                         OnItemClick.onClickItem(data)
                     }
-                } else {
-                    binding.root.visibility = View.GONE
+                }
+                if (data.status == "declined") {
+                    root.alpha = 0.5f
+                    tvHargaDitawarProduk.apply {
+                        text = striketroughtText(this,priceNego)
+                    }
                 }
             }
         }

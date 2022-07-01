@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -201,8 +202,9 @@ class HomeFragment : Fragment() {
                     }
                 }
                 productBundle.putString(LOCATION, data.location)
+                Handler().postDelayed({
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
-
+                }, 1500)
             }
         })
         binding.rvProduct.adapter = productAdapter

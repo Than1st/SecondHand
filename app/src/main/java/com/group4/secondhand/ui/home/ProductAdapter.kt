@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.group4.secondhand.R
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.ItemProductHomeBinding
 import com.group4.secondhand.ui.currency
@@ -40,6 +43,8 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
             binding.apply {
                 Glide.with(binding.root)
                     .load(data.imageUrl)
+                    .placeholder(R.drawable.default_image)
+                    .transform(CenterCrop(), RoundedCorners(8))
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
                 if (data.categories.isNotEmpty()) {

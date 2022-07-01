@@ -24,7 +24,6 @@ import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_TOKEN
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,18 +33,24 @@ class DaftarJualFragment : Fragment() {
     private val daftarJualViewModel: DaftarJualViewModel by viewModels()
     private val bundle = Bundle()
     private val bundlePenawar = Bundle()
+    private val bundleEdit = Bundle()
+    private var token = ""
+    private val listCategory = mutableListOf<String>()
 
-    companion object{
-        const val PENAWAR_USER_TOKEN = "penawarUserToken"
-        const val PENAWAR_USER_NAME = "penawarUserName"
-        const val PENAWAR_USER_CITY = "penawarUserCity"
-        const val PENAWAR_USER_IMAGE = "penawarUserCity"
-        const val PENAWAR_ORDER_ID = "penawarOrderId"
-        const val PENAWAR_PRODUCT_IMAGE = "penawarProductImage"
-        const val PENAWAR_PRODUCT_NAME = "penawarProductName"
-        const val PENAWAR_PRODUCT_PRICE = "penawarProductPrice"
-        const val PENAWAR_PRODUCT_BID = "penawarProductBid"
-        const val PENAWAR_PRODUCT_BID_DATE = "penawarProductBidDate"
+    companion object {
+        const val USER_TOKEN = "UserToken"
+        const val USER_NAME = "UserName"
+        const val USER_CITY = "UserCity"
+        const val USER_IMAGE = "UserCity"
+        const val ORDER_ID = "OrderId"
+        const val PRODUCT_IMAGE = "ProductImage"
+        const val PRODUCT_NAME = "ProductName"
+        const val PRODUCT_CATEGORY = "productCategory"
+        const val PRODUCT_DESCRIPTION = "productDescription"
+        const val PRODUCT_PRICE = "ProductPrice"
+        const val PRODUCT_BID = "ProductBid"
+        const val PRODUCT_BID_DATE = "ProductBidDate"
+        const val PRODUCT_ID = "productId"
     }
 
     override fun onCreateView(
@@ -61,9 +66,6 @@ class DaftarJualFragment : Fragment() {
 
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
-            daftarJualViewModel.getDataUser(it)
-            daftarJualViewModel.getProduct(it)
-            daftarJualViewModel.getOrder(it)
             if (it == DEFAULT_TOKEN) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Pesan")
@@ -80,28 +82,25 @@ class DaftarJualFragment : Fragment() {
                     .show()
                 daftarJualViewModel.token.removeObservers(viewLifecycleOwner)
             } else {
-                bundle.putString(USER_TOKEN, it)
-                bundlePenawar.putString(PENAWAR_USER_TOKEN, it)
+                bundle.putString(AkunFragment.USER_TOKEN, it)
+                bundlePenawar.putString(USER_TOKEN, it)
+                token = it
             }
+            getSellerProduct()
+            setSellerName()
         }
-        setSellerName()
         setRecycler()
-        getSellerProduct()
-
-
     }
 
     private fun setSellerName() {
+        daftarJualViewModel.getDataUser(token)
         daftarJualViewModel.user.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    binding.btnDiminati.visibility = View.VISIBLE
-                    binding.btnTerjual.visibility = View.VISIBLE
-                    binding.btnProduk.visibility = View.VISIBLE
                     if (it.data != null) {
-                        if(it.data.city == "no_city"){
+                        if (it.data.city == "no_city") {
                             binding.tvKotaPenjual.text = "-"
-                        }else{
+                        } else {
                             binding.tvKotaPenjual.text = it.data.city
                         }
                         binding.tvNamaPenjual.text = it.data.fullName
@@ -111,12 +110,12 @@ class DaftarJualFragment : Fragment() {
                             .placeholder(R.drawable.default_image)
                             .into(binding.ivAvatarPenjual)
                         binding.cardSeller.visibility = View.VISIBLE
-                        binding.shimmerCard.visibility = View.GONE
-                        bundle.putString(USER_NAME, it.data.fullName)
-                        bundle.putString(USER_CITY, it.data.city)
-                        bundle.putString(USER_ADDRESS,it.data.address)
-                        bundle.putString(USER_PHONE_NUMBER,it.data.phoneNumber)
-                        if (it.data.imageUrl != null){
+                        binding.shimmerCard.visibility = View.INVISIBLE
+                        bundle.putString(AkunFragment.USER_NAME, it.data.fullName)
+                        bundle.putString(AkunFragment.USER_CITY, it.data.city)
+                        bundle.putString(USER_ADDRESS, it.data.address)
+                        bundle.putString(USER_PHONE_NUMBER, it.data.phoneNumber)
+                        if (it.data.imageUrl != null) {
                             bundle.putString(AkunFragment.USER_IMAGE, it.data.imageUrl.toString())
                         }
                     }
@@ -125,36 +124,20 @@ class DaftarJualFragment : Fragment() {
                     binding.cardSeller.visibility = View.GONE
                 }
                 LOADING -> {
-                    binding.btnDiminati.visibility = View.GONE
-                    binding.btnTerjual.visibility = View.GONE
-                    binding.btnProduk.visibility = View.GONE
+
                     binding.cardSeller.visibility = View.GONE
                     binding.shimmerCard.visibility = View.VISIBLE
                 }
             }
         }
         binding.btnEdit.setOnClickListener {
-            findNavController().navigate(R.id.action_daftarJualFragment_to_editAkunFragment,bundle)
+            findNavController().navigate(R.id.action_daftarJualFragment_to_editAkunFragment, bundle)
         }
     }
 
     private fun setRecycler() {
-        binding.btnProduk.setOnClickListener {
-            binding.rvProduct.visibility = View.VISIBLE
-            binding.rvDiminati.visibility = View.GONE
-            binding.rvTerjual.visibility = View.GONE
-            binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
-            binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
-            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
-        }
-        binding.btnDiminati.setOnClickListener {
-            getSellerOrder()
-            binding.rvProduct.visibility = View.GONE
-            binding.rvTerjual.visibility = View.GONE
-            binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
-            binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
-            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
-        }
+        binding.btnProduk.setOnClickListener { getSellerProduct() }
+        binding.btnDiminati.setOnClickListener { getSellerOrder() }
         binding.btnTerjual.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
             binding.rvDiminati.visibility = View.GONE
@@ -166,6 +149,10 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun getSellerProduct() {
+        daftarJualViewModel.getProduct(token)
+        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
+        binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
+        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         daftarJualViewModel.product.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
@@ -173,27 +160,37 @@ class DaftarJualFragment : Fragment() {
                     binding.rvProduct.visibility = View.GONE
                     binding.rvDiminati.visibility = View.GONE
                     binding.rvTerjual.visibility = View.GONE
+                    binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
                     if (it.data != null) {
                         val sellerProductAdapter =
                             SellerProductAdapter(object : SellerProductAdapter.OnclickListener {
                                 override fun onClickItem(data: ResponseSellerProduct) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "go to edit",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    bundleEdit.apply {
+                                        putInt(PRODUCT_ID, data.id)
+                                        putString(PRODUCT_NAME, data.name)
+                                        putInt(PRODUCT_PRICE, data.basePrice)
+                                        putStringArrayList(PRODUCT_CATEGORY,ArrayList(listCategory))
+                                        putString(PRODUCT_DESCRIPTION,data.description)
+                                        putString(PRODUCT_IMAGE,data.imageUrl)
+                                    }
+                                    findNavController().navigate(
+                                        R.id.action_daftarJualFragment_to_editProductFragment,
+                                        bundleEdit
+                                    )
                                 }
-
                             })
                         sellerProductAdapter.submitData(it.data)
                         binding.rvProduct.adapter = sellerProductAdapter
-                        binding.pbLoading.visibility = View.GONE
                         binding.rvProduct.visibility = View.VISIBLE
-                        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                     }
-
+                    if (it.data?.size == 0) {
+                        binding.lottieEmpty.visibility = View.VISIBLE
+                    }
+                    binding.buttonGrup.visibility = View.VISIBLE
+                    binding.pbLoading.visibility = View.GONE
+                    binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -203,6 +200,10 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun getSellerOrder() {
+        daftarJualViewModel.getOrder(token)
+        binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
+        binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
+        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         daftarJualViewModel.order.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
@@ -210,29 +211,53 @@ class DaftarJualFragment : Fragment() {
                     binding.rvProduct.visibility = View.GONE
                     binding.rvDiminati.visibility = View.GONE
                     binding.rvTerjual.visibility = View.GONE
+                    binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
                     if (it.data != null) {
                         val sellerOrderAdapter =
                             SellerOrderAdapter(object : SellerOrderAdapter.OnClickListener {
                                 override fun onClickItem(data: ResponseSellerOrder) {
-                                    bundlePenawar.putString(PENAWAR_USER_NAME, data.buyerInformation.fullName)
-                                    bundlePenawar.putString(PENAWAR_USER_CITY, data.buyerInformation.city.toString())
-                                    bundlePenawar.putInt(PENAWAR_ORDER_ID, data.id)
-                                    bundlePenawar.putString(PENAWAR_PRODUCT_NAME, data.product.name)
-                                    bundlePenawar.putString(PENAWAR_PRODUCT_PRICE, data.product.basePrice.toString())
-                                    bundlePenawar.putString(PENAWAR_PRODUCT_BID, data.price.toString())
-                                    bundlePenawar.putString(PENAWAR_PRODUCT_IMAGE, data.product.imageUrl)
-                                    bundlePenawar.putString(PENAWAR_PRODUCT_BID_DATE, data.createdAt)
-                                    findNavController().navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment, bundlePenawar)
+                                    bundlePenawar.putString(
+                                        USER_NAME,
+                                        data.buyerInformation.fullName
+                                    )
+                                    bundlePenawar.putString(
+                                        USER_CITY,
+                                        data.buyerInformation.city.toString()
+                                    )
+                                    bundlePenawar.putInt(ORDER_ID, data.id)
+                                    bundlePenawar.putString(PRODUCT_NAME, data.product.name)
+                                    bundlePenawar.putString(
+                                        PRODUCT_PRICE,
+                                        data.product.basePrice.toString()
+                                    )
+                                    bundlePenawar.putString(
+                                        PRODUCT_BID,
+                                        data.price.toString()
+                                    )
+                                    bundlePenawar.putString(
+                                        PRODUCT_IMAGE,
+                                        data.product.imageUrl
+                                    )
+                                    bundlePenawar.putString(
+                                        PRODUCT_BID_DATE,
+                                        data.createdAt
+                                    )
+                                    findNavController().navigate(
+                                        R.id.action_daftarJualFragment_to_infoPenawarFragment,
+                                        bundlePenawar
+                                    )
                                 }
                             })
                         sellerOrderAdapter.submitData(it.data)
                         binding.rvDiminati.adapter = sellerOrderAdapter
-                        binding.pbLoading.visibility = View.GONE
                         binding.rvDiminati.visibility = View.VISIBLE
                     }
-
+                    if (it.data?.size == 0) {
+                        binding.lottieEmpty.visibility = View.VISIBLE
+                    }
+                    binding.pbLoading.visibility = View.GONE
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
