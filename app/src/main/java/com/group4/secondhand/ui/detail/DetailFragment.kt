@@ -33,7 +33,6 @@ import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import com.group4.secondhand.ui.home.HomeViewModel
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
-import com.group4.secondhand.ui.jual.JualFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -70,10 +69,7 @@ class DetailFragment() : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
 
-
-
-
-        binding.tvDeskripsi.setOnClickListener {
+//        binding.tvDeskripsi.setOnClickListener {
 //            var bottomFragment = BottomSheetDetailFragment()
 //            bottomFragment.show(getParentFragmentManager() ,"Tag")
 
@@ -125,6 +121,7 @@ class DetailFragment() : Fragment() {
         val productId = bundle?.getInt(PRODUCT_ID)
         val productName = bundle?.getString(PRODUCTNAME)
         val basePrice = bundle?.getInt(BASEPRICE)
+        val productDescription = bundle?.getString(DESCRIPTION)
         val imageURL = bundle?.getString(IMAGEURL)
 
         if (basePrice != null) {
@@ -153,7 +150,6 @@ class DetailFragment() : Fragment() {
                             binding.tvProdukName.text = it.data?.body()?.name
                             binding.tvDeskripsiProduk.text = it.data.body()?.description
                             binding.tvKotaPenjual.text = it.data.body()?.location
-
 
                             if (it.data.body()?.basePrice != null) {
                                 convertBasePrice = currency(it.data.body()?.basePrice!!)
@@ -262,11 +258,5 @@ class DetailFragment() : Fragment() {
                 }
             }
 
-
-            }
-        }
-//        binding.btnSayaTertarikNego.isEnabled = false
-//        binding.btnSayaTertarikNego.backgroundTintList =
-//            requireContext().getColorStateList(R.color.dark_grey)
     }
-
+}

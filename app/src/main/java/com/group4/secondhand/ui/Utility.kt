@@ -18,6 +18,9 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
+val listCategory : MutableList<String> = ArrayList()
+val listCategoryId : MutableList<Int> = ArrayList()
+
 fun setFullScreen(window: Window) {
     WindowCompat.setDecorFitsSystemWindows(window, false)
 }

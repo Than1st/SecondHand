@@ -98,21 +98,30 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/spin_detail"
+                android:id="@+id/kategori_container"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/spinner"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/harga_container">
 
-                <Spinner
-                    android:id="@+id/sp_kategori"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:editable="false"
+                    android:hint="Kategori"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_baseline_add_box"
+                    tools:ignore="Deprecated" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -121,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
@@ -129,12 +138,12 @@
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spin_detail">
+                app:layout_constraintTop_toBottomOf="@+id/kategori_container">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_deskripsi"
                     android:layout_width="match_parent"
-                    android:layout_height="88dp"
+                    android:layout_height="match_parent"
                     android:gravity="top"
                     android:hint="Deskripsi"
                     android:inputType="text|textMultiLine" />

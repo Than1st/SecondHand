@@ -29,12 +29,12 @@ class PreviewViewModel @Inject constructor(private val repository: Repository) :
         namaProduk: String,
         deskripsiProduk: String,
         hargaProduk: String,
-        kategoriProduk: Int,
+        kategoriProduk: List<Int>,
         alamatPenjual: String,
         image: File
     ){
-        val kategoriList: MutableList<Int> = ArrayList()
-        kategoriList.add(kategoriProduk)
+//        val kategoriList: MutableList<Int> = ArrayList()
+//        kategoriList.add(kategoriProduk)
         val requestFile = image.asRequestBody("image/*".toMediaTypeOrNull())
         val gambarProduk = MultipartBody.Part.createFormData("image", image.name, requestFile)
         val namaRequestBody = namaProduk.toRequestBody("text/plain".toMediaType())
@@ -52,7 +52,7 @@ class PreviewViewModel @Inject constructor(private val repository: Repository) :
                     namaRequestBody,
                     deskripsiRequestBody,
                     hargaRequestBody,
-                    kategoriList,
+                    kategoriProduk,
                     alamatRequestBody
                 )))
             } catch (e: Exception){
