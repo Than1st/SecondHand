@@ -45,31 +45,56 @@ class BottomSheetDetailFragment(
         return binding.root
     }
 
+    companion object {
+        const val COBA = "COBA"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.tvNamaProduk.text = namaProduk
         binding.tvHargaAwal.text = hargaProduk
         Glide.with(binding.root)
             .load(gambarProduk)
-            .apply(RequestOptions.bitmapTransform( RoundedCorners(24)))
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
             .into(binding.ivProductImage)
 
-        binding.btnSayaTertarikNego.setOnClickListener {
-            detailViewModel.getToken()
-        }
-        detailViewModel.token.observe(viewLifecycleOwner) {
-            val inputHargaTawar = binding.etHargaTawar.text
-            val requestHargaTawar = RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+        binding.btnKirimHargaTawar.setOnClickListener {
 
-            Toast.makeText(context, "Harga Tawarmu berhasil dikirim ke Penjual", Toast.LENGTH_SHORT).show()
-            detailViewModel.buyerOrder(it, requestHargaTawar)
-            dismiss()
-            val coba  = FragmentDetailBinding.inflate(layoutInflater)
-            coba.btnSayaTertarikNego.isEnabled = false
-            binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_grey)
+            detailViewModel.getToken()
+            detailViewModel.token.observe(viewLifecycleOwner) {
+                val inputHargaTawar = binding.etHargaTawar.text
+                val requestHargaTawar =
+                    RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+                detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)
+
+            }
+        }
+
+        detailViewModel.buyerOrder.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    when (it.data?.code()) {
+                        201 -> {
+                            Toast.makeText(
+                                context,
+                                "Harga Tawarmu berhasil dikirim ke Penjual",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                        400 -> {
+
+                            Toast.makeText(
+                                context,
+                                "Produk terlalu banyak yang nawar",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    dismiss()
+                }
+            }
         }
     }
-
- fun coba() {
- }
 }
