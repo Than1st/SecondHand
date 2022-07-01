@@ -54,7 +54,7 @@ class DetailFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
 
-        binding.tvDeskripsi.setOnClickListener {
+//        binding.tvDeskripsi.setOnClickListener {
 //            var bottomFragment = BottomSheetDetailFragment()
 //            bottomFragment.show(getParentFragmentManager() ,"Tag")
 
@@ -64,11 +64,9 @@ class DetailFragment : Fragment() {
 //            val bottomFragment = BottomSheetStatusProdukFragment()
 //            bottomFragment.show(getParentFragmentManager(), "Tag")
 
-            val bottomFragment = BottomSheetPilihCategoryFragment()
-            bottomFragment.show(getParentFragmentManager(), "Tag")
-
-
-        }
+//            val bottomFragment = BottomSheetPilihCategoryFragment({})
+//            bottomFragment.show(getParentFragmentManager(), "Tag")
+//        }
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
         val productName = bundle?.getString(PRODUCTNAME)

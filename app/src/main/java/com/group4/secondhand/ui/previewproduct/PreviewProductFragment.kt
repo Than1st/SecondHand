@@ -30,6 +30,7 @@ import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.HARGA_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.IMAGE_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.IMAGE_USER_KEY
+import com.group4.secondhand.ui.jual.JualFragment.Companion.KATEGORI_PRODUCT_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAMA_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.TOKEN_USER_KEY
@@ -102,6 +103,7 @@ class PreviewProductFragment : Fragment() {
         val hargaProduk = bundle?.getString(HARGA_PRODUK_KEY)
         val deskripsiProduk = bundle?.getString(DESKRIPSI_PRODUK_KEY)
         val imageProduk = bundle?.getString(IMAGE_PRODUK_KEY)
+        val kategoriProduk = bundle?.getString(KATEGORI_PRODUCT_KEY)
         val userName = bundle?.getString(NAME_USER_KEY)
         val userAddress = bundle?.getString(ADDRESS_USER_KEY)
         val userImage = bundle?.getString(IMAGE_USER_KEY)
@@ -110,6 +112,7 @@ class PreviewProductFragment : Fragment() {
         binding.tvProdukName.text = namaProduk
         binding.tvProdukHarga.text = hargaProduk
         binding.tvDeskripsiProduk.text = deskripsiProduk
+        binding.tvProdukKategori.text = kategoriProduk
         binding.tvNamaPenjual.text = userName
         binding.tvKotaPenjual.text = userAddress
         Glide.with(requireContext())

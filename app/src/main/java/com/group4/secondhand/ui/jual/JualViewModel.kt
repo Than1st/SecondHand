@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
+import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetDataUser
+import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseUploadProduct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,17 +31,38 @@ class JualViewModel @Inject constructor(private val repository: Repository): Vie
     private var _user = MutableLiveData<Resource<ResponseGetDataUser>>()
     val user : LiveData<Resource<ResponseGetDataUser>> get() = _user
 
+    private var _categoryList = MutableLiveData<List<String>>()
+    val categoryList : LiveData<List<String>> get() = _categoryList
+
+    private val _category = MutableLiveData<Resource<List<ResponseCategoryHome>>>()
+    val category : LiveData<Resource<List<ResponseCategoryHome>>> get() = _category
+
+    fun getCategoryHome(){
+        viewModelScope.launch {
+            _category.postValue(Resource.loading())
+            try {
+                _category.postValue(Resource.success(repository.getCategoryHome()))
+            }catch (e:Exception){
+                _category.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            }
+        }
+    }
+
+    fun addCategory(category: List<String>){
+        _categoryList.postValue(category)
+    }
+
     fun uploadProduk(
         token: String,
         namaProduk: String,
         deskripsiProduk: String,
         hargaProduk: String,
-        kategoriProduk: Int,
+        kategoriProduk: List<Int>,
         alamatPenjual: String,
         image: File
     ){
-        val kategoriList: MutableList<Int> = ArrayList()
-        kategoriList.add(kategoriProduk)
+//        val kategoriList: MutableList<Int> = ArrayList()
+//        kategoriList.add(kategoriProduk)
         val requestFile = image.asRequestBody("image/*".toMediaTypeOrNull())
         val gambarProduk = MultipartBody.Part.createFormData("image", image.name, requestFile)
         val namaRequestBody = namaProduk.toRequestBody("text/plain".toMediaType())
@@ -57,7 +80,7 @@ class JualViewModel @Inject constructor(private val repository: Repository): Vie
                     namaRequestBody,
                     deskripsiRequestBody,
                     hargaRequestBody,
-                    kategoriList,
+                    kategoriProduk,
                     alamatRequestBody
                 )))
             } catch (e: Exception){

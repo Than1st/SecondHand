@@ -44,8 +44,6 @@
             android:id="@+id/action_jualFragment_to_loginCompose"
             app:destination="@id/loginCompose" />
         <action
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/jualFragment"
             android:id="@+id/action_jualFragment_to_lengkapiInfoAkunFragment"
             app:destination="@id/lengkapiInfoAkunFragment" />
         <action
