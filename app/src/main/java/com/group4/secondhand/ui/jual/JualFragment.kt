@@ -77,7 +77,6 @@ class JualFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
-        progressDialog.setMessage("Please Wait...")
         viewModel.getToken()
         viewModel.alreadyLogin.observe(viewLifecycleOwner) {
             if (it == DEFAULT_TOKEN) {

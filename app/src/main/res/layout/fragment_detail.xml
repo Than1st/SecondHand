@@ -44,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/onboarding_pict1" />
+                app:srcCompat="@drawable/default_image" />
 
 
             <androidx.cardview.widget.CardView
@@ -74,7 +74,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="Jam Tangan Casio Preview"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -83,7 +82,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Aksesoris"
                         android:textColor="@color/dialog_choose_icon_color"
                         android:textSize="12sp" />
 
@@ -92,7 +90,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
-                        android:text="Rp 250.000"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -137,7 +134,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="Nama Penjual"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +147,6 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Kota"
                         android:textColor="@color/dialog_choose_icon_color"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -203,7 +198,6 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/poppins_regular"
-                        android:text="@string/dummy_text"
                         android:textColor="@color/dialog_choose_icon_color"
                         android:textSize="12sp" />
                 </LinearLayout>

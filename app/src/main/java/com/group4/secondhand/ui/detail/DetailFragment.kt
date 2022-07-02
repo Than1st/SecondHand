@@ -14,20 +14,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.group4.secondhand.R
-import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.api.Status.*
-import com.group4.secondhand.data.datastore.UserPreferences
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentDetailBinding
 import com.group4.secondhand.ui.currency
-import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
-import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
-import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
-import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 
 @AndroidEntryPoint
@@ -38,8 +31,6 @@ class DetailFragment() : Fragment() {
     private lateinit var convertBasePrice: String
     private var isBid = false
     private var token = ""
-    val listCategory : MutableList<String> = ArrayList()
-
     private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,7 +108,7 @@ class DetailFragment() : Fragment() {
 
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
-        var productName =""
+        var productName = ""
         var imageURL = ""
         if (productId != null) {
             detailViewModel.getProdukById(productId)
@@ -151,17 +142,23 @@ class DetailFragment() : Fragment() {
 
                             var listCategory = ""
                             if (it.data.body()?.categories != null) {
-                                for (data in it.data.body()!!.categories){
+                                for (data in it.data.body()!!.categories) {
                                     listCategory += ", ${data.name}"
                                 }
                                 binding.tvProdukKategori.text = listCategory.drop(2)
                             }
                         }
                     }
+                    pd.dismiss()
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
                         .show()
+                    pd.dismiss()
+                }
+                LOADING -> {
+                    pd.setMessage("Please Wait...")
+                    pd.show()
                 }
             }
             binding.btnBack.setOnClickListener {

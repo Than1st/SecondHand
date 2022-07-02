@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui.editproduct
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.group4.secondhand.data.api.Status.ERROR
-import com.group4.secondhand.data.api.Status.SUCCESS
+import com.group4.secondhand.R
+import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentEditProductBinding
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_CATEGORY
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_DESCRIPTION
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_IMAGE
@@ -29,6 +31,7 @@ class EditProductFragment : Fragment() {
     private val binding get() = _binding!!
     private val editProductViewModel: EditProductViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,11 +42,13 @@ class EditProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val pd = ProgressDialog(requireContext())
         val args = arguments
         binding.apply {
             etNama.setText(args?.getString(PRODUCT_NAME))
             etHarga.setText(args?.getInt(PRODUCT_PRICE).toString())
             etDeskripsi.setText(args?.getString(PRODUCT_DESCRIPTION))
+            etKategori.setText(args?.getString(PRODUCT_CATEGORY))
             Glide.with(requireContext())
                 .load(args?.getString(PRODUCT_IMAGE))
                 .transform(CenterCrop(), RoundedCorners(12))
@@ -79,11 +84,36 @@ class EditProductFragment : Fragment() {
         editProductViewModel.delete.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    Toast.makeText(requireContext(), it.data?.msg, Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
+                    when (it.data?.code()) {
+                        200 -> {
+                            Toast.makeText(
+                                requireContext(),
+                                it.data.body()?.msg,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            findNavController().popBackStack()
+                        }
+                        400 -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "Product has been order",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            findNavController().popBackStack()
+                        }
+                    }
+                    pd.dismiss()
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                    pd.dismiss()
+                    findNavController().popBackStack()
+                }
+                LOADING -> {
+                    pd.setMessage("Please Wait...")
+                    pd.show()
                 }
             }
         }

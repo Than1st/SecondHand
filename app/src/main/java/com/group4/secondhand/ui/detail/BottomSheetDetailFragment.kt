@@ -53,13 +53,16 @@ class BottomSheetDetailFragment(
             .into(binding.ivProductImage)
 
         binding.btnKirimHargaTawar.setOnClickListener {
-
-            detailViewModel.getToken()
-            detailViewModel.token.observe(viewLifecycleOwner) {
-                val inputHargaTawar = binding.etHargaTawar.text
-                val requestHargaTawar =
-                    RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
-                detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)
+            if (binding.etHargaTawar.text.isNullOrEmpty()) {
+                binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
+            } else {
+                detailViewModel.getToken()
+                detailViewModel.token.observe(viewLifecycleOwner) {
+                    val inputHargaTawar = binding.etHargaTawar.text
+                    val requestHargaTawar =
+                        RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+                    detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)
+                }
             }
         }
 
@@ -78,7 +81,7 @@ class BottomSheetDetailFragment(
                         400 -> {
                             Toast.makeText(
                                 context,
-                                "${it.data.body()?.message}",
+                                "Produk sudah terlalu banyak yang menawar",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

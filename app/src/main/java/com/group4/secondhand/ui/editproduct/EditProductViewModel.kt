@@ -17,8 +17,8 @@ class EditProductViewModel @Inject constructor(private val repository: Repositor
     private var _token = MutableLiveData<String>()
     val token: MutableLiveData<String> get() = _token
 
-    private var _delete : MutableLiveData<Resource<ResponseDeleteSellerProduct>> = MutableLiveData()
-    val delete : LiveData<Resource<ResponseDeleteSellerProduct>> get() = _delete
+    private var _delete : MutableLiveData<Resource<Response<ResponseDeleteSellerProduct>>> = MutableLiveData()
+    val delete : LiveData<Resource<Response<ResponseDeleteSellerProduct>>> get() = _delete
 
 
     fun deleteSellerProduct(token: String, id:Int){

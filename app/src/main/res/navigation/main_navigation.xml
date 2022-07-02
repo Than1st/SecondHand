@@ -157,6 +157,10 @@
         android:id="@+id/editProductFragment"
         android:name="com.group4.secondhand.ui.editproduct.EditProductFragment"
         android:label="fragment_edit_product"
-        tools:layout="@layout/fragment_edit_product" />
+        tools:layout="@layout/fragment_edit_product" >
+        <action
+            android:id="@+id/action_editProductFragment_to_daftarJualFragment"
+            app:destination="@id/daftarJualFragment" />
+    </fragment>
 
 </navigation>

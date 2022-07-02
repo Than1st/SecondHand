@@ -172,35 +172,6 @@ class HomeFragment : Fragment() {
                 productBundle.putString(IMAGEURL, data.imageUrl)
                 productBundle.putString(DESCRIPTION, data.description)
                 productBundle.putInt(BASEPRICE, data.basePrice)
-
-//              INI BISA TAPI MASIH NGE BUG (biar ngeloop)
-//                data.categories.forEachIndexed{ index, item ->
-//
-//                    productBundle.putString(KATEGORI,item.name)
-//                }
-
-//                INI JUGA BISA TAPI BUG DI KATEGORI YANG ISINYA 2
-//                data.categories.filterIndexed{index, category -> index > -1 }.forEach { productBundle.putString(
-//                    KATEGORI, it.name ) }
-
-
-                if (data.categories.isNotEmpty()) {
-
-                    when {
-                        data.categories.size > 2 -> {
-
-                            productBundle.putString(KATEGORI,  "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} ")
-                        }
-                        data.categories.size > 1 -> {
-
-                            productBundle.putString(KATEGORI,  "${data.categories[0].name}, ${data.categories[1].name}")
-                        }
-                        else -> {
-
-                            productBundle.putString(KATEGORI,  "${data.categories[0].name}" )
-                        }
-                    }
-                }
                 productBundle.putString(LOCATION, data.location)
                 Handler().postDelayed({
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)

@@ -1,6 +1,5 @@
 package com.group4.secondhand.data.api
 
-import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,7 +18,7 @@ interface ApiService {
     suspend fun deleteSellerProduct(
         @Header("access_token") token: String,
         @Path("id") id: Int
-    ) : ResponseDeleteSellerProduct
+    ): Response<ResponseDeleteSellerProduct>
 
     @GET("seller/order")
     suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
@@ -50,17 +49,16 @@ interface ApiService {
     ): Response<ResponseBuyerProductById>
 
 
-
     @POST("buyer/order")
     suspend fun buyerOrder(
         @Header("access_token") token: String,
         @Body requestBuyerOrder: RequestBuyerOrder
-    ) : Response <ResponseBuyerOrder>
+    ): Response<ResponseBuyerOrder>
 
     @GET("buyer/order")
     suspend fun getBuyerOrder(
-        @Header("access_token") token:String
-    ) : List<ResponseGetBuyerOrder>
+        @Header("access_token") token: String
+    ): List<ResponseGetBuyerOrder>
 
     // AUTH
     @POST("auth/register")

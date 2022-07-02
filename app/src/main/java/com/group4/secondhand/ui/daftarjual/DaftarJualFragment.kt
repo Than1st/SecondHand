@@ -35,7 +35,6 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
-    private val listCategory = mutableListOf<String>()
 
     companion object {
         const val USER_TOKEN = "UserToken"
@@ -166,12 +165,16 @@ class DaftarJualFragment : Fragment() {
                     if (it.data != null) {
                         val sellerProductAdapter =
                             SellerProductAdapter(object : SellerProductAdapter.OnclickListener {
+                                var listCategory = ""
                                 override fun onClickItem(data: ResponseSellerProduct) {
                                     bundleEdit.apply {
                                         putInt(PRODUCT_ID, data.id)
                                         putString(PRODUCT_NAME, data.name)
                                         putInt(PRODUCT_PRICE, data.basePrice)
-                                        putStringArrayList(PRODUCT_CATEGORY,ArrayList(listCategory))
+                                        for (kategori in data.categories){
+                                            listCategory += ", ${kategori.name}"
+                                        }
+                                        putString(PRODUCT_CATEGORY,listCategory.drop(2))
                                         putString(PRODUCT_DESCRIPTION,data.description)
                                         putString(PRODUCT_IMAGE,data.imageUrl)
                                     }
