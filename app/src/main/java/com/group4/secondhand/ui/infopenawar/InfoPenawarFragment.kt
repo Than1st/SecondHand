@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,8 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CIT
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
+import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
+import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,21 +68,27 @@ class InfoPenawarFragment : Fragment() {
         val statusOrder = bundlePenawar?.getString(ORDER_STATUS)
         val token = bundlePenawar?.getString(USER_TOKEN)
         val namaPenawar = bundlePenawar?.getString(USER_NAME)
+        val kotaPenawar = bundlePenawar?.getString(USER_CITY)
+        val gambarPenawar = bundlePenawar?.getString(USER_IMAGE)
+        val namaProduk = bundlePenawar?.getString(PRODUCT_NAME)
+        val hargaAwalProduk = bundlePenawar?.getString(PRODUCT_PRICE)
+        val hargaDitawarProduk = bundlePenawar?.getString(PRODUCT_BID)
+        val gambarProduk = bundlePenawar?.getString(PRODUCT_IMAGE)
         var status: String
         binding.apply {
             tvNamaPenawar.text = namaPenawar
-            tvKotaPenawar.text = bundlePenawar?.getString(USER_CITY)
+            tvKotaPenawar.text = kotaPenawar
             Glide.with(requireContext())
-                .load(bundlePenawar?.getString(USER_IMAGE))
+                .load(gambarPenawar)
                 .placeholder(R.drawable.default_image)
                 .transform(CenterCrop(), RoundedCorners(12))
                 .into(ivAvatarPenawar)
-            tvNamaProduk.text = bundlePenawar?.getString(PRODUCT_NAME)
-            tvHargaAwalProduk.text = currency(bundlePenawar?.getString(PRODUCT_PRICE).toString().toInt())
-            tvHargaDitawarProduk.text = getString(R.string.ditawar, currency(bundlePenawar?.getString(PRODUCT_BID).toString().toInt()))
+            tvNamaProduk.text = namaProduk
+            tvHargaAwalProduk.text = currency(hargaAwalProduk.toString().toInt())
+            tvHargaDitawarProduk.text = getString(R.string.ditawar, currency(hargaDitawarProduk.toString().toInt()))
             tvTanggal.text = convertDate(bundlePenawar?.getString(PRODUCT_BID_DATE).toString())
             Glide.with(requireContext())
-                .load(bundlePenawar?.getString(PRODUCT_IMAGE))
+                .load(gambarProduk)
                 .transform(CenterCrop(), RoundedCorners(12))
                 .into(ivProductImage)
 
@@ -108,12 +117,66 @@ class InfoPenawarFragment : Fragment() {
                     .show()
             }
 
+            btnTerima.setOnClickListener {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Terima Tawaran?")
+                    .setPositiveButton("Iya"){ positive, _ ->
+                        status = "accepted"
+                        val body = RequestApproveOrder(
+                            status
+                        )
+                        if (token != null && idOrder != null) {
+                            viewModel.declineOrder(token, idOrder, body)
+                            positive.dismiss()
+                        }
+                    }
+                    .setNegativeButton("Tidak"){ negative, _ ->
+                        negative.dismiss()
+                    }
+                    .show()
+            }
+
+            btnHubungi.setOnClickListener {
+                val bottomFragment = BottomSheetInfoPenawarFragment(
+                    namaPenawar.toString(),
+                    kotaPenawar.toString(),
+                    gambarPenawar.toString(),
+                    namaProduk.toString(),
+                    hargaAwalProduk.toString().toInt(),
+                    hargaDitawarProduk.toString().toInt(),
+                    gambarProduk.toString()
+                )
+                bottomFragment.show(parentFragmentManager, "Tag")
+            }
+
+            btnStatus.setOnClickListener {
+                Toast.makeText(requireContext(), "Sabar Adik-adik", Toast.LENGTH_SHORT).show()
+            }
+
             viewModel.responseApproveOrder.observe(viewLifecycleOwner){
                 when(it.status){
                     SUCCESS -> {
                         progressDialog.dismiss()
-                        showToastSuccess(binding.root, "Tawaran $namaPenawar di Tolak!", resources.getColor(R.color.success))
-                        findNavController().popBackStack()
+                        if (it.data != null){
+                            if (it.data.status == "accepted"){
+                                binding.btnGroup.visibility = View.GONE
+                                binding.btnGroupAccepted.visibility = View.VISIBLE
+                                val bottomFragment = BottomSheetInfoPenawarFragment(
+                                    namaPenawar.toString(),
+                                    kotaPenawar.toString(),
+                                    gambarPenawar.toString(),
+                                    namaProduk.toString(),
+                                    hargaAwalProduk.toString().toInt(),
+                                    hargaDitawarProduk.toString().toInt(),
+                                    gambarProduk.toString()
+                                )
+                                bottomFragment.show(parentFragmentManager, "Tag")
+                            } else {
+                                showToastSuccess(binding.root, "Tawaran $namaPenawar di Tolak!", resources.getColor(R.color.success))
+                                findNavController().popBackStack()
+                            }
+                        }
                     }
                     ERROR -> {
                         progressDialog.dismiss()

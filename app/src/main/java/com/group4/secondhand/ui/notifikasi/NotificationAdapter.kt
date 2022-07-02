@@ -98,7 +98,10 @@ class NotificationAdapter(
                         tvPesan.text = " "
                     }
                 }
-                tvHargaDitawarProduk.text = if (data.status == "declined") "Ditolak " + currency(data.bidPrice) else if(data.status == "accepted") "Diterima " + currency(data.bidPrice) else currency(data.bidPrice)
+                tvHargaDitawarProduk.text =
+                    if (data.status == "declined") "Ditolak " + currency(data.bidPrice)
+                    else if(data.status == "accepted") "Diterima " + currency(data.bidPrice)
+                    else "Ditawar " + currency(data.bidPrice)
                 tvProdukName.text = data.productName
                 tvHargaAwalProduk.apply {
                     text = striketroughtText(this, currency(data.basePrice.toInt()))

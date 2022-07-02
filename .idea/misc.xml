@@ -6,6 +6,7 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/background_rounded.xml" value="0.182" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/bg_btn.xml" value="0.153" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/bg_btn_two.xml" value="0.153" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/bottom_sheet_radius.xml" value="0.1815" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/ic_baseline_close.xml" value="0.182" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/round_outline.xml" value="0.153" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -13,6 +14,7 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_category_product.xml" value="0.14" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_info_penawar.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_daftar_jual.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_detail.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_edit_akun.xml" value="0.25" />
@@ -33,7 +35,6 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/notification_item.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.209375" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_secondhand_logo.xml" value="0.1" />
-        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
         <entry key="..\:/Users/SulthanLR/AndroidStudioProjects/SecondHand/app/src/main/res/layout/fragment_splashscreen.xml" value="0.15" />
