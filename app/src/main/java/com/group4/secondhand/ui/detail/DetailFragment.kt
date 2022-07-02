@@ -27,6 +27,7 @@ import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 
 @AndroidEntryPoint
@@ -37,6 +38,7 @@ class DetailFragment() : Fragment() {
     private lateinit var convertBasePrice: String
     private var isBid = false
     private var token = ""
+    val listCategory : MutableList<String> = ArrayList()
 
     private val detailViewModel: DetailViewModel by viewModels()
 
@@ -68,6 +70,7 @@ class DetailFragment() : Fragment() {
                 SUCCESS -> {
                     if (it.data != DEFAULT_TOKEN && it.data != null) {
                         token = it.data
+                        detailViewModel.getBuyerOrder(it.data.toString())
                     } else {
                         AlertDialog.Builder(requireContext())
                             .setTitle("Pesan")
@@ -83,6 +86,7 @@ class DetailFragment() : Fragment() {
                             .setCancelable(false)
                             .show()
                     }
+                    pd.dismiss()
                 }
                 ERROR -> {
                     pd.dismiss()
@@ -145,21 +149,12 @@ class DetailFragment() : Fragment() {
                                 binding.tvProdukHarga.text = convertBasePrice
                             }
 
-                            if (it.data.body()?.categories!!.isNotEmpty()) {
-                                when {
-                                    it.data.body()?.categories!!.size > 2 -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name}, ${it.data.body()?.categories!![1].name}, ${it.data.body()?.categories!![2].name} "
-                                    }
-                                    it.data.body()?.categories!!.size > 1 -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name}, ${it.data.body()?.categories!![1].name} "
-                                    }
-                                    else -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name} "
-                                    }
+                            var listCategory = ""
+                            if (it.data.body()?.categories != null) {
+                                for (data in it.data.body()!!.categories){
+                                    listCategory += ", ${data.name}"
                                 }
+                                binding.tvProdukKategori.text = listCategory.drop(2)
                             }
                         }
                     }

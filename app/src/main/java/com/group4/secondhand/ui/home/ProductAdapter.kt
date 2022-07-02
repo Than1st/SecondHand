@@ -39,6 +39,7 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
     inner class ViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
+        var listCategory = ""
         fun bind(data: ResponseGetProduct) {
             binding.apply {
                 Glide.with(binding.root)
@@ -48,18 +49,10 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
                 if (data.categories.isNotEmpty()) {
-                    when {
-                        data.categories.size > 2 -> {
-                            tvKategori.text =
-                                "${data.categories[0].name}, ${data.categories[1].name}, ${data.categories[2].name} "
-                        }
-                        data.categories.size > 1 -> {
-                            tvKategori.text = "${data.categories[0].name}, ${data.categories[1].name}"
-                        }
-                        else -> {
-                            tvKategori.text = "${data.categories[0].name}"
-                        }
+                    for (data in data.categories){
+                        listCategory += ", ${data.name}"
                     }
+                    binding.tvKategori.text = listCategory.drop(2)
                 }
                 val price = currency(data.basePrice)
                 tvHarga.text = price
