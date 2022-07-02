@@ -16,23 +16,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
-import com.group4.secondhand.data.model.Category
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     companion object {
         var result = 0
         const val PRODUCT_ID = "id"
-        const val PRODUCTNAME = "NAMA"
-        const val IMAGEURL = "IMAGEURL"
-        const val BASEPRICE = "BASEPRICE"
-        const val DESCRIPTION = "DESCRIPTION"
-        const val KATEGORI = "KATEGORI"
-        const val LOCATION  = "LOCATION"
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -46,7 +40,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -168,11 +161,6 @@ class HomeFragment : Fragment() {
             override fun onClickItem(data: ResponseGetProduct) {
                 val productBundle = Bundle()
                 productBundle.putInt(PRODUCT_ID, data.id)
-                productBundle.putString(PRODUCTNAME, data.name)
-                productBundle.putString(IMAGEURL, data.imageUrl)
-                productBundle.putString(DESCRIPTION, data.description)
-                productBundle.putInt(BASEPRICE, data.basePrice)
-                productBundle.putString(LOCATION, data.location)
                 Handler().postDelayed({
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
                 }, 1500)

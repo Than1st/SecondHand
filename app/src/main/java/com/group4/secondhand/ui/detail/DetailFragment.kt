@@ -54,6 +54,8 @@ class DetailFragment() : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
+        val bundle = arguments
+        val productId = bundle?.getInt(PRODUCT_ID)
         val pd = ProgressDialog(requireContext())
         detailViewModel.getToken()
         detailViewModel.token.observe(viewLifecycleOwner) {
@@ -92,8 +94,6 @@ class DetailFragment() : Fragment() {
             }
         }
         detailViewModel.getBuyerOrder.observe(viewLifecycleOwner) {
-            val bundle = arguments
-            val productId = bundle?.getInt(PRODUCT_ID)
             for (data in 0 until (it.data?.size ?: 0)) {
                 if (it.data?.get(data)?.productId == productId) {
                     isBid = true
@@ -106,8 +106,6 @@ class DetailFragment() : Fragment() {
             }
         }
 
-        val bundle = arguments
-        val productId = bundle?.getInt(PRODUCT_ID)
         var productName = ""
         var imageURL = ""
         if (productId != null) {
