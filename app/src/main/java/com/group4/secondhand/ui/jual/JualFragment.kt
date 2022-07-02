@@ -304,6 +304,7 @@ class JualFragment : Fragment() {
                 return "Foto Produk Kosong!"
             }
             listCategory.isEmpty() -> {
+                binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
                 Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT).show()
                 return "Kategori Produk Kosong!"
             }
