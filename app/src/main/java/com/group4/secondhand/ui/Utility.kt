@@ -95,13 +95,6 @@ fun reduceFileImage(file: File): File {
     return file
 }
 
-fun formatDate(date: String) {
-    val format = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z'", Locale.ROOT)
-    val date = format.parse(date) as Date
-    return
-    DateFormat.getDateInstance(DateFormat.FULL).format(date)
-}
-
 fun convertDate(date: String): String {
     var kotlin = date
     kotlin = kotlin.drop(5)
@@ -153,6 +146,8 @@ fun convertDate(date: String): String {
     }
 
     return "$tanggal $bulan, $jam:$menit"
+
+
 }
 
 fun striketroughtText(tv: TextView, textChange: String): String {

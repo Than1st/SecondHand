@@ -1,8 +1,8 @@
 package com.group4.secondhand.ui.detail
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,29 +15,30 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
-import com.group4.secondhand.data.model.ResponseBuyerProductById
-import com.group4.secondhand.data.model.ResponseCategoryHome
+import com.group4.secondhand.data.api.Status.*
+import com.group4.secondhand.data.datastore.UserPreferences
+import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentDetailBinding
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.BASEPRICE
 import com.group4.secondhand.ui.home.HomeFragment.Companion.DESCRIPTION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.IMAGEURL
-import com.group4.secondhand.ui.home.HomeFragment.Companion.KATEGORI
-import com.group4.secondhand.ui.home.HomeFragment.Companion.LOCATION
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
-import com.group4.secondhand.ui.home.HomeViewModel
-import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment() : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var convertBasePrice: String
+    private var isBid = false
+    private var token = ""
+    val listCategory : MutableList<String> = ArrayList()
 
     private val detailViewModel: DetailViewModel by viewModels()
 
@@ -62,45 +63,78 @@ class DetailFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
-
-//        binding.tvDeskripsi.setOnClickListener {
-//            var bottomFragment = BottomSheetDetailFragment()
-//            bottomFragment.show(getParentFragmentManager() ,"Tag")
-
-//            val bottomFragment = BottomSheetInfoPenawarFragment()
-//            bottomFragment.show(getParentFragmentManager() ,"Tag")
-//
-//            val bottomFragment = BottomSheetStatusProdukFragment()
-//            bottomFragment.show(getParentFragmentManager(), "Tag")
-
-//            val bottomFragment = BottomSheetPilihCategoryFragment({})
-//            bottomFragment.show(getParentFragmentManager(), "Tag")
-//        }
-        val bundle = arguments
-        val productId = bundle?.getInt(PRODUCT_ID)
-        val productName = bundle?.getString(PRODUCTNAME)
-        val basePrice = bundle?.getInt(BASEPRICE)
-        val productDescription = bundle?.getString(DESCRIPTION)
-        val imageURL = bundle?.getString(IMAGEURL)
-
-        if (basePrice != null) {
-            convertBasePrice = currency(basePrice)
+        val pd = ProgressDialog(requireContext())
+        detailViewModel.getToken()
+        detailViewModel.token.observe(viewLifecycleOwner) {
+            when (it.status) {
+                SUCCESS -> {
+                    if (it.data != DEFAULT_TOKEN && it.data != null) {
+                        token = it.data
+                        detailViewModel.getBuyerOrder(it.data.toString())
+                    } else {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Pesan")
+                            .setMessage("Anda Belom Masuk")
+                            .setPositiveButton("Login") { dialogP, _ ->
+                                findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
+                                dialogP.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialogN, _ ->
+                                findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+                                dialogN.dismiss()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    }
+                    pd.dismiss()
+                }
+                ERROR -> {
+                    pd.dismiss()
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(it.message)
+                        .show()
+                }
+                LOADING -> {
+                    pd.setMessage("Please Wait...")
+                    pd.show()
+                }
+            }
+        }
+        detailViewModel.getBuyerOrder.observe(viewLifecycleOwner) {
+            val bundle = arguments
+            val productId = bundle?.getInt(PRODUCT_ID)
+            for (data in 0 until (it.data?.size ?: 0)) {
+                if (it.data?.get(data)?.productId == productId) {
+                    isBid = true
+                }
+            }
+            if (isBid) {
+                binding.btnSayaTertarikNego.isEnabled = false
+                binding.btnSayaTertarikNego.backgroundTintList =
+                    requireContext().getColorStateList(R.color.dark_grey)
+            }
         }
 
+        val bundle = arguments
+        val productId = bundle?.getInt(PRODUCT_ID)
+        var productName =""
+        var imageURL = ""
         if (productId != null) {
             detailViewModel.getProdukById(productId)
         }
 
         detailViewModel.detailProduk.observe(viewLifecycleOwner) {
             when (it.status) {
-                Status.SUCCESS -> {
+                SUCCESS -> {
                     when (it.data?.code()) {
                         200 -> if (it.data.body() != null) {
+                            productName = it.data.body()?.name.toString()
+                            imageURL = it.data?.body()?.imageUrl.toString()
 
                             binding.tvNamaPenjual.text = it.data.body()?.user?.fullName
                             Glide.with(binding.ivAvatarPenjual)
                                 .load(it.data.body()?.user?.imageUrl)
-                                .apply(RequestOptions.bitmapTransform( RoundedCorners(24)))
+                                .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
                                 .into(binding.ivAvatarPenjual)
 
                             Glide.with(binding.imageView)
@@ -115,59 +149,34 @@ class DetailFragment : Fragment() {
                                 binding.tvProdukHarga.text = convertBasePrice
                             }
 
-                            if (it.data.body()?.categories!!.isNotEmpty()) {
-                                when {
-                                    it.data.body()?.categories!!.size > 2 -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name}, ${it.data.body()?.categories!![1].name}, ${it.data.body()?.categories!![2].name} "
-                                    }
-                                    it.data.body()?.categories!!.size > 1 -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name}, ${it.data.body()?.categories!![1].name} "
-                                    }
-                                    else -> {
-                                        binding.tvProdukKategori.text =
-                                            "${it.data.body()?.categories!![0].name} "
-                                    }
+                            var listCategory = ""
+                            if (it.data.body()?.categories != null) {
+                                for (data in it.data.body()!!.categories){
+                                    listCategory += ", ${data.name}"
                                 }
+                                binding.tvProdukKategori.text = listCategory.drop(2)
                             }
                         }
                     }
                 }
-                Status.ERROR -> {
+                ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
                         .show()
                 }
             }
-
             binding.btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
             binding.btnSayaTertarikNego.setOnClickListener {
                 val bottomFragment = BottomSheetDetailFragment(
                     productId!!,
-                    productName.toString(),
+                    productName,
                     convertBasePrice,
-                    imageURL.toString()
+                    imageURL,
+                    refreshButton = { detailViewModel.getBuyerOrder(token) }
                 )
-                bottomFragment.coba()
                 bottomFragment.show(parentFragmentManager, "Tag")
             }
-
         }
-
-        detailViewModel.buyerOrder.observe(viewLifecycleOwner){
-            when (it.status) {
-                Status.SUCCESS -> {
-                    if (it.data?.status == "pending"){
-                        Toast.makeText(context, "${it.data.status}", Toast.LENGTH_SHORT).show()
-                        binding.btnSayaTertarikNego.isEnabled = false
-                        binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_grey)
-                    }
-
-                }
-            }
-        }
-
     }
 }

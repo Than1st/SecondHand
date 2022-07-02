@@ -6,18 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
-import com.group4.secondhand.databinding.FragmentDetailBinding
-import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCTNAME
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +20,8 @@ class BottomSheetDetailFragment(
     productId: Int,
     namaProduk: String,
     hargaProduk: String,
-    gambarProduk: String
+    gambarProduk: String,
+    private val refreshButton: () -> Unit
 ) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetDetailBinding? = null
@@ -45,31 +41,51 @@ class BottomSheetDetailFragment(
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.tvNamaProduk.text = namaProduk
         binding.tvHargaAwal.text = hargaProduk
         Glide.with(binding.root)
             .load(gambarProduk)
-            .apply(RequestOptions.bitmapTransform( RoundedCorners(24)))
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
             .into(binding.ivProductImage)
 
-        binding.btnSayaTertarikNego.setOnClickListener {
-            detailViewModel.getToken()
-        }
-        detailViewModel.token.observe(viewLifecycleOwner) {
-            val inputHargaTawar = binding.etHargaTawar.text
-            val requestHargaTawar = RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+        binding.btnKirimHargaTawar.setOnClickListener {
 
-            Toast.makeText(context, "Harga Tawarmu berhasil dikirim ke Penjual", Toast.LENGTH_SHORT).show()
-            detailViewModel.buyerOrder(it, requestHargaTawar)
-            dismiss()
-            val coba  = FragmentDetailBinding.inflate(layoutInflater)
-            coba.btnSayaTertarikNego.isEnabled = false
-            binding.btnSayaTertarikNego.backgroundTintList = requireContext().getColorStateList(R.color.dark_grey)
+            detailViewModel.getToken()
+            detailViewModel.token.observe(viewLifecycleOwner) {
+                val inputHargaTawar = binding.etHargaTawar.text
+                val requestHargaTawar =
+                    RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+                detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)
+            }
+        }
+
+        detailViewModel.buyerOrder.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    when (it.data?.code()) {
+                        201 -> {
+                            Toast.makeText(
+                                context,
+                                "Harga Tawarmu berhasil dikirim ke Penjual",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            refreshButton.invoke()
+                        }
+                        400 -> {
+                            Toast.makeText(
+                                context,
+                                "${it.data.body()?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    dismiss()
+                }
+            }
         }
     }
-
- fun coba() {
- }
 }

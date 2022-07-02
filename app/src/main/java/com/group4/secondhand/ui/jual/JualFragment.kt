@@ -238,7 +238,7 @@ class JualFragment : Fragment() {
                     var message = ""
                     when (it.message) {
                         "HTTP 400 Bad Request" -> {
-                            message = "Anda Hanya Bisa Upload Maksimal 5 Produk"
+                            message = "${it.message}"
                         }
                     }
                     AlertDialog.Builder(requireContext())
@@ -292,7 +292,7 @@ class JualFragment : Fragment() {
                 binding.hargaContainer.error = "Harga Produk tidak boleh kosong"
                 return "Harga Produk Kosong!"
             }
-            hargaProduk.toInt() >= 2000000 -> {
+            hargaProduk.toInt() > 2000000000 -> {
                 binding.hargaContainer.error = "Harga Produk tidak boleh lebih dari 2M"
                 return "Harga Produk Melebihi Batas!"
             }

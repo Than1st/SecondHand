@@ -17,5 +17,9 @@ data class ResponseBuyerOrder(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("message")
+    val message: String
 )
