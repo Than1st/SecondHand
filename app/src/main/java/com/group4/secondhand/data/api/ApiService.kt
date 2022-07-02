@@ -24,6 +24,13 @@ interface ApiService {
     @GET("seller/order")
     suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
 
+    @PATCH("seller/order/{id}")
+    suspend fun approveOrder(
+        @Header("access_token") token: String,
+        @Path("id") orderId: Int,
+        @Body requestApproveOrder: RequestApproveOrder
+    ): ResponseApproveOrder
+
 
     @Multipart
     @POST("seller/product")

@@ -1,5 +1,6 @@
 package com.group4.secondhand.ui
 
+import android.app.ActionBar
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,10 +8,15 @@ import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
+import android.view.Gravity
+import android.view.View
 import android.view.Window
 import android.widget.TextView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import com.group4.secondhand.R
 import java.io.*
 import java.text.DateFormat
 import java.text.DecimalFormat
@@ -152,5 +158,25 @@ fun convertDate(date: String): String {
 fun striketroughtText(tv: TextView, textChange: String): String {
     tv.paintFlags = tv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     return textChange
+}
+
+fun showToastSuccess(view: View, message: String, color: Int) {
+    val snackBarView =
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+    val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
+    snackBarView.setAction(" ") {
+        snackBarView.dismiss()
+    }
+    val textView =
+        snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+    textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close, 0)
+    textView.compoundDrawablePadding = 16
+    layoutParams.gravity = Gravity.TOP
+    layoutParams.setMargins(32, 150, 32, 0)
+    snackBarView.view.setPadding(24, 16, 0, 16)
+    snackBarView.view.setBackgroundColor(color)
+    snackBarView.view.layoutParams = layoutParams
+    snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+    snackBarView.show()
 }
 

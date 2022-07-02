@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.ResponseUploadProduct
+import com.group4.secondhand.ui.reduceFileImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,7 +36,7 @@ class PreviewViewModel @Inject constructor(private val repository: Repository) :
     ){
 //        val kategoriList: MutableList<Int> = ArrayList()
 //        kategoriList.add(kategoriProduk)
-        val requestFile = image.asRequestBody("image/*".toMediaTypeOrNull())
+        val requestFile = reduceFileImage(image).asRequestBody("image/jpg".toMediaTypeOrNull())
         val gambarProduk = MultipartBody.Part.createFormData("image", image.name, requestFile)
         val namaRequestBody = namaProduk.toRequestBody("text/plain".toMediaType())
         val deskripsiRequestBody = deskripsiProduk.toRequestBody("text/plain".toMediaType())
