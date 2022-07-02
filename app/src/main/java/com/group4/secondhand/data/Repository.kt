@@ -2,6 +2,7 @@ package com.group4.secondhand.data
 
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.datastore.UserPreferences
+import com.group4.secondhand.data.model.RequestApproveOrder
 import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.data.model.RequestLogin
 import com.group4.secondhand.data.model.RequestRegister
@@ -14,6 +15,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
     suspend fun getSellerOrder(token: String) = apiHelper.getSellerOrder(token)
     suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
+    suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiHelper.approveOrder(token, id, requestApproveOrder)
     suspend fun uploadProduct(
         token: String,
         file : MultipartBody.Part,

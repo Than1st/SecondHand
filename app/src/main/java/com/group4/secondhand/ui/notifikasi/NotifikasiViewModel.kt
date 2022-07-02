@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
+import com.group4.secondhand.data.model.ResponseGetDataUser
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.data.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel

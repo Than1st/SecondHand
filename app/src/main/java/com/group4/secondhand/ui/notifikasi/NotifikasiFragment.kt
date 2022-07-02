@@ -17,7 +17,6 @@ import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentNotifikasiBinding
-import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +38,7 @@ class NotifikasiFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.emptyNotif.visibility = View.GONE
         val pd = ProgressDialog(requireContext())
+        pd.setMessage("Please Wait...")
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
             when(it.status){
@@ -71,7 +71,6 @@ class NotifikasiFragment : Fragment() {
                         .show()
                 }
                 LOADING -> {
-                    pd.setMessage("Please Wait...")
                     pd.show()
                 }
             }
@@ -80,6 +79,7 @@ class NotifikasiFragment : Fragment() {
 
     private fun getNotif() {
         val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Please Wait...")
         viewModel.notification.observe(viewLifecycleOwner) {
             if (it != null) {
                 when (it.status) {

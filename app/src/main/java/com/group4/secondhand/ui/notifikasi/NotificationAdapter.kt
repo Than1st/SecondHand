@@ -1,21 +1,24 @@
+@file:Suppress("SENSELESS_COMPARISON")
+
 package com.group4.secondhand.ui.notifikasi
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.group4.secondhand.R
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.NotificationItemBinding
 import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
+import com.group4.secondhand.ui.striketroughtText
 
 
-class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickListener) :
+class NotificationAdapter(
+    private val onItemClick : OnClickListener
+    ) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
     private val diffCallBack = object : DiffUtil.ItemCallback<ResponseNotification>(){
         override fun areItemsTheSame(
@@ -55,7 +58,54 @@ class NotificationAdapter(private val onItemClick : NotificationAdapter.OnClickL
         @SuppressLint("SetTextI18n")
         fun bind(data: ResponseNotification){
             binding.apply {
-                tvHargaDitawarProduk.text = currency(data.bidPrice)
+                when (data.status) {
+                    "bid" -> {
+                        if (data.product != null){
+                            if(data.receiverId == data.product.userId){
+                                tvPesan.text = "Ada yang tawar produkmu!"
+                            } else {
+                                tvPesan.text = "Tawaranmu belum diterima oleh penjual, sabar ya!"
+                            }
+                        } else {
+                            tvPesan.text = "Produk Sudah di hapus"
+                        }
+                    }
+                    "declined" -> {
+                        tvStatusProduk.text = "Produk Ditolak"
+                        if (data.product != null){
+                            if (data.receiverId == data.product.userId){
+                                tvPesan.text = "Anda menolak Tawaran ini"
+                            } else {
+                                tvPesan.text = "Tawaran Anda ditolak oleh Penjual"
+                            }
+                        } else {
+                            tvPesan.text = "Produk Sudah di hapus"
+                        }
+                    }
+                    "accepted" -> {
+                        tvStatusProduk.text = "Produk Diterima"
+                        if (data.product != null){
+                            if (data.receiverId == data.product.userId){
+                                tvPesan.text = "Anda menerima Tawaran ini"
+                            } else {
+                                tvPesan.text = "Tawaran Anda diterima oleh Penjual"
+                            }
+                        } else {
+                            tvPesan.text = "Produk Sudah di hapus"
+                        }
+                    }
+                    else -> {
+                        tvPesan.text = " "
+                    }
+                }
+                tvHargaDitawarProduk.text =
+                    if (data.status == "declined") "Ditolak " + currency(data.bidPrice)
+                    else if(data.status == "accepted") "Diterima " + currency(data.bidPrice)
+                    else "Ditawar " + currency(data.bidPrice)
+                tvProdukName.text = data.productName
+                tvHargaAwalProduk.apply {
+                    text = striketroughtText(this, currency(data.basePrice.toInt()))
+                }
                 tvTanggal.text = convertDate(data.transactionDate)
                 if (!data.read){
                     Glide.with(binding.root)

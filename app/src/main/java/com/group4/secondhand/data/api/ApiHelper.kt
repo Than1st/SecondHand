@@ -1,5 +1,6 @@
 package com.group4.secondhand.data.api
 
+import com.group4.secondhand.data.model.RequestApproveOrder
 import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.data.model.RequestLogin
 import com.group4.secondhand.data.model.RequestRegister
@@ -12,6 +13,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
     suspend fun getSellerOrder(token: String) = apiService.getSellerOrder(token)
     suspend fun deleteSellerProduct(token: String, id: Int) = apiService.deleteSellerProduct(token,id)
+    suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiService.approveOrder(token, id, requestApproveOrder)
 
     suspend fun uploadProduct(
         token: String,
