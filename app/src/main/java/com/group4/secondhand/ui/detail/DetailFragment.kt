@@ -32,6 +32,7 @@ class DetailFragment() : Fragment() {
     private var isBid = false
     private var token = ""
     private val detailViewModel: DetailViewModel by viewModels()
+    private var basePrice = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +137,7 @@ class DetailFragment() : Fragment() {
                             if (it.data.body()?.basePrice != null) {
                                 convertBasePrice = currency(it.data.body()?.basePrice!!)
                                 binding.tvProdukHarga.text = convertBasePrice
+                                basePrice = it.data.body()?.basePrice!!
                             }
 
                             var listCategory = ""
@@ -166,7 +168,7 @@ class DetailFragment() : Fragment() {
                 val bottomFragment = BottomSheetDetailFragment(
                     productId!!,
                     productName,
-                    convertBasePrice,
+                    basePrice,
                     imageURL,
                     refreshButton = { detailViewModel.getBuyerOrder(token) }
                 )

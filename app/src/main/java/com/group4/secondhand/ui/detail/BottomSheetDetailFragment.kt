@@ -13,13 +13,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
+import com.group4.secondhand.ui.currency
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomSheetDetailFragment(
     productId: Int,
     namaProduk: String,
-    hargaProduk: String,
+    hargaProduk: Int,
     gambarProduk: String,
     private val refreshButton: () -> Unit
 ) : BottomSheetDialogFragment() {
@@ -46,7 +47,7 @@ class BottomSheetDetailFragment(
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvNamaProduk.text = namaProduk
-        binding.tvHargaAwal.text = hargaProduk
+        binding.tvHargaAwal.text = currency(hargaProduk)
         Glide.with(binding.root)
             .load(gambarProduk)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
@@ -55,7 +56,7 @@ class BottomSheetDetailFragment(
         binding.btnKirimHargaTawar.setOnClickListener {
             if (binding.etHargaTawar.text.isNullOrEmpty()) {
                 binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
-            }else if(binding.etHargaTawar.text.toString().toInt() >= hargaProduk.toInt()){
+            }else if(binding.etHargaTawar.text.toString().toInt() >= hargaProduk){
                 binding.hargaTawarContainer.error = "Tawaranmu lebih tinggi dari harga produk"
             }else {
                 detailViewModel.getToken()
