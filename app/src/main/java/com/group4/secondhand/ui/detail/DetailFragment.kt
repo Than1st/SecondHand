@@ -58,42 +58,6 @@ class DetailFragment() : Fragment() {
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
         val pd = ProgressDialog(requireContext())
-        detailViewModel.getToken()
-        detailViewModel.token.observe(viewLifecycleOwner) {
-            when (it.status) {
-                SUCCESS -> {
-                    if (it.data != DEFAULT_TOKEN && it.data != null) {
-                        token = it.data
-                        detailViewModel.getBuyerOrder(it.data.toString())
-                    } else {
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Pesan")
-                            .setMessage("Anda Belom Masuk")
-                            .setPositiveButton("Login") { dialogP, _ ->
-                                findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
-                                dialogP.dismiss()
-                            }
-                            .setNegativeButton("Cancel") { dialogN, _ ->
-                                findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
-                                dialogN.dismiss()
-                            }
-                            .setCancelable(false)
-                            .show()
-                    }
-                    pd.dismiss()
-                }
-                ERROR -> {
-                    pd.dismiss()
-                    AlertDialog.Builder(requireContext())
-                        .setMessage(it.message)
-                        .show()
-                }
-                LOADING -> {
-                    pd.setMessage("Please Wait...")
-                    pd.show()
-                }
-            }
-        }
         detailViewModel.getBuyerOrder.observe(viewLifecycleOwner) {
             for (data in 0 until (it.data?.size ?: 0)) {
                 if (it.data?.get(data)?.productId == productId) {
@@ -104,6 +68,7 @@ class DetailFragment() : Fragment() {
                 binding.btnSayaTertarikNego.isEnabled = false
                 binding.btnSayaTertarikNego.backgroundTintList =
                     requireContext().getColorStateList(R.color.dark_grey)
+                binding.btnSayaTertarikNego.setText("Menunggu Respon Penjual")
             }
         }
 
@@ -166,14 +131,51 @@ class DetailFragment() : Fragment() {
                 findNavController().popBackStack()
             }
             binding.btnSayaTertarikNego.setOnClickListener {
-                val bottomFragment = BottomSheetDetailFragment(
-                    productId!!,
-                    productName,
-                    basePrice,
-                    imageURL,
-                    refreshButton = { detailViewModel.getBuyerOrder(token) }
-                )
-                bottomFragment.show(parentFragmentManager, "Tag")
+                val pd = ProgressDialog(requireContext())
+                detailViewModel.getToken()
+                detailViewModel.token.observe(viewLifecycleOwner) {
+                    when (it.status) {
+                        SUCCESS -> {
+                            if (it.data != DEFAULT_TOKEN && it.data != null) {
+                                token = it.data
+                                detailViewModel.getBuyerOrder(it.data.toString())
+                                val bottomFragment = BottomSheetDetailFragment(
+                                    productId!!,
+                                    productName,
+                                    basePrice,
+                                    imageURL,
+                                    refreshButton = { detailViewModel.getBuyerOrder(token) }
+                                )
+                                bottomFragment.show(parentFragmentManager, "Tag")
+                            } else {
+                                AlertDialog.Builder(requireContext())
+                                    .setTitle("Pesan")
+                                    .setMessage("Anda Belom Masuk")
+                                    .setPositiveButton("Login") { dialogP, _ ->
+                                        findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
+                                        dialogP.dismiss()
+                                    }
+                                    .setNegativeButton("Cancel") { dialogN, _ ->
+                                        findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+                                        dialogN.dismiss()
+                                    }
+                                    .setCancelable(false)
+                                    .show()
+                            }
+                            pd.dismiss()
+                        }
+                        ERROR -> {
+                            pd.dismiss()
+                            AlertDialog.Builder(requireContext())
+                                .setMessage(it.message)
+                                .show()
+                        }
+                        LOADING -> {
+                            pd.setMessage("Please Wait...")
+                            pd.show()
+                        }
+                    }
+                }
             }
         }
     }
