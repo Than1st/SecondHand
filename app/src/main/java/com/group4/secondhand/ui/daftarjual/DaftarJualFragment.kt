@@ -27,6 +27,7 @@ import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class DaftarJualFragment : Fragment() {
@@ -37,6 +38,7 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
+    val listProduct : MutableList<ResponseSellerProduct> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
@@ -188,11 +190,17 @@ class DaftarJualFragment : Fragment() {
                                     )
                                 }
                             })
-                        sellerProductAdapter.submitData(it.data)
+                        listProduct.clear()
+                        for (i in it.data){
+                            if (i.status == "available"){
+                                listProduct.add(i)
+                            }
+                        }
+                        sellerProductAdapter.submitData(listProduct)
                         binding.rvProduct.adapter = sellerProductAdapter
                         binding.rvProduct.visibility = View.VISIBLE
                     }
-                    if (it.data?.size == 0) {
+                    if (listProduct.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
                     binding.buttonGrup.visibility = View.VISIBLE
