@@ -124,6 +124,7 @@ class DetailFragment() : Fragment() {
                             binding.tvNamaPenjual.text = it.data.body()?.user?.fullName
                             Glide.with(binding.ivAvatarPenjual)
                                 .load(it.data.body()?.user?.imageUrl)
+                                .centerCrop()
                                 .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
                                 .into(binding.ivAvatarPenjual)
 

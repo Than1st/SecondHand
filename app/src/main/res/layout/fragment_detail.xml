@@ -81,9 +81,12 @@
                         android:id="@+id/tv_produk_kategori"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFamily="@font/poppins_regular"
                         android:textColor="@color/dialog_choose_icon_color"
-                        android:textSize="12sp" />
+                        android:textSize="14sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        />
 
                     <TextView
                         android:id="@+id/tv_produk_harga"
@@ -123,6 +126,7 @@
                         android:layout_height="64dp"
                         android:background="@drawable/round_outline"
                         android:clipToOutline="true"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
