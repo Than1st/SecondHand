@@ -15,7 +15,7 @@ data class ResponseNotification(
     @SerializedName("id")
     val id: Int,
     @SerializedName("image_url")
-    val imageUrl: String,
+    val imageUrl: String?,
     @SerializedName("Product")
     val product: ProductNotif,
     @SerializedName("product_id")
@@ -31,7 +31,7 @@ data class ResponseNotification(
     @SerializedName("status")
     val status: String,
     @SerializedName("transaction_date")
-    val transactionDate: String,
+    val transactionDate: String?,
     @SerializedName("updatedAt")
     val updatedAt: String
 )

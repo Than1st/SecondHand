@@ -99,14 +99,16 @@ class NotificationAdapter(
                     }
                 }
                 tvHargaDitawarProduk.text =
-                    if (data.status == "declined") "Ditolak " + currency(data.bidPrice)
-                    else if(data.status == "accepted") "Diterima " + currency(data.bidPrice)
-                    else "Ditawar " + currency(data.bidPrice)
+                    when (data.status) {
+                        "declined" -> "Ditolak " + currency(data.bidPrice)
+                        "accepted" -> "Diterima " + currency(data.bidPrice)
+                        else -> "Ditawar " + currency(data.bidPrice)
+                    }
                 tvProdukName.text = data.productName
                 tvHargaAwalProduk.apply {
-                    text = striketroughtText(this, currency(data.basePrice.toInt()))
+                    text = if(data.basePrice.isNotEmpty()) striketroughtText(this, currency(data.basePrice.toInt())) else "-"
                 }
-                tvTanggal.text = convertDate(data.transactionDate)
+                tvTanggal.text = if (data.transactionDate.isNullOrEmpty()) "-" else convertDate(data.transactionDate)
                 if (!data.read){
                     Glide.with(binding.root)
                         .load(data.imageUrl)

@@ -18,12 +18,14 @@ import com.group4.secondhand.data.datastore.UserPreferences
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentNotifikasiBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class NotifikasiFragment : Fragment() {
     private var _binding: FragmentNotifikasiBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotifikasiViewModel by viewModels()
+    private val listNotif: MutableList<ResponseNotification> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +43,7 @@ class NotifikasiFragment : Fragment() {
         pd.setMessage("Please Wait...")
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
-            when(it.status){
+            when (it.status) {
                 SUCCESS -> {
                     pd.dismiss()
                     if (it.data == UserPreferences.DEFAULT_TOKEN) {
@@ -87,7 +89,21 @@ class NotifikasiFragment : Fragment() {
                         progressDialog.show()
                     }
                     SUCCESS -> {
-                        if (it.data!!.isNotEmpty()){
+                        if (it.data.isNullOrEmpty()) {
+                            binding.emptyNotif.visibility = View.VISIBLE
+                        } else {
+                            for (data in it.data) {
+                                if (data.imageUrl.isNullOrEmpty() &&
+                                    data.basePrice.isEmpty() &&
+                                    data.product != null &&
+                                    data.bidPrice.toString().isEmpty() &&
+                                    data.productName.isEmpty() &&
+                                    data.transactionDate.isNullOrEmpty()
+                                ) {
+                                } else {
+                                    listNotif.add(data)
+                                }
+                            }
                             val notificationAdapter =
                                 NotificationAdapter(object : NotificationAdapter.OnClickListener {
                                     override fun onClickItem(data: ResponseNotification) {
@@ -98,10 +114,8 @@ class NotifikasiFragment : Fragment() {
                                         ).show()
                                     }
                                 })
-                            notificationAdapter.submitData(it.data)
+                            notificationAdapter.submitData(listNotif)
                             binding.rvNotification.adapter = notificationAdapter
-                        } else {
-                            binding.emptyNotif.visibility = View.VISIBLE
                         }
                         progressDialog.dismiss()
                     }
