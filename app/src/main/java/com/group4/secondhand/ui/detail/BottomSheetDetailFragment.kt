@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui.detail
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +11,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.RequestBuyerOrder
 import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
 import com.group4.secondhand.ui.currency
+import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -74,11 +77,12 @@ class BottomSheetDetailFragment(
                 Status.SUCCESS -> {
                     when (it.data?.code()) {
                         201 -> {
-                            Toast.makeText(
-                                context,
-                                "Harga Tawarmu berhasil dikirim ke Penjual",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToastSuccess(binding.root, "Harga tawarmu berhasil dikirim ke penjual", resources.getColor(
+                                R.color.success))
+                            binding.btnKirimHargaTawar.isEnabled = false
+                            binding.btnKirimHargaTawar.backgroundTintList =
+                                requireContext().getColorStateList(R.color.dark_grey)
+
                             refreshButton.invoke()
                         }
                         400 -> {
@@ -89,7 +93,9 @@ class BottomSheetDetailFragment(
                             ).show()
                         }
                     }
-                    dismiss()
+                    Handler().postDelayed({
+                        dismiss()
+                    }, 1500)
                 }
             }
         }
