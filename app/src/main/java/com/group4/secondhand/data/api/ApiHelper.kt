@@ -25,6 +25,17 @@ class ApiHelper(private val apiService: ApiService) {
         location: RequestBody,
     ) = apiService.uploadProduct(token, file, name, description, base_price, categoryIds, location)
 
+    suspend fun updateProduct(
+        token: String,
+        id: Int,
+        file: MultipartBody.Part?,
+        name: RequestBody,
+        description: RequestBody,
+        base_price: RequestBody,
+        categoryIds: List<Int>,
+        location: RequestBody,
+    ) = apiService.updateProduct(token,id, file, name, description, base_price, categoryIds, location)
+
     // BUYER
     suspend fun getProduct(status: String, categoryId: String) =
         apiService.getProduct(status, categoryId)

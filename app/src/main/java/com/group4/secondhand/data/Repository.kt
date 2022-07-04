@@ -26,6 +26,17 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
         location: RequestBody,
     ) = apiHelper.uploadProduct(token, file, name, description, base_price, categoryIds, location)
 
+    suspend fun updateProduct(
+        token: String,
+        id: Int,
+        file : MultipartBody.Part?,
+        name: RequestBody,
+        description: RequestBody,
+        base_price: RequestBody,
+        categoryIds: List<Int>,
+        location: RequestBody,
+    ) = apiHelper.updateProduct(token,id, file, name, description, base_price, categoryIds, location)
+
     // BUYER
     suspend fun getProduct(status: String, categoryId: String) =
         apiHelper.getProduct(status, categoryId)

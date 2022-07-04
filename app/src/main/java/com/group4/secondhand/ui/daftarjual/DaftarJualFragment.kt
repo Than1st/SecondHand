@@ -24,6 +24,8 @@ import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
+import com.group4.secondhand.ui.listCategory
+import com.group4.secondhand.ui.listCategoryId
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +47,6 @@ class DaftarJualFragment : Fragment() {
         const val ORDER_STATUS = "OrderStatus"
         const val PRODUCT_IMAGE = "ProductImage"
         const val PRODUCT_NAME = "ProductName"
-        const val PRODUCT_CATEGORY = "productCategory"
         const val PRODUCT_DESCRIPTION = "productDescription"
         const val PRODUCT_PRICE = "ProductPrice"
         const val PRODUCT_BID = "ProductBid"
@@ -166,18 +167,20 @@ class DaftarJualFragment : Fragment() {
                     if (it.data != null) {
                         val sellerProductAdapter =
                             SellerProductAdapter(object : SellerProductAdapter.OnclickListener {
-                                var listCategory = ""
                                 override fun onClickItem(data: ResponseSellerProduct) {
                                     bundleEdit.apply {
                                         putInt(PRODUCT_ID, data.id)
                                         putString(PRODUCT_NAME, data.name)
                                         putInt(PRODUCT_PRICE, data.basePrice)
+                                        listCategory.clear()
+                                        listCategoryId.clear()
                                         for (kategori in data.categories){
-                                            listCategory += ", ${kategori.name}"
+                                            listCategory.add(kategori.name)
+                                            listCategoryId.add(kategori.id)
                                         }
-                                        putString(PRODUCT_CATEGORY,listCategory.drop(2))
                                         putString(PRODUCT_DESCRIPTION,data.description)
                                         putString(PRODUCT_IMAGE,data.imageUrl)
+                                        putString(USER_CITY,data.location)
                                     }
                                     findNavController().navigate(
                                         R.id.action_daftarJualFragment_to_editProductFragment,

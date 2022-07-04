@@ -43,6 +43,19 @@ interface ApiService {
         @Part("location") location: RequestBody?,
     ): ResponseUploadProduct
 
+    @Multipart
+    @PUT("seller/product/{id}")
+    suspend fun updateProduct(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Part file: MultipartBody.Part?,
+        @Part("name") name: RequestBody?,
+        @Part("description") description: RequestBody?,
+        @Part("base_price") base_price: RequestBody?,
+        @Part("category_ids") categoryIds: List<Int>,
+        @Part("location") location: RequestBody?,
+    ): ResponseUpdateProduk
+
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
