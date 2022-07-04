@@ -55,7 +55,9 @@ class BottomSheetDetailFragment(
         binding.btnKirimHargaTawar.setOnClickListener {
             if (binding.etHargaTawar.text.isNullOrEmpty()) {
                 binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
-            } else {
+            }else if(binding.etHargaTawar.text.toString().toInt() >= hargaProduk.toInt()){
+                binding.hargaTawarContainer.error = "Tawaranmu lebih tinggi dari harga produk"
+            }else {
                 detailViewModel.getToken()
                 detailViewModel.token.observe(viewLifecycleOwner) {
                     val inputHargaTawar = binding.etHargaTawar.text

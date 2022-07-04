@@ -231,6 +231,7 @@ class JualFragment : Fragment() {
                     progressDialog.dismiss()
                     showToastSuccess()
                     findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                    listCategoryId.clear()
                 }
                 ERROR -> {
                     progressDialog.dismiss()
@@ -275,13 +276,14 @@ class JualFragment : Fragment() {
         snackBarView.show()
     }
 
-    private fun resetError() {
+    fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
+        binding.kategoriContainer.error = null
         binding.deskripsiContainer.error = null
     }
 
-    private fun validation(namaProduk: String, hargaProduk: String, deskripsiProduk: String, uriFoto: String, listCategory: List<Int>): String {
+    fun validation(namaProduk: String, hargaProduk: String, deskripsiProduk: String, uriFoto: String, listCategory: List<Int>): String {
         when {
             namaProduk.isEmpty() -> {
                 binding.namaContainer.error = "Nama Produk tidak boleh kosong"

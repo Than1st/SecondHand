@@ -62,7 +62,7 @@ class BottomSheetPilihCategoryFragment(
                             },
                             unselected = { unselected ->
                                 listCategory.remove(unselected.name)
-                                listCategoryId.add(unselected.id)
+                                listCategoryId.remove(unselected.id)
                             }
                         )
                         adapter.submitData(it.data)
