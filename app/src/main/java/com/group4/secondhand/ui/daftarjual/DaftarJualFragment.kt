@@ -153,6 +153,10 @@ class DaftarJualFragment : Fragment() {
 
     private fun getSellerProduct() {
         daftarJualViewModel.getProduct(token)
+        binding.rvProduct.visibility = View.VISIBLE
+        binding.rvDiminati.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
         binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
         binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
@@ -160,9 +164,6 @@ class DaftarJualFragment : Fragment() {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                     binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
@@ -198,14 +199,12 @@ class DaftarJualFragment : Fragment() {
                         }
                         sellerProductAdapter.submitData(listProduct)
                         binding.rvProduct.adapter = sellerProductAdapter
-                        binding.rvProduct.visibility = View.VISIBLE
                     }
                     if (listProduct.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
                     binding.buttonGrup.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
-                    binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -216,6 +215,10 @@ class DaftarJualFragment : Fragment() {
 
     private fun getSellerOrder() {
         daftarJualViewModel.getOrder(token)
+        binding.rvProduct.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
+        binding.rvDiminati.visibility = View.VISIBLE
         binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
         binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
@@ -223,9 +226,6 @@ class DaftarJualFragment : Fragment() {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                     binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
@@ -268,7 +268,6 @@ class DaftarJualFragment : Fragment() {
                             })
                         sellerOrderAdapter.submitData(it.data)
                         binding.rvDiminati.adapter = sellerOrderAdapter
-                        binding.rvDiminati.visibility = View.VISIBLE
                     }
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE

@@ -18,8 +18,10 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -34,6 +36,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productAdapter: ProductAdapter
+    private val listHomeProduct: MutableList<ResponseGetProduct> = ArrayList()
 
 
     override fun onCreateView(
@@ -142,10 +145,21 @@ class HomeFragment : Fragment() {
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                         binding.tvEmptyProduct.visibility = View.VISIBLE
-
+                    }
+                    listHomeProduct.clear()
+                    if (it.data != null) {
+                        for (data in it.data) {
+                            if (data.name.isNullOrEmpty() && data.description.isNullOrEmpty() &&
+                                data.basePrice == null && data. imageUrl.isNullOrEmpty() &&
+                                data.location.isNullOrEmpty() && data.categories.isEmpty()
+                            ) {
+                            } else {
+                                listHomeProduct.add(data)
+                            }
+                        }
                     }
                     binding.rvProduct.visibility = View.VISIBLE
-                    productAdapter.submitData(it.data)
+                    productAdapter.submitData(listHomeProduct)
                 }
                 Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
@@ -162,7 +176,10 @@ class HomeFragment : Fragment() {
                 val productBundle = Bundle()
                 productBundle.putInt(PRODUCT_ID, data.id)
                 Handler().postDelayed({
-                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_detailFragment,
+                        productBundle
+                    )
                 }, 1500)
             }
         })
