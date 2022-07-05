@@ -66,16 +66,16 @@ class EditAkunFragment : Fragment() {
         val bundle = arguments
         binding.apply {
             etNama.setText(
-                cekNull(bundle?.getString(USER_NAME).toString())
+                bundle?.getString(USER_NAME).toString()
             )
             etKota.setText(
-                cekNull(bundle?.getString(USER_CITY).toString())
+                bundle?.getString(USER_CITY).toString()
             )
             etAlamat.setText(
-                cekNull(bundle?.getString(USER_ADDRESS).toString())
+                bundle?.getString(USER_ADDRESS).toString()
             )
             etNoHp.setText(
-                cekNull(bundle?.getString(USER_PHONE_NUMBER).toString())
+                bundle?.getString(USER_PHONE_NUMBER).toString()
             )
             Glide.with(requireContext())
                 .load(bundle?.getString(USER_IMAGE) ?: R.drawable.default_image)

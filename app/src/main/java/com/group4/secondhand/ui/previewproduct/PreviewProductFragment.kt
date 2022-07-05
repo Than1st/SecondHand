@@ -35,6 +35,7 @@ import com.group4.secondhand.ui.jual.JualFragment.Companion.NAMA_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.TOKEN_USER_KEY
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -155,7 +156,7 @@ class PreviewProductFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    showToastSuccess()
+                    showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
                     findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment)
                     Toast.makeText(requireContext(), "Sukses Upload Produk!", Toast.LENGTH_SHORT)
                         .show()
@@ -182,23 +183,4 @@ class PreviewProductFragment : Fragment() {
             }
         }
     }
-
-    private fun showToastSuccess(){
-        val snackBarView = Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_INDEFINITE)
-        val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
-        snackBarView.setAction(" ") {
-            snackBarView.dismiss()
-        }
-        val textView = snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-        textView.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_baseline_close, 0)
-        textView.compoundDrawablePadding = 16
-        layoutParams.gravity = Gravity.TOP
-        layoutParams.setMargins(32,150,32,0)
-        snackBarView.view.setPadding(24, 16, 0, 16)
-        snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
-        snackBarView.view.layoutParams = layoutParams
-        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-        snackBarView.show()
-    }
-
 }

@@ -36,6 +36,7 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CIT
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -109,7 +110,7 @@ class EditProductFragment : Fragment() {
 
     }
 
-    fun validation(
+    private fun validation(
         namaProduk: String,
         hargaProduk: String,
         deskripsiProduk: String,
@@ -151,27 +152,7 @@ class EditProductFragment : Fragment() {
         binding.deskripsiContainer.error = null
     }
 
-    private fun showToastSuccess() {
-        val snackBarView =
-            Snackbar.make(binding.root, "Produk berhasil di update.", Snackbar.LENGTH_LONG)
-        val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
-        snackBarView.setAction(" ") {
-            snackBarView.dismiss()
-        }
-        val textView =
-            snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close, 0)
-        textView.compoundDrawablePadding = 16
-        layoutParams.gravity = Gravity.TOP
-        layoutParams.setMargins(32, 150, 32, 0)
-        snackBarView.view.setPadding(24, 16, 0, 16)
-        snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
-        snackBarView.view.layoutParams = layoutParams
-        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-        snackBarView.show()
-    }
-
-    fun updateProduct() {
+    private fun updateProduct() {
         val progressDialog = ProgressDialog(requireContext())
         binding.btnUpdate.setOnClickListener {
             resetError()
@@ -206,8 +187,9 @@ class EditProductFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    showToastSuccess()
+                    showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
                     findNavController().popBackStack()
+                    listCategory.clear()
                     listCategoryId.clear()
                 }
                 ERROR -> {

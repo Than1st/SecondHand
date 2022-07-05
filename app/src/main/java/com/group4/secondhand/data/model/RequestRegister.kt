@@ -8,14 +8,5 @@ data class RequestRegister(
     @SerializedName("email")
     val email: String,
     @SerializedName("password")
-    val password: String,
-    @SerializedName("phone_number")
-    val phoneNumber: String? = "no_number",
-    @SerializedName("address")
-    val address: String? = "no_address",
-    @SerializedName("image")
-    val imageUrl: Any? = "no_image",
-    @SerializedName("city")
-    val city: String? = "no_city"
-
+    val password: String
 )

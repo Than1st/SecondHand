@@ -31,6 +31,7 @@ import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TO
 import com.group4.secondhand.databinding.FragmentJualBinding
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -55,6 +56,10 @@ class JualFragment : Fragment() {
         const val ADDRESS_USER_KEY = "userAlamat"
         const val IMAGE_USER_KEY = "userImage"
         const val TOKEN_USER_KEY = "userToken"
+        const val DEFAULT_IMAGE = "defImage"
+        const val DEFAULT_ADDRESS = "defAddress"
+        const val DEFAULT_CITY = "defCity"
+        const val DEFAULT_NUMBER = "defNumber"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,11 +111,11 @@ class JualFragment : Fragment() {
                 SUCCESS -> {
                     progressDialog.dismiss()
                     if (it.data != null) {
-                        val kota = it.data.city
-                        val alamat = it.data.address
-                        val gambar = it.data.imageUrl ?: "noImage"
-                        val noHp = it.data.phoneNumber
-                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()) {
+                        val kota = it.data.city ?: DEFAULT_CITY
+                        val alamat = it.data.address ?: DEFAULT_ADDRESS
+                        val gambar = it.data.imageUrl ?: DEFAULT_IMAGE
+                        val noHp = it.data.phoneNumber ?: DEFAULT_NUMBER
+                        if (kota == DEFAULT_CITY || alamat == DEFAULT_ADDRESS || gambar == DEFAULT_IMAGE || noHp == DEFAULT_NUMBER) {
                             AlertDialog.Builder(requireContext())
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
@@ -229,7 +234,7 @@ class JualFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    showToastSuccess()
+                    showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
                     findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
                     listCategoryId.clear()
                 }
@@ -256,27 +261,8 @@ class JualFragment : Fragment() {
         }
     }
 
-    private fun showToastSuccess() {
-        val snackBarView =
-            Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_LONG)
-        val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
-        snackBarView.setAction(" ") {
-            snackBarView.dismiss()
-        }
-        val textView =
-            snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close, 0)
-        textView.compoundDrawablePadding = 16
-        layoutParams.gravity = Gravity.TOP
-        layoutParams.setMargins(32, 150, 32, 0)
-        snackBarView.view.setPadding(24, 16, 0, 16)
-        snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
-        snackBarView.view.layoutParams = layoutParams
-        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-        snackBarView.show()
-    }
 
-    fun resetError() {
+    private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
         binding.kategoriContainer.error = null

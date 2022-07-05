@@ -1,4 +1,4 @@
-package com.group4.secondhand.ui.penawar
+package com.group4.secondhand.ui.infopenawar
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.FragmentBottomSheetStatusBinding
 
-class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
+class BottomSheetStatusFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetStatusBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +42,7 @@ class BottomSheetStatusProdukFragment : BottomSheetDialogFragment() {
 
         }
 
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.radioGroup.setOnCheckedChangeListener { _, _ ->
             val id: Int = binding.radioGroup.checkedRadioButtonId
             if (id != -1) {
                 binding.btnKirimStatus.isEnabled = true

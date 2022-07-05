@@ -68,7 +68,6 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<ResponseBuyerProductById>
 
-
     @POST("buyer/order")
     suspend fun buyerOrder(
         @Header("access_token") token: String,
