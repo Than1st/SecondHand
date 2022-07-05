@@ -27,6 +27,7 @@ import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class DaftarJualFragment : Fragment() {
@@ -37,6 +38,7 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
+    val listProduct : MutableList<ResponseSellerProduct> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
@@ -151,6 +153,10 @@ class DaftarJualFragment : Fragment() {
 
     private fun getSellerProduct() {
         daftarJualViewModel.getProduct(token)
+        binding.rvProduct.visibility = View.VISIBLE
+        binding.rvDiminati.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
         binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
         binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
@@ -158,9 +164,6 @@ class DaftarJualFragment : Fragment() {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                     binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
@@ -188,16 +191,20 @@ class DaftarJualFragment : Fragment() {
                                     )
                                 }
                             })
-                        sellerProductAdapter.submitData(it.data)
+                        listProduct.clear()
+                        for (i in it.data){
+                            if (i.status == "available"){
+                                listProduct.add(i)
+                            }
+                        }
+                        sellerProductAdapter.submitData(listProduct)
                         binding.rvProduct.adapter = sellerProductAdapter
-                        binding.rvProduct.visibility = View.VISIBLE
                     }
-                    if (it.data?.size == 0) {
+                    if (listProduct.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
                     binding.buttonGrup.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
-                    binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
                 }
                 ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -208,6 +215,10 @@ class DaftarJualFragment : Fragment() {
 
     private fun getSellerOrder() {
         daftarJualViewModel.getOrder(token)
+        binding.rvProduct.visibility = View.GONE
+        binding.rvTerjual.visibility = View.GONE
+        binding.lottieEmpty.visibility = View.GONE
+        binding.rvDiminati.visibility = View.VISIBLE
         binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
         binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
@@ -215,9 +226,6 @@ class DaftarJualFragment : Fragment() {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
-                    binding.rvProduct.visibility = View.GONE
-                    binding.rvDiminati.visibility = View.GONE
-                    binding.rvTerjual.visibility = View.GONE
                     binding.lottieEmpty.visibility = View.GONE
                 }
                 SUCCESS -> {
@@ -260,7 +268,6 @@ class DaftarJualFragment : Fragment() {
                             })
                         sellerOrderAdapter.submitData(it.data)
                         binding.rvDiminati.adapter = sellerOrderAdapter
-                        binding.rvDiminati.visibility = View.VISIBLE
                     }
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
