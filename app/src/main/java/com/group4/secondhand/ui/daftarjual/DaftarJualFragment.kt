@@ -207,7 +207,7 @@ class DaftarJualFragment : Fragment() {
                     binding.pbLoading.visibility = View.GONE
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -275,7 +275,7 @@ class DaftarJualFragment : Fragment() {
                     binding.pbLoading.visibility = View.GONE
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
                 }
             }
         }
