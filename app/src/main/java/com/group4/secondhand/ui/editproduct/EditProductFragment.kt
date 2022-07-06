@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +41,7 @@ import com.group4.secondhand.ui.listCategoryId
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class EditProductFragment : Fragment() {
@@ -171,12 +174,31 @@ class EditProductFragment : Fragment() {
         snackBarView.show()
     }
 
+
     fun updateProduct() {
+        val tw = object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.length != 0) {
+                    val enteredNumber = s.toString().replace(",", "").toLong()
+                    binding.etHarga.removeTextChangedListener(this)
+                    val formatter = DecimalFormat("#,###,###")
+                    val yourFormattedString: String = formatter.format(enteredNumber)
+                    binding.etHarga.setText(yourFormattedString)
+                    binding.etHarga.addTextChangedListener(this)
+                    binding.etHarga.setSelection(yourFormattedString.length)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        }
+        binding.etHarga.addTextChangedListener(tw)
+
         val progressDialog = ProgressDialog(requireContext())
         binding.btnUpdate.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString()
+            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             var file : File? = null
             val validation = validation(

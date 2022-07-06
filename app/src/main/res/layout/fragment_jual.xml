@@ -79,6 +79,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                app:startIconTint="@color/black"
+                app:startIconDrawable="@drawable/ic_rp"
                 android:layout_marginTop="4dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
