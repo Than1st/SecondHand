@@ -43,10 +43,10 @@
             android:id="@+id/action_jualFragment_to_lengkapiInfoAkunFragment"
             app:destination="@id/lengkapiInfoAkunFragment" />
         <action
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/jualFragment"
             android:id="@+id/action_jualFragment_to_daftarJualFragment"
-            app:destination="@id/daftarJualFragment" />
+            app:destination="@id/daftarJualFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/daftarJualFragment"
@@ -122,10 +122,10 @@
         android:name="com.group4.secondhand.ui.previewproduct.PreviewProductFragment"
         android:label="PreviewProductFragment" >
         <action
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/previewProductFragment"
             android:id="@+id/action_previewProductFragment_to_daftarJualFragment"
-            app:destination="@id/daftarJualFragment" />
+            app:destination="@id/daftarJualFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/editAkunFragment"

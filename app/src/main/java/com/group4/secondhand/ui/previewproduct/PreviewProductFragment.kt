@@ -161,8 +161,6 @@ class PreviewProductFragment : Fragment() {
                     progressDialog.dismiss()
                     showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
                     findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment)
-                    Toast.makeText(requireContext(), "Sukses Upload Produk!", Toast.LENGTH_SHORT)
-                        .show()
                 }
                 ERROR -> {
                     progressDialog.dismiss()

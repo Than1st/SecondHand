@@ -8,7 +8,7 @@ class ApiHelper(private val apiService: ApiService) {
     // SELLER
     suspend fun getCategoryHome() = apiService.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
-    suspend fun getSellerOrder(token: String) = apiService.getSellerOrder(token)
+    suspend fun getSellerOrder(token: String,status: String) = apiService.getSellerOrder(token,status)
     suspend fun deleteSellerProduct(token: String, id: Int) = apiService.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiService.approveOrder(token, id, requestApproveOrder)
 

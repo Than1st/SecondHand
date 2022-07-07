@@ -2,19 +2,15 @@
 
 package com.group4.secondhand.ui.jual
 
-import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.Gravity
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,8 +21,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
@@ -37,7 +31,6 @@ import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class JualFragment : Fragment() {
@@ -79,6 +72,8 @@ class JualFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listCategory.clear()
+        listCategoryId.clear()
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
         viewModel.getToken()
@@ -201,29 +196,12 @@ class JualFragment : Fragment() {
         binding.ivFoto.setOnClickListener {
             openImagePicker()
         }
-        val tw = object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.length != 0) {
-                    val enteredNumber = s.toString().replace(",", "").toLong()
-                    binding.etHarga.removeTextChangedListener(this)
-                    val formatter = DecimalFormat("#,###,###")
-                    val yourFormattedString: String = formatter.format(enteredNumber)
-                    binding.etHarga.setText(yourFormattedString)
-                    binding.etHarga.addTextChangedListener(this)
-                    binding.etHarga.setSelection(yourFormattedString.length)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        }
-        binding.etHarga.addTextChangedListener(tw)
 
         binding.btnPreview.setOnClickListener {
             resetError()
 
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val kategoriProduk = binding.etKategori.text.toString()
             val validation = validation(
@@ -249,7 +227,7 @@ class JualFragment : Fragment() {
         binding.btnTerbitkan.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val validation = validation(
                 namaProduk,
@@ -259,29 +237,44 @@ class JualFragment : Fragment() {
                 listCategoryId
             )
             if (validation == "passed") {
-                viewModel.uploadProduk(
-                    token,
-                    namaProduk,
-                    deskripsiProduk,
-                    hargaProduk,
-                    listCategoryId,
-                    alamatPenjual,
-                    uriToFile(Uri.parse(uri), requireContext())
-                )
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Terbitkan Produk?")
+                    .setPositiveButton("Iya") { positiveButton, _ ->
+                        viewModel.uploadProduk(
+                            token,
+                            namaProduk,
+                            deskripsiProduk,
+                            hargaProduk,
+                            listCategoryId,
+                            alamatPenjual,
+                            uriToFile(Uri.parse(uri), requireContext())
+                        )
+                        positiveButton.dismiss()
+                    }
+                    .setNegativeButton("Batal") { negativeButton, _ ->
+                        negativeButton.dismiss()
+                    }
+                    .show()
             }
         }
 
         viewModel.uploadResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    progressDialog.dismiss()
-                    showToastSuccess(
-                        binding.root,
-                        "Produk berhasil di terbitkan.",
-                        resources.getColor(R.color.success)
-                    )
-                    findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                    listCategory.clear()
                     listCategoryId.clear()
+                    Handler().postDelayed({
+                        progressDialog.dismiss()
+//                        viewModel.uploadResponse.removeObservers(viewLifecycleOwner)
+                        findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                        showToastSuccess(
+                            binding.root,
+                            "Produk berhasil di terbitkan.",
+                            resources.getColor(R.color.success)
+                        )
+                    }, 1000)
                 }
                 ERROR -> {
                     progressDialog.dismiss()
@@ -405,10 +398,4 @@ class JualFragment : Fragment() {
                 startForProfileImageResult.launch(intent)
             }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
 }
