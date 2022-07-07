@@ -36,7 +36,6 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CIT
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
-import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -110,7 +109,7 @@ class EditProductFragment : Fragment() {
 
     }
 
-    private fun validation(
+    fun validation(
         namaProduk: String,
         hargaProduk: String,
         deskripsiProduk: String,
@@ -157,7 +156,7 @@ class EditProductFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString()
+            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             var file : File? = null
             val validation = validation(

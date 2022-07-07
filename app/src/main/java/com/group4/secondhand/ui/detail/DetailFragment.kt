@@ -55,9 +55,15 @@ class DetailFragment() : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
+        detailViewModel.getToken()
+
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
         val pd = ProgressDialog(requireContext())
+        detailViewModel.token.observe(viewLifecycleOwner) {
+            token = it.data.toString()
+            detailViewModel.getBuyerOrder(token)
+        }
         detailViewModel.getBuyerOrder.observe(viewLifecycleOwner) {
             for (data in 0 until (it.data?.size ?: 0)) {
                 if (it.data?.get(data)?.productId == productId) {
@@ -132,13 +138,12 @@ class DetailFragment() : Fragment() {
             }
             binding.btnSayaTertarikNego.setOnClickListener {
                 val pd = ProgressDialog(requireContext())
-                detailViewModel.getToken()
                 detailViewModel.token.observe(viewLifecycleOwner) {
                     when (it.status) {
                         SUCCESS -> {
                             if (it.data != DEFAULT_TOKEN && it.data != null) {
                                 token = it.data
-                                detailViewModel.getBuyerOrder(it.data.toString())
+//                                detailViewModel.getBuyerOrder(it.data.toString())
                                 val bottomFragment = BottomSheetDetailFragment(
                                     productId!!,
                                     productName,

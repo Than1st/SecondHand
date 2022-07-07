@@ -2,14 +2,17 @@
 
 package com.group4.secondhand.ui.jual
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,13 +23,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
 import com.group4.secondhand.databinding.FragmentJualBinding
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
-import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -51,10 +55,6 @@ class JualFragment : Fragment() {
         const val ADDRESS_USER_KEY = "userAlamat"
         const val IMAGE_USER_KEY = "userImage"
         const val TOKEN_USER_KEY = "userToken"
-        const val DEFAULT_IMAGE = "defImage"
-        const val DEFAULT_ADDRESS = "defAddress"
-        const val DEFAULT_CITY = "defCity"
-        const val DEFAULT_NUMBER = "defNumber"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +77,6 @@ class JualFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
-        progressDialog.setMessage("Please Wait...")
         viewModel.getToken()
         viewModel.alreadyLogin.observe(viewLifecycleOwner) {
             if (it == DEFAULT_TOKEN) {
@@ -107,21 +106,17 @@ class JualFragment : Fragment() {
                 SUCCESS -> {
                     progressDialog.dismiss()
                     if (it.data != null) {
-                        val kota = it.data.city ?: DEFAULT_CITY
-                        val alamat = it.data.address ?: DEFAULT_ADDRESS
-                        val gambar = it.data.imageUrl ?: DEFAULT_IMAGE
-                        val noHp = it.data.phoneNumber ?: DEFAULT_NUMBER
-                        if (kota == DEFAULT_CITY || alamat == DEFAULT_ADDRESS || gambar == DEFAULT_IMAGE || noHp == DEFAULT_NUMBER) {
+                        val kota = it.data.city
+                        val alamat = it.data.address
+                        val gambar = it.data.imageUrl ?: "noImage"
+                        val noHp = it.data.phoneNumber
+                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()) {
                             AlertDialog.Builder(requireContext())
-                                .setCancelable(false)
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
-                                .setPositiveButton("Iya") { positiveButton, _ ->
-                                    bundle.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(
-                                        R.id.action_jualFragment_to_lengkapiInfoAkunFragment,
-                                        bundle
-                                    )
+                                .setPositiveButton("Iya"){ positiveButton, _ ->
+//                                    bundleLengkapiAkun.putString(NAME_USER_KEY, it.data.fullName)
+                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment)
                                     positiveButton.dismiss()
                                 }
                                 .setNegativeButton("Tidak") { negativeButton, _ ->
@@ -129,7 +124,6 @@ class JualFragment : Fragment() {
                                     negativeButton.dismiss()
                                 }
                                 .show()
-                            viewModel.user.removeObservers(viewLifecycleOwner)
                         } else {
                             alamatPenjual = it.data.address
                             bundle.putString(NAME_USER_KEY, it.data.fullName)
@@ -203,11 +197,29 @@ class JualFragment : Fragment() {
         binding.ivFoto.setOnClickListener {
             openImagePicker()
         }
+        val tw = object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.length != 0) {
+                    val enteredNumber = s.toString().replace(",", "").toLong()
+                    binding.etHarga.removeTextChangedListener(this)
+                    val formatter = DecimalFormat("#,###,###")
+                    val yourFormattedString: String = formatter.format(enteredNumber)
+                    binding.etHarga.setText(yourFormattedString)
+                    binding.etHarga.addTextChangedListener(this)
+                    binding.etHarga.setSelection(yourFormattedString.length)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        }
+        binding.etHarga.addTextChangedListener(tw)
 
         binding.btnPreview.setOnClickListener {
             resetError()
+
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString()
+            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val kategoriProduk = binding.etKategori.text.toString()
             val validation = validation(
@@ -233,7 +245,7 @@ class JualFragment : Fragment() {
         binding.btnTerbitkan.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString()
+            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val validation = validation(
                 namaProduk,

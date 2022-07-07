@@ -24,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
+import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment
 import com.group4.secondhand.ui.jual.JualFragment.Companion.ADDRESS_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
@@ -45,6 +46,7 @@ class PreviewProductFragment : Fragment() {
     private var _binding: FragmentPreviewProductBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PreviewViewModel by viewModels()
+    private lateinit var convertBasePrice: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +114,8 @@ class PreviewProductFragment : Fragment() {
         val token = bundle?.getString(TOKEN_USER_KEY)
 
         binding.tvProdukName.text = namaProduk
-        binding.tvProdukHarga.text = hargaProduk
+        convertBasePrice = currency(hargaProduk.toString().toInt())
+        binding.tvProdukHarga.text = convertBasePrice
         binding.tvDeskripsiProduk.text = deskripsiProduk
         binding.tvProdukKategori.text = kategoriProduk
         binding.tvNamaPenjual.text = userName
