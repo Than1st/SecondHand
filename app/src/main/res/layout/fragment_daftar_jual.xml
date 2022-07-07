@@ -215,7 +215,7 @@
                 />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_diminati"
+                android:id="@+id/rv_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -224,17 +224,6 @@
                 tools:listitem="@layout/item_diminati"
                 app:layout_constraintBottom_toTopOf="@id/view_bottom"
                 />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_terjual"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/button_grup"
-                app:layout_constraintBottom_toTopOf="@id/view_bottom"
-                app:spanCount="2"
-                tools:listitem="@layout/item_product_home" />
 
             <View
                 android:id="@+id/view_bottom"
