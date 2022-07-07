@@ -21,13 +21,10 @@ import com.group4.secondhand.data.model.ResponseSellerProduct
 import com.group4.secondhand.databinding.FragmentDaftarJualBinding
 import com.group4.secondhand.ui.akun.AkunFragment
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_ADDRESS
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_CITY
-import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.akun.AkunFragment.Companion.USER_PHONE_NUMBER
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class DaftarJualFragment : Fragment() {
@@ -38,7 +35,7 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
-    val listProduct : MutableList<ResponseSellerProduct> = ArrayList()
+    private val listProduct : MutableList<ResponseSellerProduct> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
