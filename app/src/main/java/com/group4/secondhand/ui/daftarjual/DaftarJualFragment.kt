@@ -174,6 +174,7 @@ class DaftarJualFragment : Fragment() {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
                     binding.lottieEmpty.visibility = View.GONE
+                    binding.rvProduct.visibility = View.GONE
                     binding.btnDiminati.isEnabled = false
                     binding.btnTerjual.isEnabled = false
                     binding.btnProduk.isEnabled = false
@@ -217,6 +218,7 @@ class DaftarJualFragment : Fragment() {
                     }
                     binding.buttonGrup.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
+                    binding.rvProduct.visibility = View.VISIBLE
                     binding.btnDiminati.isEnabled = true
                     binding.btnTerjual.isEnabled = true
                     binding.btnProduk.isEnabled = true
@@ -236,6 +238,7 @@ class DaftarJualFragment : Fragment() {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
                     binding.lottieEmpty.visibility = View.GONE
+                    binding.rvOrder.visibility = View.GONE
                     binding.btnDiminati.isEnabled = false
                     binding.btnTerjual.isEnabled = false
                     binding.btnProduk.isEnabled = false
@@ -271,6 +274,7 @@ class DaftarJualFragment : Fragment() {
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
+                    binding.rvOrder.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
                     binding.btnDiminati.isEnabled = true
                     binding.btnTerjual.isEnabled = true
