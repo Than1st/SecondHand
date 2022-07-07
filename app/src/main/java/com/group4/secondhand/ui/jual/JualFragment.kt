@@ -8,6 +8,8 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -31,9 +33,11 @@ import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TO
 import com.group4.secondhand.databinding.FragmentJualBinding
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class JualFragment : Fragment() {

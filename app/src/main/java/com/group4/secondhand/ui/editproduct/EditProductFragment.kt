@@ -36,6 +36,7 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CIT
 import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -109,7 +110,7 @@ class EditProductFragment : Fragment() {
 
     }
 
-    fun validation(
+    private fun validation(
         namaProduk: String,
         hargaProduk: String,
         deskripsiProduk: String,
@@ -144,7 +145,7 @@ class EditProductFragment : Fragment() {
         }
     }
 
-    fun resetError() {
+    private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
         binding.kategoriContainer.error = null
