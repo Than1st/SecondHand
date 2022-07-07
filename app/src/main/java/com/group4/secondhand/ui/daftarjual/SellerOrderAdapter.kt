@@ -53,12 +53,11 @@ class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
                 tvHargaAwalProduk.text = basePrice
                 tvHargaDitawarProduk.text = "Ditawar $priceNego"
                 tvTanggal.text = date
-                if (data.status != "declined") {
-                    root.setOnClickListener {
-                        OnItemClick.onClickItem(data)
-                    }
+                root.setOnClickListener {
+                    OnItemClick.onClickItem(data)
                 }
-                if (data.status == "declined") {
+
+                if (data.product.status == "sold" && data.status=="pending") {
                     root.alpha = 0.5f
                     tvHargaDitawarProduk.apply {
                         text = striketroughtText(this,priceNego)

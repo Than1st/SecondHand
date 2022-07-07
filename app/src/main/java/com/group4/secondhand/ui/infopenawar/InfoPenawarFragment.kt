@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_IMAGE
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_NAME
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_PRICE
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_STATUS
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CITY
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
@@ -63,6 +65,7 @@ class InfoPenawarFragment : Fragment() {
         val bundlePenawar = arguments
         val idOrder = bundlePenawar?.getInt(ORDER_ID)
         val statusOrder = bundlePenawar?.getString(ORDER_STATUS)
+        val statusProduct = bundlePenawar?.getString(PRODUCT_STATUS)
         val token = bundlePenawar?.getString(USER_TOKEN)
         val namaPenawar = bundlePenawar?.getString(USER_NAME)
         val kotaPenawar = bundlePenawar?.getString(USER_CITY)
@@ -95,43 +98,51 @@ class InfoPenawarFragment : Fragment() {
             }
 
             btnTolak.setOnClickListener {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Pesan")
-                    .setMessage("Tolak Tawaran?")
-                    .setPositiveButton("Iya"){ positive, _ ->
-                        status = "declined"
-                        val body = RequestApproveOrder(
-                            status
-                        )
-                        if (token != null && idOrder != null) {
-                            viewModel.declineOrder(token, idOrder, body)
-                            positive.dismiss()
+                if (statusOrder == "pending" && statusProduct == "sold") {
+                    Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
+                }else {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Pesan")
+                        .setMessage("Tolak Tawaran?")
+                        .setPositiveButton("Iya") { positive, _ ->
+                            status = "declined"
+                            val body = RequestApproveOrder(
+                                status
+                            )
+                            if (token != null && idOrder != null) {
+                                viewModel.declineOrder(token, idOrder, body)
+                                positive.dismiss()
+                            }
                         }
-                    }
-                    .setNegativeButton("Tidak"){ negative, _ ->
-                        negative.dismiss()
-                    }
-                    .show()
+                        .setNegativeButton("Tidak") { negative, _ ->
+                            negative.dismiss()
+                        }
+                        .show()
+                }
             }
 
             btnTerima.setOnClickListener {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Pesan")
-                    .setMessage("Terima Tawaran?")
-                    .setPositiveButton("Iya"){ positive, _ ->
-                        status = "accepted"
-                        val body = RequestApproveOrder(
-                            status
-                        )
-                        if (token != null && idOrder != null) {
-                            viewModel.declineOrder(token, idOrder, body)
-                            positive.dismiss()
+                if (statusOrder == "pending" && statusProduct == "sold") {
+                    Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
+                }else {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Pesan")
+                        .setMessage("Terima Tawaran?")
+                        .setPositiveButton("Iya") { positive, _ ->
+                            status = "accepted"
+                            val body = RequestApproveOrder(
+                                status
+                            )
+                            if (token != null && idOrder != null) {
+                                viewModel.declineOrder(token, idOrder, body)
+                                positive.dismiss()
+                            }
                         }
-                    }
-                    .setNegativeButton("Tidak"){ negative, _ ->
-                        negative.dismiss()
-                    }
-                    .show()
+                        .setNegativeButton("Tidak") { negative, _ ->
+                            negative.dismiss()
+                        }
+                        .show()
+                }
             }
 
             btnHubungi.setOnClickListener {

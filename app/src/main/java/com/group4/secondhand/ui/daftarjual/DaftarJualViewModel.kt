@@ -57,11 +57,11 @@ class DaftarJualViewModel @Inject constructor(private val repository: Repository
         }
     }
 
-    fun getOrder(token: String) {
+    fun getOrder(token: String,status : String) {
         viewModelScope.launch {
             _order.postValue(Resource.loading())
             try {
-                _order.postValue(Resource.success(repository.getSellerOrder(token)))
+                _order.postValue(Resource.success(repository.getSellerOrder(token,status)))
             } catch (e: Exception) {
                 _order.postValue(Resource.error(e.localizedMessage ?: "Error occured"))
             }
