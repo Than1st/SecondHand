@@ -11,4 +11,9 @@
     <color name="blue">#1363DF</color>
     <color name="medium_blue">#47B5FF</color>
     <color name="light_blue">#DFF6FF</color>
+    <color name="gray">#E5E5E5</color>
+    <color name="light_grey">#D0D0D0</color>
+    <color name="dark_grey">#dddddd</color>
+    <color name="success">#73CA5C</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
