@@ -128,4 +128,7 @@ dependencies {
 
     //shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //currency edit text
+    implementation 'com.cottacush:CurrencyEditText:0.0.7'
 }

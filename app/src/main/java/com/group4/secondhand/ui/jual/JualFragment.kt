@@ -201,29 +201,29 @@ class JualFragment : Fragment() {
         binding.ivFoto.setOnClickListener {
             openImagePicker()
         }
-        val tw = object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.length != 0) {
-                    val enteredNumber = s.toString().replace(",", "").toLong()
-                    binding.etHarga.removeTextChangedListener(this)
-                    val formatter = DecimalFormat("#,###,###")
-                    val yourFormattedString: String = formatter.format(enteredNumber)
-                    binding.etHarga.setText(yourFormattedString)
-                    binding.etHarga.addTextChangedListener(this)
-                    binding.etHarga.setSelection(yourFormattedString.length)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        }
-        binding.etHarga.addTextChangedListener(tw)
+//        val tw = object : TextWatcher {
+//            override fun afterTextChanged(s: Editable) {
+//                if (s.isNotEmpty()) {
+//                    val enteredNumber = s.toString().replace(",", "").toInt()
+//                    binding.etHarga.removeTextChangedListener(this)
+//                    val formatter = DecimalFormat("#,###,###")
+//                    val yourFormattedString: String = formatter.format(enteredNumber)
+//                    binding.etHarga.setText(yourFormattedString)
+//                    binding.etHarga.addTextChangedListener(this)
+//                    binding.etHarga.setSelection(yourFormattedString.length)
+//                }
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+//        }
+//        binding.etHarga.addTextChangedListener(tw)
 
         binding.btnPreview.setOnClickListener {
             resetError()
 
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val kategoriProduk = binding.etKategori.text.toString()
             val validation = validation(
@@ -249,7 +249,7 @@ class JualFragment : Fragment() {
         binding.btnTerbitkan.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             val validation = validation(
                 namaProduk,
@@ -259,15 +259,26 @@ class JualFragment : Fragment() {
                 listCategoryId
             )
             if (validation == "passed") {
-                viewModel.uploadProduk(
-                    token,
-                    namaProduk,
-                    deskripsiProduk,
-                    hargaProduk,
-                    listCategoryId,
-                    alamatPenjual,
-                    uriToFile(Uri.parse(uri), requireContext())
-                )
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Terbitkan Produk?")
+                    .setPositiveButton("Iya") { positiveButton, _ ->
+                        viewModel.uploadProduk(
+                            token,
+                            namaProduk,
+                            deskripsiProduk,
+                            hargaProduk,
+                            listCategoryId,
+                            alamatPenjual,
+                            uriToFile(Uri.parse(uri), requireContext())
+                        )
+                        positiveButton.dismiss()
+                    }
+                    .setNegativeButton("Batal") { negativeButton, _ ->
+                        negativeButton.dismiss()
+                    }
+                    .show()
             }
         }
 
@@ -405,10 +416,4 @@ class JualFragment : Fragment() {
                 startForProfileImageResult.launch(intent)
             }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
 }

@@ -79,8 +79,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                app:startIconTint="@color/black"
-                app:startIconDrawable="@drawable/ic_rp"
                 android:layout_marginTop="4dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
@@ -91,13 +89,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nama_container">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.cottacush.android.currencyedittext.CurrencyEditText
                     android:id="@+id/et_harga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    app:currencySymbol="Rp"
+                    app:localeTag="id-ID"
                     android:hint="Harga Produk" />
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/kategori_container"
