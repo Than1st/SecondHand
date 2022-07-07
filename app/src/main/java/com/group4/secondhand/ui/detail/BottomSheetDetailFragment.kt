@@ -2,6 +2,9 @@ package com.group4.secondhand.ui.detail
 
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +21,7 @@ import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class BottomSheetDetailFragment(
@@ -56,17 +60,36 @@ class BottomSheetDetailFragment(
             .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
             .into(binding.ivProductImage)
 
+        val tw = object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.length != 0) {
+                    val enteredNumber = s.toString().replace(",", "").toLong()
+                    binding.etHargaTawar.removeTextChangedListener(this)
+                    val formatter = DecimalFormat("#,###,###")
+                    val yourFormattedString: String = formatter.format(enteredNumber)
+                    binding.etHargaTawar.setText(yourFormattedString)
+                    binding.etHargaTawar.addTextChangedListener(this)
+                    binding.etHargaTawar.setSelection(yourFormattedString.length)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        }
+        binding.etHargaTawar.addTextChangedListener(tw)
+
         binding.btnKirimHargaTawar.setOnClickListener {
+            val inputHargaTawar = binding.etHargaTawar.text.toString().replace(",", "")
             if (binding.etHargaTawar.text.isNullOrEmpty()) {
                 binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
-            }else if(binding.etHargaTawar.text.toString().toInt() >= hargaProduk){
+            }else if(inputHargaTawar.toInt() >= hargaProduk){
                 binding.hargaTawarContainer.error = "Tawaranmu lebih tinggi dari harga produk"
             }else {
                 detailViewModel.getToken()
                 detailViewModel.token.observe(viewLifecycleOwner) {
-                    val inputHargaTawar = binding.etHargaTawar.text
+                    val inputHargaTawar = binding.etHargaTawar.text.toString().replace(",", "")
                     val requestHargaTawar =
-                        RequestBuyerOrder(produkId, inputHargaTawar.toString().toInt())
+                        RequestBuyerOrder(produkId, inputHargaTawar.toInt())
                     detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)
                 }
             }
