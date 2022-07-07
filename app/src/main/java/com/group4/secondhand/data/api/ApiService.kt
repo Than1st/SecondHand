@@ -90,6 +90,15 @@ interface ApiService {
     suspend fun getDataUser(@Header("access_token") token: String): ResponseGetDataUser
 
     @Multipart
+    @PUT("auth/change-password")
+    suspend fun changePassword(
+        @Header("access_token") token: String,
+        @Part("current_password") currentPassword: RequestBody,
+        @Part("new_password") newPassword: RequestBody,
+        @Part("confirm_password") confirmPassword: RequestBody
+    ) : Response<ResponseChangePassword>
+
+    @Multipart
     @PUT("auth/user")
     suspend fun updateDataUser(
         @Header("access_token") token: String,

@@ -1,9 +1,6 @@
 package com.group4.secondhand.data.api
 
-import com.group4.secondhand.data.model.RequestApproveOrder
-import com.group4.secondhand.data.model.RequestBuyerOrder
-import com.group4.secondhand.data.model.RequestLogin
-import com.group4.secondhand.data.model.RequestRegister
+import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -53,6 +50,7 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun authLogin(requestLogin: RequestLogin) = apiService.authLogin(requestLogin)
     suspend fun getDataUser(token: String) = apiService.getDataUser(token)
+    suspend fun changePassword(token: String, currentPassword: RequestBody, newPassword: RequestBody, confPassword: RequestBody) = apiService.changePassword(token, currentPassword, newPassword, confPassword)
     suspend fun updateDataUser(
         token: String,
         image: MultipartBody.Part?,

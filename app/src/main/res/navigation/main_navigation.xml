@@ -85,6 +85,9 @@
         <action
             android:id="@+id/action_akunFragment_to_editAkunFragment"
             app:destination="@id/editAkunFragment" />
+        <action
+            android:id="@+id/action_akunFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginCompose"
@@ -148,5 +151,10 @@
             android:id="@+id/action_editProductFragment_to_daftarJualFragment"
             app:destination="@id/daftarJualFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.group4.secondhand.ui.changepassword.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
 
 </navigation>

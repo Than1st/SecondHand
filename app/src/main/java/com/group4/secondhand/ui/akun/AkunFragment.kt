@@ -4,9 +4,12 @@ package com.group4.secondhand.ui.akun
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,7 +21,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
+import com.group4.secondhand.databinding.ActivityMainBinding.inflate
 import com.group4.secondhand.databinding.FragmentAkunBinding
+import com.group4.secondhand.databinding.FragmentChangePasswordBinding
+import com.group4.secondhand.databinding.MenuPengaturanAkunBinding
+import com.group4.secondhand.ui.changepassword.ChangePasswordFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -109,7 +116,17 @@ class AkunFragment : Fragment() {
             findNavController().navigate(R.id.action_akunFragment_to_editAkunFragment, bundle)
         }
         binding.listPengaturanAkun.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon!", Toast.LENGTH_SHORT).show()
+            val dialogBinding = MenuPengaturanAkunBinding.inflate(LayoutInflater.from(requireContext()))
+            val dialogBuilder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            dialogBuilder.setView(dialogBinding.root)
+            val dialog = dialogBuilder.create()
+            dialog.setCancelable(true)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.listChangePassword.setOnClickListener {
+                findNavController().navigate(R.id.action_akunFragment_to_changePasswordFragment, bundle)
+                dialog.dismiss()
+            }
+            dialog.show()
         }
         binding.listKeluar.setOnClickListener {
             AlertDialog

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/background_alert_dialog.xml" value="0.109" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/background_rounded.xml" value="0.182" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/bg_btn.xml" value="0.153" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/drawable/bg_btn_two.xml" value="0.153" />
@@ -16,13 +17,14 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_category_product.xml" value="0.14" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_info_penawar.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_status.xml" value="0.209375" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_change_password.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_daftar_jual.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_detail.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_edit_akun.xml" value="0.25" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_info_penawar.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_info_penawaran.xml" value="0.33" />
-        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.25" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_jual.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_detail.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_detail_produk.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/fragment_lengkapi_info_akun.xml" value="0.25" />
@@ -33,6 +35,7 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/item_category_product.xml" value="0.209375" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/item_diminati.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/item_product_home.xml" value="0.4767616191904048" />
+        <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/menu_pengaturan_akun.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/layout/notification_item.xml" value="0.33" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.209375" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_secondhand_logo.xml" value="0.1" />

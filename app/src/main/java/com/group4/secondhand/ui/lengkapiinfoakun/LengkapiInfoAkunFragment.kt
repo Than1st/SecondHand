@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentLengkapiInfoAkunBinding
+import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.TOKEN_USER_KEY
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,10 +59,10 @@ class LengkapiInfoAkunFragment : Fragment() {
         val bundle = arguments
         val progressDialog = ProgressDialog(requireContext())
         progressDialog.setMessage("Please Wait...")
-//        val nama = bundle?.getString(NAME_USER_KEY)
+        val nama = bundle?.getString(NAME_USER_KEY)
         val token = bundle?.getString(TOKEN_USER_KEY)
         token?.let { viewModel.getUser(it) }
-//        binding.etNama.setText(nama)
+        binding.etNama.setText(nama)
         viewModel.getUser.observe(viewLifecycleOwner){
             when(it.status){
                 SUCCESS -> {
@@ -100,7 +101,7 @@ class LengkapiInfoAkunFragment : Fragment() {
             val kota = binding.etKota.text.toString()
             val alamat = binding.etAlamat.text.toString()
             val noHp = binding.etNoHp.text.toString()
-            val isValid = validation(name, kota, alamat, noHp)
+            val isValid = validation(name, kota, alamat, noHp, uri)
             if (isValid) {
                 if (token != null) {
                     viewModel.updateDataUser(
@@ -153,7 +154,8 @@ class LengkapiInfoAkunFragment : Fragment() {
         nama: String,
         kota: String,
         alamat: String,
-        nohp: String
+        nohp: String,
+        uriFoto: String
     ): Boolean {
         return when {
             nama.isEmpty() -> {
@@ -170,6 +172,12 @@ class LengkapiInfoAkunFragment : Fragment() {
             }
             nohp.isEmpty() -> {
                 binding.noHpContainer.error = "Nomor Hp tidak boleh kosong!"
+                false
+            }
+            uriFoto.isEmpty() -> {
+                AlertDialog.Builder(requireContext())
+                    .setMessage("Foto Profil masih kosong!")
+                    .show()
                 false
             }
             else -> {

@@ -2,17 +2,14 @@
 
 package com.group4.secondhand.ui.jual
 
-import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,8 +20,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
@@ -82,6 +77,7 @@ class JualFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Please Wait...")
         viewModel.getToken()
         viewModel.alreadyLogin.observe(viewLifecycleOwner) {
             if (it == DEFAULT_TOKEN) {
@@ -117,11 +113,15 @@ class JualFragment : Fragment() {
                         val noHp = it.data.phoneNumber ?: DEFAULT_NUMBER
                         if (kota == DEFAULT_CITY || alamat == DEFAULT_ADDRESS || gambar == DEFAULT_IMAGE || noHp == DEFAULT_NUMBER) {
                             AlertDialog.Builder(requireContext())
+                                .setCancelable(false)
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
-                                .setPositiveButton("Iya"){ positiveButton, _ ->
-//                                    bundleLengkapiAkun.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment)
+                                .setPositiveButton("Iya") { positiveButton, _ ->
+                                    bundle.putString(NAME_USER_KEY, it.data.fullName)
+                                    findNavController().navigate(
+                                        R.id.action_jualFragment_to_lengkapiInfoAkunFragment,
+                                        bundle
+                                    )
                                     positiveButton.dismiss()
                                 }
                                 .setNegativeButton("Tidak") { negativeButton, _ ->
@@ -129,6 +129,7 @@ class JualFragment : Fragment() {
                                     negativeButton.dismiss()
                                 }
                                 .show()
+                            viewModel.user.removeObservers(viewLifecycleOwner)
                         } else {
                             alamatPenjual = it.data.address
                             bundle.putString(NAME_USER_KEY, it.data.fullName)
@@ -153,10 +154,10 @@ class JualFragment : Fragment() {
             }
         }
 
-        viewModel.categoryList.observe(viewLifecycleOwner){ kat ->
-            if (kat.isNotEmpty()){
+        viewModel.categoryList.observe(viewLifecycleOwner) { kat ->
+            if (kat.isNotEmpty()) {
                 var kategori = ""
-                for(element in kat){
+                for (element in kat) {
                     kategori += ", $element"
                 }
                 binding.etKategori.setText(kategori.drop(2))
@@ -167,12 +168,36 @@ class JualFragment : Fragment() {
             val bottomFragment = BottomSheetPilihCategoryFragment(
                 update = {
                     viewModel.addCategory(listCategory)
-            })
+                })
             bottomFragment.show(parentFragmentManager, "Tag")
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            resetError()
+            if (
+                binding.etNama.text.toString().isNotEmpty() ||
+                binding.etHarga.text.toString().isNotEmpty() ||
+                binding.etDeskripsi.text.toString().isNotEmpty() ||
+                listCategoryId.size > 0 ||
+                uri.isNotEmpty()
+            ) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Hapus draft?")
+                    .setCancelable(false)
+                    .setPositiveButton("Iya") { positive, _ ->
+                        listCategory.clear()
+                        listCategoryId.clear()
+                        findNavController().popBackStack()
+                        positive.dismiss()
+                    }
+                    .setNegativeButton("Tidak") { negative, _ ->
+                        negative.dismiss()
+                    }
+                    .show()
+            } else {
+                findNavController().popBackStack()
+            }
         }
 
         binding.ivFoto.setOnClickListener {
@@ -234,7 +259,11 @@ class JualFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
+                    showToastSuccess(
+                        binding.root,
+                        "Produk berhasil di terbitkan.",
+                        resources.getColor(R.color.success)
+                    )
                     findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
                     listCategoryId.clear()
                 }
@@ -269,7 +298,13 @@ class JualFragment : Fragment() {
         binding.deskripsiContainer.error = null
     }
 
-    fun validation(namaProduk: String, hargaProduk: String, deskripsiProduk: String, uriFoto: String, listCategory: List<Int>): String {
+    private fun validation(
+        namaProduk: String,
+        hargaProduk: String,
+        deskripsiProduk: String,
+        uriFoto: String,
+        listCategory: List<Int>
+    ): String {
         when {
             namaProduk.isEmpty() -> {
                 binding.namaContainer.error = "Nama Produk tidak boleh kosong"
@@ -293,7 +328,8 @@ class JualFragment : Fragment() {
             }
             listCategory.isEmpty() -> {
                 binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
-                Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT)
+                    .show()
                 return "Kategori Produk Kosong!"
             }
             else -> {
