@@ -1,6 +1,7 @@
 package com.group4.secondhand.ui
 
 import android.app.ActionBar
+import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
@@ -26,6 +27,10 @@ import java.util.*
 
 val listCategory : MutableList<String> = ArrayList()
 val listCategoryId : MutableList<Int> = ArrayList()
+
+fun loadingBar(context: Context): ProgressDialog {
+    return ProgressDialog(context)
+}
 
 fun setFullScreen(window: Window) {
     WindowCompat.setDecorFitsSystemWindows(window, false)

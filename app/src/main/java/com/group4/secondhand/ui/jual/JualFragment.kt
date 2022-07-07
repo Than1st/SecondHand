@@ -33,6 +33,7 @@ import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TO
 import com.group4.secondhand.databinding.FragmentJualBinding
 import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.listCategoryId
+import com.group4.secondhand.ui.showToastSuccess
 import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -151,10 +152,10 @@ class JualFragment : Fragment() {
             }
         }
 
-        viewModel.categoryList.observe(viewLifecycleOwner){ kat ->
-            if (kat.isNotEmpty()){
+        viewModel.categoryList.observe(viewLifecycleOwner) { kat ->
+            if (kat.isNotEmpty()) {
                 var kategori = ""
-                for(element in kat){
+                for (element in kat) {
                     kategori += ", $element"
                 }
                 binding.etKategori.setText(kategori.drop(2))
@@ -165,12 +166,36 @@ class JualFragment : Fragment() {
             val bottomFragment = BottomSheetPilihCategoryFragment(
                 update = {
                     viewModel.addCategory(listCategory)
-            })
+                })
             bottomFragment.show(parentFragmentManager, "Tag")
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            resetError()
+            if (
+                binding.etNama.text.toString().isNotEmpty() ||
+                binding.etHarga.text.toString().isNotEmpty() ||
+                binding.etDeskripsi.text.toString().isNotEmpty() ||
+                listCategoryId.size > 0 ||
+                uri.isNotEmpty()
+            ) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Hapus draft?")
+                    .setCancelable(false)
+                    .setPositiveButton("Iya") { positive, _ ->
+                        listCategory.clear()
+                        listCategoryId.clear()
+                        findNavController().popBackStack()
+                        positive.dismiss()
+                    }
+                    .setNegativeButton("Tidak") { negative, _ ->
+                        negative.dismiss()
+                    }
+                    .show()
+            } else {
+                findNavController().popBackStack()
+            }
         }
 
         binding.ivFoto.setOnClickListener {
@@ -250,7 +275,11 @@ class JualFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     progressDialog.dismiss()
-                    showToastSuccess()
+                    showToastSuccess(
+                        binding.root,
+                        "Produk berhasil di terbitkan.",
+                        resources.getColor(R.color.success)
+                    )
                     findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
                     listCategoryId.clear()
                 }
@@ -277,34 +306,21 @@ class JualFragment : Fragment() {
         }
     }
 
-    private fun showToastSuccess() {
-        val snackBarView =
-            Snackbar.make(binding.root, "Produk berhasil di terbitkan.", Snackbar.LENGTH_LONG)
-        val layoutParams = ActionBar.LayoutParams(snackBarView.view.layoutParams)
-        snackBarView.setAction(" ") {
-            snackBarView.dismiss()
-        }
-        val textView =
-            snackBarView.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close, 0)
-        textView.compoundDrawablePadding = 16
-        layoutParams.gravity = Gravity.TOP
-        layoutParams.setMargins(32, 150, 32, 0)
-        snackBarView.view.setPadding(24, 16, 0, 16)
-        snackBarView.view.setBackgroundColor(resources.getColor(R.color.success))
-        snackBarView.view.layoutParams = layoutParams
-        snackBarView.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-        snackBarView.show()
-    }
 
-    fun resetError() {
+    private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
         binding.kategoriContainer.error = null
         binding.deskripsiContainer.error = null
     }
 
-    fun validation(namaProduk: String, hargaProduk: String, deskripsiProduk: String, uriFoto: String, listCategory: List<Int>): String {
+    private fun validation(
+        namaProduk: String,
+        hargaProduk: String,
+        deskripsiProduk: String,
+        uriFoto: String,
+        listCategory: List<Int>
+    ): String {
         when {
             namaProduk.isEmpty() -> {
                 binding.namaContainer.error = "Nama Produk tidak boleh kosong"
@@ -328,7 +344,8 @@ class JualFragment : Fragment() {
             }
             listCategory.isEmpty() -> {
                 binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
-                Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT)
+                    .show()
                 return "Kategori Produk Kosong!"
             }
             else -> {

@@ -46,7 +46,7 @@ class LengkapiInfoAkunViewModel @Inject constructor(private val repository: Repo
         address: String,
         city: String,
     ){
-        val requestFile = file?.asRequestBody("image/*".toMediaTypeOrNull())
+        val requestFile = file?.asRequestBody("image/jpg".toMediaTypeOrNull())
         val image = requestFile?.let { MultipartBody.Part.createFormData("image", file.name, it) }
         val namaRequestBody = name.toRequestBody("text/plain".toMediaType())
         val kotaRequestBody = city.toRequestBody("text/plain".toMediaType())

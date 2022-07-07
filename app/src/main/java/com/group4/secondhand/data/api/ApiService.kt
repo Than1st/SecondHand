@@ -68,7 +68,6 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<ResponseBuyerProductById>
 
-
     @POST("buyer/order")
     suspend fun buyerOrder(
         @Header("access_token") token: String,
@@ -89,6 +88,15 @@ interface ApiService {
 
     @GET("auth/user")
     suspend fun getDataUser(@Header("access_token") token: String): ResponseGetDataUser
+
+    @Multipart
+    @PUT("auth/change-password")
+    suspend fun changePassword(
+        @Header("access_token") token: String,
+        @Part("current_password") currentPassword: RequestBody,
+        @Part("new_password") newPassword: RequestBody,
+        @Part("confirm_password") confirmPassword: RequestBody
+    ) : Response<ResponseChangePassword>
 
     @Multipart
     @PUT("auth/user")

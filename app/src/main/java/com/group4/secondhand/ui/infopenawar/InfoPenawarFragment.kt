@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -32,8 +31,6 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CIT
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
-import com.group4.secondhand.ui.jual.BottomSheetPilihCategoryFragment
-import com.group4.secondhand.ui.listCategory
 import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -151,7 +148,8 @@ class InfoPenawarFragment : Fragment() {
             }
 
             btnStatus.setOnClickListener {
-                Toast.makeText(requireContext(), "Sabar Adik-adik", Toast.LENGTH_SHORT).show()
+                val bottomFragment = BottomSheetStatusFragment()
+                bottomFragment.show(parentFragmentManager, "Tag")
             }
 
             viewModel.responseApproveOrder.observe(viewLifecycleOwner){

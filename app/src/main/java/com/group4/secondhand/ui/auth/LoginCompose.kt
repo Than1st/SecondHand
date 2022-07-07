@@ -86,7 +86,6 @@ class LoginCompose : Fragment() {
                         Column {
                             HeaderRegister()
                             ActionItem()
-
                         }
                     }
                 }
@@ -111,7 +110,7 @@ class LoginCompose : Fragment() {
                     if (token != null) {
                         viewModel.setToken(token)
                         Handler().postDelayed({
-                            findNavController().navigate(R.id.action_loginCompose_to_homeFragment)
+                            findNavController().popBackStack()
                             progressDialog.dismiss()
                         }, 1000)
                     }
@@ -329,33 +328,8 @@ class LoginCompose : Fragment() {
                     }),
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 color = Color.DarkGray
-
             )
         }
     }
-
-
-//    @Preview(showBackground = true, showSystemUi = true)
-//    @Composable
-//    fun DefaultPreview() {
-//        MyTheme {
-//
-//            ImageWithBackground(
-//                painter = painterResource(id = R.drawable.wallpapers),
-//                backgroundDrawableResId = R.drawable.wallpapers,
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .height(2580.dp)
-//                    .width(2960.dp)
-//                    .padding(0.dp),
-//            )
-//            Column {
-//                HeaderRegister()
-//                ActionItem()
-//
-//            }
-//
-//        }
-//    }
 }
 

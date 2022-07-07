@@ -4,9 +4,12 @@ package com.group4.secondhand.ui.akun
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,7 +21,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
+import com.group4.secondhand.databinding.ActivityMainBinding.inflate
 import com.group4.secondhand.databinding.FragmentAkunBinding
+import com.group4.secondhand.databinding.FragmentChangePasswordBinding
+import com.group4.secondhand.databinding.MenuPengaturanAkunBinding
+import com.group4.secondhand.ui.changepassword.ChangePasswordFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,16 +52,6 @@ class AkunFragment : Fragment() {
     ): View {
         _binding = FragmentAkunBinding.inflate(inflater, container, false)
         return binding.root
-        // Inflate the layout for this fragment
-//        return ComposeView(requireContext()).apply {
-//            layoutParams = ViewGroup.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT
-//            )
-//            setContent {
-//                AkunCompose()
-//            }
-//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -119,7 +116,17 @@ class AkunFragment : Fragment() {
             findNavController().navigate(R.id.action_akunFragment_to_editAkunFragment, bundle)
         }
         binding.listPengaturanAkun.setOnClickListener {
-            Toast.makeText(requireContext(), "Coming Soon!", Toast.LENGTH_SHORT).show()
+            val dialogBinding = MenuPengaturanAkunBinding.inflate(LayoutInflater.from(requireContext()))
+            val dialogBuilder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            dialogBuilder.setView(dialogBinding.root)
+            val dialog = dialogBuilder.create()
+            dialog.setCancelable(true)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.listChangePassword.setOnClickListener {
+                findNavController().navigate(R.id.action_akunFragment_to_changePasswordFragment, bundle)
+                dialog.dismiss()
+            }
+            dialog.show()
         }
         binding.listKeluar.setOnClickListener {
             AlertDialog
@@ -146,188 +153,4 @@ class AkunFragment : Fragment() {
         }
     }
 
-//    private val poppinsFamily = FontFamily(
-//        Font(R.font.poppins_bold, FontWeight.Bold),
-//        Font(R.font.poppins_regular, FontWeight.Normal)
-//    )
-
-//    @Composable
-//    fun AkunCompose() {
-//        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-//            val (title, imageProfile, btnGroup, versionText) = createRefs()
-//            Text(
-//                text = "Akun Saya",
-//                style = TextStyle(
-//                    fontFamily = poppinsFamily,
-//                    fontWeight = FontWeight.Bold,
-//                    fontSize = 20.sp
-//                ),
-//                modifier = Modifier
-//                    .padding(start = 32.dp, top = 32.dp)
-//                    .constrainAs(title) {
-//                        top.linkTo(parent.top)
-//                        start.linkTo(parent.start)
-//                    }
-//            )
-//            GlideImage(
-//                imageModel = imageUrl,
-//                contentScale = ContentScale.Crop,
-//                placeHolder = ImageBitmap.imageResource(R.drawable.default_image),
-//                error = ImageBitmap.imageResource(R.drawable.default_image),
-//                modifier = Modifier
-//                    .padding(top = 98.dp)
-//                    .size(width = 128.dp, height = 128.dp)
-//                    .clip(RoundedCornerShape(8.dp))
-//                    .constrainAs(imageProfile) {
-//                        top.linkTo(parent.top)
-//                        end.linkTo(parent.end)
-//                        start.linkTo(parent.start)
-//                    }
-//            )
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(top = 32.dp)
-//                    .constrainAs(btnGroup) {
-//                        top.linkTo(imageProfile.bottom)
-//                        start.linkTo(parent.start)
-//                        end.linkTo(parent.end)
-//                    }
-//            ) {
-//                // Ubah Akun Button
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .clickable {
-//                            findNavController().navigate(R.id.action_akunFragment_to_editAkunFragment, bundle)
-//                        }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.ic_edit),
-//                        contentDescription = "",
-//                        modifier = Modifier
-//                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
-//                            .size(width = 32.dp, height = 32.dp)
-//                    )
-//                    Text(
-//                        text = "Ubah Akun",
-//                        style = TextStyle(
-//                            fontFamily = poppinsFamily,
-//                            fontWeight = FontWeight.Medium,
-//                            fontSize = 16.sp
-//                        ),
-//                        modifier = Modifier
-//                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
-//                    )
-//                }
-//                Divider(
-//                    color = Color.Gray,
-//                    thickness = 1.dp,
-//                    modifier = Modifier.padding(horizontal = 27.dp)
-//                )
-//                // Pengaturan Akun Button
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .clickable {
-//                            Toast
-//                                .makeText(
-//                                    requireContext(),
-//                                    "Anda Mencet Pengaturan Akun",
-//                                    Toast.LENGTH_SHORT
-//                                )
-//                                .show()
-//                        }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.ic_setting),
-//                        contentDescription = "",
-//                        modifier = Modifier
-//                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
-//                            .size(width = 32.dp, height = 32.dp)
-//                    )
-//                    Text(
-//                        text = "Pengaturan Akun",
-//                        style = TextStyle(
-//                            fontFamily = poppinsFamily,
-//                            fontWeight = FontWeight.Medium,
-//                            fontSize = 16.sp
-//                        ),
-//                        modifier = Modifier
-//                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
-//                    )
-//                }
-//                Divider(
-//                    color = Color.Gray,
-//                    thickness = 1.dp,
-//                    modifier = Modifier.padding(horizontal = 27.dp)
-//                )
-//                // Logout Button
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .clickable {
-//                            AlertDialog
-//                                .Builder(requireContext())
-//                                .setTitle("Konfirmasi Keluar")
-//                                .setMessage("Yakin ingin keluar?")
-//                                .setPositiveButton("Iya") { dialogPositive, _ ->
-//                                    viewModel.deleteToken()
-//                                    Toast
-//                                        .makeText(
-//                                            requireContext(),
-//                                            "Logout Success",
-//                                            Toast.LENGTH_SHORT
-//                                        )
-//                                        .show()
-//                                    findNavController().navigate(R.id.action_akunFragment_to_homeFragment)
-//                                    dialogPositive.dismiss()
-//                                }
-//                                .setNegativeButton("Tidak") { dialogNegative, _ ->
-//                                    dialogNegative.dismiss()
-//                                }
-//                                .setCancelable(false)
-//                                .show()
-//                        }
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.ic_logout),
-//                        contentDescription = "",
-//                        modifier = Modifier
-//                            .padding(top = 12.dp, bottom = 12.dp, start = 27.dp, end = 0.dp)
-//                            .size(width = 32.dp, height = 32.dp)
-//                    )
-//                    Text(
-//                        text = "Keluar",
-//                        style = TextStyle(
-//                            fontFamily = poppinsFamily,
-//                            fontWeight = FontWeight.Medium,
-//                            fontSize = 16.sp
-//                        ),
-//                        modifier = Modifier
-//                            .padding(top = 16.dp, bottom = 16.dp, end = 32.dp, start = 20.dp)
-//                    )
-//                }
-//                Divider(
-//                    color = Color.Gray,
-//                    thickness = 1.dp,
-//                    modifier = Modifier.padding(horizontal = 27.dp)
-//                )
-//            }
-//            Text(text = "Version 1.0.0",
-//                style = TextStyle(
-//                    fontFamily = poppinsFamily,
-//                    fontWeight = FontWeight.Thin,
-//                    fontSize = 12.sp,
-//                    color = Color.Gray
-//                ),
-//                modifier = Modifier
-//                    .padding(top = 16.dp)
-//                    .constrainAs(versionText) {
-//                        top.linkTo(btnGroup.bottom)
-//                        start.linkTo(parent.start)
-//                        end.linkTo(parent.end)
-//                    })
-//        }
-//    }
 }

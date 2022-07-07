@@ -75,7 +75,7 @@ class RegisterCompose : Fragment() {
                         Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT)
                             .show()
                         progressDialog.dismiss()
-                        findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
+                        findNavController().popBackStack()
                     }
                     Status.ERROR -> {
                         progressDialog.dismiss()
@@ -88,7 +88,7 @@ class RegisterCompose : Fragment() {
                         AlertDialog.Builder(requireContext())
                             .setTitle("Pesan")
                             .setMessage(message)
-                            .setPositiveButton("Iya"){ positiveButton, _ ->
+                            .setPositiveButton("Iya") { positiveButton, _ ->
                                 positiveButton.dismiss()
                             }
                             .show()
@@ -169,7 +169,9 @@ class RegisterCompose : Fragment() {
         @DrawableRes iconResouce: Int,
         color: Color = Color.Gray,
         elevation: ButtonElevation? = ButtonDefaults.elevation(),
-        onClick: () -> Unit = {}
+        onClick: () -> Unit = {
+            findNavController().popBackStack()
+        }
     ) {
         Button(
             onClick = onClick,
@@ -392,39 +394,11 @@ class RegisterCompose : Fragment() {
                 fontFamily = poppinsFamily,
                 modifier = Modifier.clickable(
                     onClick = {
-                        findNavController().navigate(R.id.action_registerCompose_to_loginCompose)
+                        findNavController().popBackStack()
                     }),
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                 color = Color.DarkGray
-
             )
         }
-
-
     }
-
-
-//    @Preview(showBackground = true, showSystemUi = true)
-//    @Composable
-//    fun DefaultPreview() {
-//
-//        MyTheme {
-//
-//            ImageWithBackground(
-//                painter = painterResource(id = R.drawable.wallpapers),
-//                backgroundDrawableResId = R.drawable.wallpapers,
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .height(2580.dp)
-//                    .width(2960.dp)
-//                    .padding(0.dp),
-//            )
-//            Column {
-//                HeaderLogin()
-//                ActionItem()
-//
-//            }
-//
-//        }
-//    }
 }

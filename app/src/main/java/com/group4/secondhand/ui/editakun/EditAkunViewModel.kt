@@ -3,6 +3,7 @@ package com.group4.secondhand.ui.editakun
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
+import com.group4.secondhand.ui.reduceFileImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -23,7 +24,7 @@ class EditAkunViewModel @Inject constructor(private val repository: Repository):
         address: String,
         city: String,
     ){
-        val requestFile = file?.asRequestBody("image/*".toMediaTypeOrNull())
+        val requestFile = file?.let { reduceFileImage(it).asRequestBody("image/jpg".toMediaTypeOrNull()) }
         val image = requestFile?.let { MultipartBody.Part.createFormData("image", file.name, it) }
         val namaRequestBody = name.toRequestBody("text/plain".toMediaType())
         val kotaRequestBody = city.toRequestBody("text/plain".toMediaType())

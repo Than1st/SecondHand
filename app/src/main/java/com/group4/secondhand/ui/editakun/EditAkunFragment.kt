@@ -66,16 +66,16 @@ class EditAkunFragment : Fragment() {
         val bundle = arguments
         binding.apply {
             etNama.setText(
-                cekNull(bundle?.getString(USER_NAME).toString())
+                checkNull(bundle?.getString(USER_NAME).toString())
             )
             etKota.setText(
-                cekNull(bundle?.getString(USER_CITY).toString())
+                checkNull(bundle?.getString(USER_CITY).toString())
             )
             etAlamat.setText(
-                cekNull(bundle?.getString(USER_ADDRESS).toString())
+                checkNull(bundle?.getString(USER_ADDRESS).toString())
             )
             etNoHp.setText(
-                cekNull(bundle?.getString(USER_PHONE_NUMBER).toString())
+                checkNull(bundle?.getString(USER_PHONE_NUMBER).toString())
             )
             Glide.with(requireContext())
                 .load(bundle?.getString(USER_IMAGE) ?: R.drawable.default_image)
@@ -130,6 +130,20 @@ class EditAkunFragment : Fragment() {
         }
     }
 
+    private fun checkNull(value: String?): String {
+        return when {
+            value.isNullOrEmpty() -> {
+                ""
+            }
+            value == "null" -> {
+                ""
+            }
+            else -> {
+                value
+            }
+        }
+    }
+
     private fun validation(
         nama: String,
         kota: String,
@@ -159,28 +173,28 @@ class EditAkunFragment : Fragment() {
         }
     }
 
-    private fun cekNull(value: String): String {
-        return when (value) {
-            "no_image" -> {
-                ""
-            }
-            "no_city" -> {
-                ""
-            }
-            "no_address" -> {
-                ""
-            }
-            "no_number" -> {
-                ""
-            }
-            "null" -> {
-                ""
-            }
-            else -> {
-                value
-            }
-        }
-    }
+//    private fun cekNull(value: String): String {
+//        return when (value) {
+//            "no_image" -> {
+//                ""
+//            }
+//            "no_city" -> {
+//                ""
+//            }
+//            "no_address" -> {
+//                ""
+//            }
+//            "no_number" -> {
+//                ""
+//            }
+//            "null" -> {
+//                ""
+//            }
+//            else -> {
+//                value
+//            }
+//        }
+//    }
 
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
