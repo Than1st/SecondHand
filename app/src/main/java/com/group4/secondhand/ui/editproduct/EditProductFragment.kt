@@ -170,7 +170,7 @@ class EditProductFragment : Fragment() {
                     productId,
                     namaProduk,
                     deskripsiProduk,
-                    hargaProduk.toString(),
+                    hargaProduk,
                     listCategoryId,
                     lokasi,
                     file

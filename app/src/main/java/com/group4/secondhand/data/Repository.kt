@@ -13,7 +13,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     // SELLER
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
-    suspend fun getSellerOrder(token: String) = apiHelper.getSellerOrder(token)
+    suspend fun getSellerOrder(token: String,status: String) = apiHelper.getSellerOrder(token,status)
     suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiHelper.approveOrder(token, id, requestApproveOrder)
     suspend fun uploadProduct(

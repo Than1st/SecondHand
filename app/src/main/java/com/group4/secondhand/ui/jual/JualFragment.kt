@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,6 +72,8 @@ class JualFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listCategory.clear()
+        listCategoryId.clear()
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
         viewModel.getToken()
@@ -102,18 +105,19 @@ class JualFragment : Fragment() {
                 SUCCESS -> {
                     progressDialog.dismiss()
                     if (it.data != null) {
-                        val kota = it.data.city
-                        val alamat = it.data.address
+                        val kota = it.data.city ?: "noKota"
+                        val alamat = it.data.address ?: "noAddress"
                         val gambar = it.data.imageUrl ?: "noImage"
-                        val noHp = it.data.phoneNumber
-                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()) {
+                        val noHp = it.data.phoneNumber ?: "noHp"
+                        if (kota == "noKota" || alamat == "noAddress" || gambar == "noImage" || noHp == "noHp") {
                             AlertDialog.Builder(requireContext())
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
+                                .setCancelable(false)
                                 .setPositiveButton("Iya"){ positiveButton, _ ->
-//                                    bundleLengkapiAkun.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment)
+                                    bundle.putString(NAME_USER_KEY, it.data.fullName)
                                     positiveButton.dismiss()
+                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment, bundle)
                                 }
                                 .setNegativeButton("Tidak") { negativeButton, _ ->
                                     findNavController().popBackStack()
@@ -260,14 +264,18 @@ class JualFragment : Fragment() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    progressDialog.dismiss()
-                    showToastSuccess(
-                        binding.root,
-                        "Produk berhasil di terbitkan.",
-                        resources.getColor(R.color.success)
-                    )
-                    findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                    listCategory.clear()
                     listCategoryId.clear()
+                    Handler().postDelayed({
+                        progressDialog.dismiss()
+//                        viewModel.uploadResponse.removeObservers(viewLifecycleOwner)
+                        findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                        showToastSuccess(
+                            binding.root,
+                            "Produk berhasil di terbitkan.",
+                            resources.getColor(R.color.success)
+                        )
+                    }, 1000)
                 }
                 ERROR -> {
                     progressDialog.dismiss()

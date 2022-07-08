@@ -165,7 +165,7 @@ class DetailFragment : Fragment() {
                                         dialogP.dismiss()
                                     }
                                     .setNegativeButton("Cancel") { dialogN, _ ->
-                                        findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+
                                         dialogN.dismiss()
                                     }
                                     .setCancelable(false)

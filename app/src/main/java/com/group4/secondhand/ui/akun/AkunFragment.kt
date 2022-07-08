@@ -126,6 +126,9 @@ class AkunFragment : Fragment() {
                 findNavController().navigate(R.id.action_akunFragment_to_changePasswordFragment, bundle)
                 dialog.dismiss()
             }
+            dialogBinding.listClose.setOnClickListener {
+                dialog.dismiss()
+            }
             dialog.show()
         }
         binding.listKeluar.setOnClickListener {

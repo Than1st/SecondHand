@@ -36,15 +36,17 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
-    val listProduct : MutableList<ResponseSellerProduct> = ArrayList()
+    val listProduct: MutableList<ResponseSellerProduct> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
         const val USER_NAME = "UserName"
         const val USER_CITY = "UserCity"
         const val USER_IMAGE = "UserCity"
+        const val USER_NUMBER = "UserNumber"
         const val ORDER_ID = "OrderId"
         const val ORDER_STATUS = "OrderStatus"
+        const val PRODUCT_STATUS = "ProductStatus"
         const val PRODUCT_IMAGE = "ProductImage"
         const val PRODUCT_NAME = "ProductName"
         const val PRODUCT_DESCRIPTION = "productDescription"
@@ -138,31 +140,43 @@ class DaftarJualFragment : Fragment() {
 
     private fun setRecycler() {
         binding.btnProduk.setOnClickListener { getSellerProduct() }
-        binding.btnDiminati.setOnClickListener { getSellerOrder() }
+        binding.btnDiminati.setOnClickListener {
+            binding.rvProduct.visibility = View.GONE
+            binding.lottieEmpty.visibility = View.GONE
+            binding.rvOrder.visibility = View.VISIBLE
+            binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
+            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
+            getSellerOrder("pending")
+        }
         binding.btnTerjual.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
-            binding.rvDiminati.visibility = View.GONE
-            binding.rvTerjual.visibility = View.VISIBLE
+            binding.lottieEmpty.visibility = View.GONE
+            binding.rvOrder.visibility = View.VISIBLE
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#06283D"))
+            getSellerOrder("accepted")
         }
     }
 
     private fun getSellerProduct() {
-        daftarJualViewModel.getProduct(token)
         binding.rvProduct.visibility = View.VISIBLE
-        binding.rvDiminati.visibility = View.GONE
-        binding.rvTerjual.visibility = View.GONE
+        binding.rvOrder.visibility = View.GONE
         binding.lottieEmpty.visibility = View.GONE
         binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
         binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
+        daftarJualViewModel.getProduct(token)
         daftarJualViewModel.product.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
                     binding.lottieEmpty.visibility = View.GONE
+                    binding.rvProduct.visibility = View.GONE
+                    binding.btnDiminati.isEnabled = false
+                    binding.btnTerjual.isEnabled = false
+                    binding.btnProduk.isEnabled = false
                 }
                 SUCCESS -> {
                     if (it.data != null) {
@@ -175,13 +189,13 @@ class DaftarJualFragment : Fragment() {
                                         putInt(PRODUCT_PRICE, data.basePrice)
                                         listCategory.clear()
                                         listCategoryId.clear()
-                                        for (kategori in data.categories){
+                                        for (kategori in data.categories) {
                                             listCategory.add(kategori.name)
                                             listCategoryId.add(kategori.id)
                                         }
-                                        putString(PRODUCT_DESCRIPTION,data.description)
-                                        putString(PRODUCT_IMAGE,data.imageUrl)
-                                        putString(USER_CITY,data.location)
+                                        putString(PRODUCT_DESCRIPTION, data.description)
+                                        putString(PRODUCT_IMAGE, data.imageUrl)
+                                        putString(USER_CITY, data.location)
                                     }
                                     findNavController().navigate(
                                         R.id.action_daftarJualFragment_to_editProductFragment,
@@ -190,8 +204,8 @@ class DaftarJualFragment : Fragment() {
                                 }
                             })
                         listProduct.clear()
-                        for (i in it.data){
-                            if (i.status == "available"){
+                        for (i in it.data) {
+                            if (i.status == "available") {
                                 listProduct.add(i)
                             }
                         }
@@ -203,28 +217,30 @@ class DaftarJualFragment : Fragment() {
                     }
                     binding.buttonGrup.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
+                    binding.rvProduct.visibility = View.VISIBLE
+                    binding.btnDiminati.isEnabled = true
+                    binding.btnTerjual.isEnabled = true
+                    binding.btnProduk.isEnabled = true
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
     }
 
-    private fun getSellerOrder() {
-        daftarJualViewModel.getOrder(token)
-        binding.rvProduct.visibility = View.GONE
-        binding.rvTerjual.visibility = View.GONE
-        binding.lottieEmpty.visibility = View.GONE
-        binding.rvDiminati.visibility = View.VISIBLE
-        binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
-        binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
-        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
+    private fun getSellerOrder(status: String) {
+        daftarJualViewModel.getOrder(token, status)
         daftarJualViewModel.order.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
                     binding.pbLoading.visibility = View.VISIBLE
                     binding.lottieEmpty.visibility = View.GONE
+                    binding.rvOrder.visibility = View.GONE
+                    binding.btnDiminati.isEnabled = false
+                    binding.btnTerjual.isEnabled = false
+                    binding.btnProduk.isEnabled = false
                 }
                 SUCCESS -> {
                     if (it.data != null) {
@@ -239,41 +255,34 @@ class DaftarJualFragment : Fragment() {
                                         USER_CITY,
                                         data.buyerInformation.city.toString()
                                     )
+                                    bundlePenawar.putString(USER_NUMBER, data.buyerInformation.phoneNumber)
                                     bundlePenawar.putInt(ORDER_ID, data.id)
                                     bundlePenawar.putString(ORDER_STATUS, data.status)
+                                    bundlePenawar.putString(PRODUCT_STATUS, data.product.status)
                                     bundlePenawar.putString(PRODUCT_NAME, data.product.name)
-                                    bundlePenawar.putString(
-                                        PRODUCT_PRICE,
-                                        data.product.basePrice.toString()
-                                    )
-                                    bundlePenawar.putString(
-                                        PRODUCT_BID,
-                                        data.price.toString()
-                                    )
-                                    bundlePenawar.putString(
-                                        PRODUCT_IMAGE,
-                                        data.product.imageUrl
-                                    )
-                                    bundlePenawar.putString(
-                                        PRODUCT_BID_DATE,
-                                        data.createdAt
-                                    )
-                                    findNavController().navigate(
-                                        R.id.action_daftarJualFragment_to_infoPenawarFragment,
-                                        bundlePenawar
-                                    )
+                                    bundlePenawar.putString(PRODUCT_PRICE, data.product.basePrice.toString())
+                                    bundlePenawar.putString(PRODUCT_BID,data.price.toString())
+                                    bundlePenawar.putString(PRODUCT_IMAGE,data.product.imageUrl)
+                                    bundlePenawar.putString(PRODUCT_BID_DATE,data.createdAt)
+                                    findNavController()
+                                        .navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment,bundlePenawar)
                                 }
                             })
                         sellerOrderAdapter.submitData(it.data)
-                        binding.rvDiminati.adapter = sellerOrderAdapter
+                        binding.rvOrder.adapter = sellerOrderAdapter
                     }
                     if (it.data?.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
+                    binding.rvOrder.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
+                    binding.btnDiminati.isEnabled = true
+                    binding.btnTerjual.isEnabled = true
+                    binding.btnProduk.isEnabled = true
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "You are not logged in", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

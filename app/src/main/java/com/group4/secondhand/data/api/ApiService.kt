@@ -21,7 +21,10 @@ interface ApiService {
     ): Response<ResponseDeleteSellerProduct>
 
     @GET("seller/order")
-    suspend fun getSellerOrder(@Header("access_token") token: String): List<ResponseSellerOrder>
+    suspend fun getSellerOrder(
+        @Header("access_token") token: String,
+        @Query("status") status: String
+    ): List<ResponseSellerOrder>
 
     @PATCH("seller/order/{id}")
     suspend fun approveOrder(

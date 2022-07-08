@@ -163,9 +163,7 @@
             android:inputType="number"
             app:currencySymbol="Rp"
             app:localeTag="id-ID"
-            android:hint="0.00" />
-
-
+            android:hint="Harga Tawar" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton

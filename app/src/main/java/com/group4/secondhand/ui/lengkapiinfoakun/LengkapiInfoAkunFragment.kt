@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentLengkapiInfoAkunBinding
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
@@ -112,7 +113,7 @@ class LengkapiInfoAkunFragment : Fragment() {
                         alamat,
                         kota
                     )
-//                    progressDialog.show()
+                    progressDialog.show()
 //                    Handler().postDelayed({
 //                        progressDialog.dismiss()
 //                        findNavController().popBackStack()
@@ -130,7 +131,7 @@ class LengkapiInfoAkunFragment : Fragment() {
                 SUCCESS -> {
                     Handler().postDelayed({
                         progressDialog.dismiss()
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.action_lengkapiInfoAkunFragment_to_jualFragment)
                     }, 1000)
                 }
                 ERROR -> {
