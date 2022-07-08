@@ -78,8 +78,6 @@
                 android:id="@+id/harga_container"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-                app:startIconDrawable="@drawable/ic_rp"
-                app:startIconTint="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
@@ -92,14 +90,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nama_container">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.cottacush.android.currencyedittext.CurrencyEditText
                     android:id="@+id/et_harga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Harga Produk"
                     android:inputType="number"
-                    android:maxLength="10"
-                    />
+                    app:currencySymbol="Rp"
+                    app:localeTag="id-ID"
+                    android:hint="Harga Produk" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

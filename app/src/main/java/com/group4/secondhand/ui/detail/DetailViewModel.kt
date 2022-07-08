@@ -14,8 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val repository: Repository):ViewModel() {
-//    private var _token = MutableLiveData<String>()
-//    val token: MutableLiveData<String> get() = _token
 
     private var _token = MutableLiveData<Resource<String>>()
     val token : LiveData<Resource<String>> get() = _token

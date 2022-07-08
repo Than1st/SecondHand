@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.group4.secondhand.ui.detail
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -24,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DetailFragment() : Fragment() {
+class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -50,6 +53,7 @@ class DetailFragment() : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
@@ -74,7 +78,7 @@ class DetailFragment() : Fragment() {
                 binding.btnSayaTertarikNego.isEnabled = false
                 binding.btnSayaTertarikNego.backgroundTintList =
                     requireContext().getColorStateList(R.color.dark_grey)
-                binding.btnSayaTertarikNego.setText("Menunggu Respon Penjual")
+                binding.btnSayaTertarikNego.text = "Menunggu Respon Penjual"
             }
         }
 
@@ -84,13 +88,13 @@ class DetailFragment() : Fragment() {
             detailViewModel.getProdukById(productId)
         }
 
-        detailViewModel.detailProduk.observe(viewLifecycleOwner) {
+        detailViewModel.detailProduk.observe(viewLifecycleOwner) { it ->
             when (it.status) {
                 SUCCESS -> {
                     when (it.data?.code()) {
                         200 -> if (it.data.body() != null) {
                             productName = it.data.body()?.name.toString()
-                            imageURL = it.data?.body()?.imageUrl.toString()
+                            imageURL = it.data.body()?.imageUrl.toString()
 
                             binding.tvNamaPenjual.text = it.data.body()?.user?.fullName
                             Glide.with(binding.ivAvatarPenjual)
@@ -100,9 +104,9 @@ class DetailFragment() : Fragment() {
                                 .into(binding.ivAvatarPenjual)
 
                             Glide.with(binding.imageView)
-                                .load(it.data?.body()?.imageUrl)
+                                .load(it.data.body()?.imageUrl)
                                 .into(binding.imageView)
-                            binding.tvProdukName.text = it.data?.body()?.name
+                            binding.tvProdukName.text = it.data.body()?.name
                             binding.tvDeskripsiProduk.text = it.data.body()?.description
                             binding.tvKotaPenjual.text = it.data.body()?.location
 
