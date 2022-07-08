@@ -147,8 +147,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         app:hintEnabled="false"
-        app:startIconDrawable="@drawable/ic_rp"
-        app:startIconTint="@color/black"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -158,16 +156,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_harga_tawar">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.cottacush.android.currencyedittext.CurrencyEditText
             android:id="@+id/et_harga_tawar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
             android:inputType="number"
-            android:hint="0,00"
-            android:textStyle="bold" />
-
-
+            app:currencySymbol="Rp"
+            app:localeTag="id-ID"
+            android:hint="Harga Tawar" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton

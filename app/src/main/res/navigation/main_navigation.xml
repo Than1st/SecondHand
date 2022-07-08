@@ -136,7 +136,13 @@
         android:id="@+id/lengkapiInfoAkunFragment"
         android:name="com.group4.secondhand.ui.lengkapiinfoakun.LengkapiInfoAkunFragment"
         android:label="fragment_lengkapi_info_akun"
-        tools:layout="@layout/fragment_lengkapi_info_akun" />
+        tools:layout="@layout/fragment_lengkapi_info_akun" >
+        <action
+            android:id="@+id/action_lengkapiInfoAkunFragment_to_jualFragment"
+            app:destination="@id/jualFragment"
+            app:popUpTo="@id/lengkapiInfoAkunFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/infoPenawarFragment"
         android:name="com.group4.secondhand.ui.infopenawar.InfoPenawarFragment"

@@ -60,26 +60,8 @@ class BottomSheetDetailFragment(
             .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
             .into(binding.ivProductImage)
 
-        val tw = object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (s.length != 0) {
-                    val enteredNumber = s.toString().replace(",", "").toLong()
-                    binding.etHargaTawar.removeTextChangedListener(this)
-                    val formatter = DecimalFormat("#,###,###")
-                    val yourFormattedString: String = formatter.format(enteredNumber)
-                    binding.etHargaTawar.setText(yourFormattedString)
-                    binding.etHargaTawar.addTextChangedListener(this)
-                    binding.etHargaTawar.setSelection(yourFormattedString.length)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        }
-        binding.etHargaTawar.addTextChangedListener(tw)
-
         binding.btnKirimHargaTawar.setOnClickListener {
-            val inputHargaTawar = binding.etHargaTawar.text.toString().replace(",", "")
+            val inputHargaTawar = binding.etHargaTawar.getNumericValue().toInt().toString()
             if (binding.etHargaTawar.text.isNullOrEmpty()) {
                 binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
             }else if(inputHargaTawar.toInt() >= hargaProduk){
@@ -87,7 +69,7 @@ class BottomSheetDetailFragment(
             }else {
                 detailViewModel.getToken()
                 detailViewModel.token.observe(viewLifecycleOwner) {
-                    val inputHargaTawar = binding.etHargaTawar.text.toString().replace(",", "")
+                    val inputHargaTawar = binding.etHargaTawar.getNumericValue().toInt().toString()
                     val requestHargaTawar =
                         RequestBuyerOrder(produkId, inputHargaTawar.toInt())
                     detailViewModel.buyerOrder(it.data.toString(), requestHargaTawar)

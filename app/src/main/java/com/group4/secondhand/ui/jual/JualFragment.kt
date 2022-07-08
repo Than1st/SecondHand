@@ -105,18 +105,19 @@ class JualFragment : Fragment() {
                 SUCCESS -> {
                     progressDialog.dismiss()
                     if (it.data != null) {
-                        val kota = it.data.city
-                        val alamat = it.data.address
+                        val kota = it.data.city ?: "noKota"
+                        val alamat = it.data.address ?: "noAddress"
                         val gambar = it.data.imageUrl ?: "noImage"
-                        val noHp = it.data.phoneNumber
-                        if (kota.isEmpty() || alamat.isEmpty() || gambar == "noImage" || noHp.isEmpty()) {
+                        val noHp = it.data.phoneNumber ?: "noHp"
+                        if (kota == "noKota" || alamat == "noAddress" || gambar == "noImage" || noHp == "noHp") {
                             AlertDialog.Builder(requireContext())
                                 .setTitle("Pesan")
                                 .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
+                                .setCancelable(false)
                                 .setPositiveButton("Iya"){ positiveButton, _ ->
-//                                    bundleLengkapiAkun.putString(NAME_USER_KEY, it.data.fullName)
-                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment)
+                                    bundle.putString(NAME_USER_KEY, it.data.fullName)
                                     positiveButton.dismiss()
+                                    findNavController().navigate(R.id.action_jualFragment_to_lengkapiInfoAkunFragment, bundle)
                                 }
                                 .setNegativeButton("Tidak") { negativeButton, _ ->
                                     findNavController().popBackStack()

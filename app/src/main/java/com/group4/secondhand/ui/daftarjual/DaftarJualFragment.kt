@@ -45,6 +45,7 @@ class DaftarJualFragment : Fragment() {
         const val USER_NAME = "UserName"
         const val USER_CITY = "UserCity"
         const val USER_IMAGE = "UserCity"
+        const val USER_NUMBER = "UserNumber"
         const val ORDER_ID = "OrderId"
         const val ORDER_STATUS = "OrderStatus"
         const val PRODUCT_STATUS = "ProductStatus"
@@ -256,6 +257,7 @@ class DaftarJualFragment : Fragment() {
                                         USER_CITY,
                                         data.buyerInformation.city.toString()
                                     )
+                                    bundlePenawar.putString(USER_NUMBER, data.buyerInformation.phoneNumber)
                                     bundlePenawar.putInt(ORDER_ID, data.id)
                                     bundlePenawar.putString(ORDER_STATUS, data.status)
                                     bundlePenawar.putString(PRODUCT_STATUS, data.product.status)

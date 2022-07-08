@@ -157,7 +157,7 @@ class EditProductFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             var file : File? = null
             val validation = validation(
@@ -175,7 +175,7 @@ class EditProductFragment : Fragment() {
                     productId,
                     namaProduk,
                     deskripsiProduk,
-                    hargaProduk.toString(),
+                    hargaProduk,
                     listCategoryId,
                     lokasi,
                     file

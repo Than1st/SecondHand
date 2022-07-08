@@ -32,6 +32,7 @@ import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CITY
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NUMBER
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
 import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,7 @@ class InfoPenawarFragment : Fragment() {
         val token = bundlePenawar?.getString(USER_TOKEN)
         val namaPenawar = bundlePenawar?.getString(USER_NAME)
         val kotaPenawar = bundlePenawar?.getString(USER_CITY)
+        val nomorPenawar = bundlePenawar?.getString(USER_NUMBER)
         val gambarPenawar = bundlePenawar?.getString(USER_IMAGE)
         val namaProduk = bundlePenawar?.getString(PRODUCT_NAME)
         val hargaAwalProduk = bundlePenawar?.getString(PRODUCT_PRICE)
@@ -149,6 +151,7 @@ class InfoPenawarFragment : Fragment() {
                 val bottomFragment = BottomSheetInfoPenawarFragment(
                     namaPenawar.toString(),
                     kotaPenawar.toString(),
+                    nomorPenawar.toString(),
                     gambarPenawar.toString(),
                     namaProduk.toString(),
                     hargaAwalProduk.toString().toInt(),
@@ -174,6 +177,7 @@ class InfoPenawarFragment : Fragment() {
                                 val bottomFragment = BottomSheetInfoPenawarFragment(
                                     namaPenawar.toString(),
                                     kotaPenawar.toString(),
+                                    nomorPenawar.toString(),
                                     gambarPenawar.toString(),
                                     namaProduk.toString(),
                                     hargaAwalProduk.toString().toInt(),
