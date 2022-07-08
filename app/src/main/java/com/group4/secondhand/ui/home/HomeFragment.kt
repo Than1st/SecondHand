@@ -36,7 +36,6 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productAdapter: ProductAdapter
-    private val listHomeProduct: MutableList<ResponseGetProduct> = ArrayList()
 
 
     override fun onCreateView(
@@ -146,20 +145,8 @@ class HomeFragment : Fragment() {
                         binding.lottieEmpty.visibility = View.VISIBLE
                         binding.tvEmptyProduct.visibility = View.VISIBLE
                     }
-                    listHomeProduct.clear()
-                    if (it.data != null) {
-                        for (data in it.data) {
-                            if (data.name.isNullOrEmpty() && data.description.isNullOrEmpty() &&
-                                data.basePrice == null && data. imageUrl.isNullOrEmpty() &&
-                                data.location.isNullOrEmpty() && data.categories.isEmpty()
-                            ) {
-                            } else {
-                                listHomeProduct.add(data)
-                            }
-                        }
-                    }
                     binding.rvProduct.visibility = View.VISIBLE
-                    productAdapter.submitData(listHomeProduct)
+                    productAdapter.submitData(it.data)
                 }
                 Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
