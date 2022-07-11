@@ -2,8 +2,10 @@ package com.group4.secondhand.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.databinding.ActivityMainBinding
@@ -13,7 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private val bottomDestinations = listOf(
+        R.id.homeFragment,
+        R.id.notifikasiFragment,
+        R.id.daftarJualFragment,
+        R.id.akunFragment
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -22,44 +29,14 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragmentContainer)
         binding.bottomNavigation.setupWithNavController(navController)
 
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.changePasswordFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.editProductFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.infoPenawarFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.lengkapiInfoAkunFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.editAkunFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.jualFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.previewProductFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.detailFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.loginCompose -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                R.id.registerCompose -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                else -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                }
+            binding.bottomNavigation.visibility = if (destination.id in bottomDestinations){
+                View.VISIBLE
+            }else{
+                View.GONE
             }
         }
-
     }
     private fun fullscreen() {
         setFullScreen(window)

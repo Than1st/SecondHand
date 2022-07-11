@@ -38,8 +38,8 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     ) = apiHelper.updateProduct(token,id, file, name, description, base_price, categoryIds, location)
 
     // BUYER
-    suspend fun getProduct(status: String, categoryId: String) =
-        apiHelper.getProduct(status, categoryId)
+    suspend fun getProduct(status: String, categoryId: String, search: String, page: String, perpage: String) =
+        apiHelper.getProduct(status, categoryId, search, page, perpage)
 
     suspend fun getProductById (id : Int) = apiHelper.getProductById(id)
 

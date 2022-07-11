@@ -59,6 +59,9 @@ class HomeFragment : Fragment() {
         changeToolbar()
         detailProduct()
         fetchProduct("")
+        binding.searchBar.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -154,7 +157,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        homeViewModel.getProduct(status, categoryId)
+        homeViewModel.getProduct(status, categoryId,"","","")
     }
 
     private fun detailProduct() {

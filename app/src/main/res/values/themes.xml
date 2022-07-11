@@ -28,4 +28,9 @@
         <item name="android:background">@drawable/bottom_sheet_radius</item>
     </style>
 
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
 </resources>
