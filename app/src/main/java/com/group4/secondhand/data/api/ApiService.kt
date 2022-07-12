@@ -26,6 +26,12 @@ interface ApiService {
         @Query("status") status: String
     ): List<ResponseSellerOrder>
 
+    @GET("seller/order/{id}")
+    suspend fun getSellerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") orderId: Int
+    ): ResponseSellerOrderById
+
     @PATCH("seller/order/{id}")
     suspend fun approveOrder(
         @Header("access_token") token: String,
@@ -128,6 +134,9 @@ interface ApiService {
     ): List<ResponseNotification>
 
     @PATCH("notification/{id}")
-    suspend fun markReadNotification(@Path("id") id: Int)
+    suspend fun markReadNotification(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    )
 
 }
