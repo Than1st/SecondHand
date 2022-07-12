@@ -18,12 +18,14 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
+import com.group4.secondhand.data.model.ResponseNotification
 import java.io.*
 import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 val listCategory : MutableList<String> = ArrayList()
 val listCategoryId : MutableList<Int> = ArrayList()
