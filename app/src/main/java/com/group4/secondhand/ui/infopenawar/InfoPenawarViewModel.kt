@@ -9,23 +9,24 @@ import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.RequestApproveOrder
 import com.group4.secondhand.data.model.ResponseGetDataUser
 import com.group4.secondhand.data.model.ResponseApproveOrder
+import com.group4.secondhand.data.model.ResponseSellerOrderById
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class InfoPenawarViewModel @Inject constructor(private val repository: Repository): ViewModel(){
-    private var _responseOrder = MutableLiveData<Resource<ResponseGetDataUser>>()
-    val responseUOrder : LiveData<Resource<ResponseGetDataUser>> get() = _responseOrder
+    private var _responseOrder = MutableLiveData<Resource<ResponseSellerOrderById>>()
+    val responseOrder : LiveData<Resource<ResponseSellerOrderById>> get() = _responseOrder
 
     private var _responseApproveOrder = MutableLiveData<Resource<ResponseApproveOrder>>()
     val responseApproveOrder: LiveData<Resource<ResponseApproveOrder>> get() = _responseApproveOrder
 
-    fun getOrderById(idOrder: Int){
+    fun getOrderById(idOrder: Int, token: String){
         viewModelScope.launch {
             _responseOrder.postValue(Resource.loading())
             try {
-//                _responseOrder.postValue(Resource.success(repository.))
+                _responseOrder.postValue(Resource.success(repository.getSellerOrderById(token, idOrder)))
             } catch (e: Exception){
                 _responseOrder.postValue(Resource.error(e.localizedMessage?:"Error occured"))
             }

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +16,9 @@ import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentNotifikasiBinding
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.ORDER_ID
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
+import com.group4.secondhand.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +26,7 @@ class NotifikasiFragment : Fragment() {
     private var _binding: FragmentNotifikasiBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotifikasiViewModel by viewModels()
-
+    private val bundle = Bundle()
     private val listNotif: MutableList<ResponseNotification> = ArrayList()
 
     override fun onCreateView(
@@ -62,6 +64,7 @@ class NotifikasiFragment : Fragment() {
                             .show()
                         viewModel.user.removeObservers(viewLifecycleOwner)
                     } else {
+                        bundle.putString(USER_TOKEN, it.data)
                         getNotif(it.data.toString())
                     }
                     pd.dismiss()
@@ -99,25 +102,57 @@ class NotifikasiFragment : Fragment() {
                             binding.emptyNotif.visibility = View.VISIBLE
                         } else {
                             for (data in it.data) {
-                                if (data.basePrice.isEmpty() ||
-                                    data.product == null ||
-                                    data.bidPrice.toString().isEmpty() ||
-                                    data.productName.isEmpty() ||
-                                    data.transactionDate.isNullOrEmpty() ||
-                                    data.status == "create"
-                                ) {
-                                } else {
-                                    listNotif.add(data)
+                                when {
+                                    data.basePrice.isEmpty() ||
+                                            data.product == null ||
+                                            data.bidPrice.toString().isEmpty() ||
+                                            data.productName.isEmpty() ||
+                                            data.transactionDate.isNullOrEmpty() ||
+                                            data.status == "create" ||
+                                            data.order_id == null -> {
+                                    }
+                                    else -> {
+                                        listNotif.add(data)
+                                    }
                                 }
                             }
                             val notificationAdapter =
                                 NotificationAdapter(object : NotificationAdapter.OnClickListener {
                                     override fun onClickItem(data: ResponseNotification) {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Notif Id = ${data.id}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        when (data.status) {
+                                            "bid" -> {
+                                                if (data.receiverId == data.product.userId) {
+                                                    bundle.putInt(ORDER_ID, data.order_id)
+                                                    viewModel.markReadNotification(token, data.id)
+                                                    findNavController().navigate(
+                                                        R.id.action_notifikasiFragment_to_infoPenawarFragment,
+                                                        bundle
+                                                    )
+                                                }
+                                            }
+                                            "declined" -> {
+                                                bundle.putInt(
+                                                    HomeFragment.PRODUCT_ID,
+                                                    data.productId
+                                                )
+                                                viewModel.markReadNotification(token, data.id)
+                                                findNavController().navigate(
+                                                    R.id.action_notifikasiFragment_to_detailFragment,
+                                                    bundle
+                                                )
+                                            }
+                                            "accepted" -> {
+                                                bundle.putInt(
+                                                    HomeFragment.PRODUCT_ID,
+                                                    data.productId
+                                                )
+                                                viewModel.markReadNotification(token, data.id)
+                                                findNavController().navigate(
+                                                    R.id.action_notifikasiFragment_to_detailFragment,
+                                                    bundle
+                                                )
+                                            }
+                                        }
                                     }
                                 })
                             notificationAdapter.submitData(listNotif)

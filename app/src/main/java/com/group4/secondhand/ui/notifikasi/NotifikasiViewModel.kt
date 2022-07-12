@@ -46,4 +46,10 @@ class NotifikasiViewModel @Inject constructor(private val repository: Repository
         }
     }
 
+    fun markReadNotification(token: String, id: Int){
+        viewModelScope.launch {
+            repository.markReadNotification(token, id)
+        }
+    }
+
 }

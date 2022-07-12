@@ -36,23 +36,16 @@ class DaftarJualFragment : Fragment() {
     private val bundlePenawar = Bundle()
     private val bundleEdit = Bundle()
     private var token = ""
-    val listProduct: MutableList<ResponseSellerProduct> = ArrayList()
+    private val listProduct: MutableList<ResponseSellerProduct> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
-        const val USER_NAME = "UserName"
         const val USER_CITY = "UserCity"
-        const val USER_IMAGE = "UserCity"
-        const val USER_NUMBER = "UserNumber"
         const val ORDER_ID = "OrderId"
-        const val ORDER_STATUS = "OrderStatus"
-        const val PRODUCT_STATUS = "ProductStatus"
         const val PRODUCT_IMAGE = "ProductImage"
         const val PRODUCT_NAME = "ProductName"
         const val PRODUCT_DESCRIPTION = "productDescription"
         const val PRODUCT_PRICE = "ProductPrice"
-        const val PRODUCT_BID = "ProductBid"
-        const val PRODUCT_BID_DATE = "ProductBidDate"
         const val PRODUCT_ID = "productId"
     }
 
@@ -101,7 +94,7 @@ class DaftarJualFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     if (it.data != null) {
-                        if (it.data.city == "no_city") {
+                        if (it.data.city.isEmpty()) {
                             binding.tvKotaPenjual.text = "-"
                         } else {
                             binding.tvKotaPenjual.text = it.data.city
@@ -247,23 +240,7 @@ class DaftarJualFragment : Fragment() {
                         val sellerOrderAdapter =
                             SellerOrderAdapter(object : SellerOrderAdapter.OnClickListener {
                                 override fun onClickItem(data: ResponseSellerOrder) {
-                                    bundlePenawar.putString(
-                                        USER_NAME,
-                                        data.buyerInformation.fullName
-                                    )
-                                    bundlePenawar.putString(
-                                        USER_CITY,
-                                        data.buyerInformation.city.toString()
-                                    )
-                                    bundlePenawar.putString(USER_NUMBER, data.buyerInformation.phoneNumber)
                                     bundlePenawar.putInt(ORDER_ID, data.id)
-                                    bundlePenawar.putString(ORDER_STATUS, data.status)
-                                    bundlePenawar.putString(PRODUCT_STATUS, data.product.status)
-                                    bundlePenawar.putString(PRODUCT_NAME, data.product.name)
-                                    bundlePenawar.putString(PRODUCT_PRICE, data.product.basePrice.toString())
-                                    bundlePenawar.putString(PRODUCT_BID,data.price.toString())
-                                    bundlePenawar.putString(PRODUCT_IMAGE,data.product.imageUrl)
-                                    bundlePenawar.putString(PRODUCT_BID_DATE,data.createdAt)
                                     findNavController()
                                         .navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment,bundlePenawar)
                                 }
