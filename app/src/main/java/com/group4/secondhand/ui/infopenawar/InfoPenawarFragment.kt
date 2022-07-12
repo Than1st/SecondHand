@@ -82,7 +82,12 @@ class InfoPenawarFragment : Fragment() {
 
                                 }
                                 tvHargaDitawar.text = getString(R.string.ditawar, currency(data.price))
-                                tvTanggal.text = convertDate(data.transactionDate)
+//                                if (data.transactionDate != null){
+//                                    tvTanggal.text = convertDate(data.transactionDate)
+//                                } else {
+//                                    tvTanggal.text = "-"
+//                                }
+                                tvTanggal.text = convertDate(data.createdAt)
                                 Glide.with(requireContext())
                                     .load(data.product.imageUrl)
                                     .transform(CenterCrop(), RoundedCorners(12))
