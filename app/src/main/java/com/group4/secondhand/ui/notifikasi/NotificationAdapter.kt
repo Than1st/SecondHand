@@ -4,6 +4,7 @@ package com.group4.secondhand.ui.notifikasi
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -71,7 +72,7 @@ class NotificationAdapter(
                         }
                     }
                     "declined" -> {
-                        tvStatusProduk.text = "Produk Ditolak"
+                        tvStatusProduk.text = "Penawaran Ditolak"
                         if (data.product != null){
                             if (data.receiverId == data.product.userId){
                                 tvPesan.text = "Anda menolak Tawaran ini"
@@ -83,7 +84,7 @@ class NotificationAdapter(
                         }
                     }
                     "accepted" -> {
-                        tvStatusProduk.text = "Produk Diterima"
+                        tvStatusProduk.text = "Penawaran Diterima"
                         if (data.product != null){
                             if (data.receiverId == data.product.userId){
                                 tvPesan.text = "Anda menerima Tawaran ini"
@@ -98,6 +99,9 @@ class NotificationAdapter(
                         tvPesan.text = " "
                     }
                 }
+                if (data.read){
+                    ivNotif.visibility = View.GONE
+                }
                 tvHargaDitawarProduk.text =
                     when (data.status) {
                         "declined" -> "Ditolak " + currency(data.bidPrice)
@@ -109,12 +113,10 @@ class NotificationAdapter(
                     text = if(data.basePrice.isNotEmpty()) striketroughtText(this, currency(data.basePrice.toInt())) else "-"
                 }
                 tvTanggal.text = if (data.transactionDate.isNullOrEmpty()) "-" else convertDate(data.transactionDate)
-                if (!data.read){
-                    Glide.with(binding.root)
-                        .load(data.imageUrl)
-                        .centerCrop()
-                        .into(ivProductImage)
-                }
+                Glide.with(binding.root)
+                    .load(data.imageUrl)
+                    .centerCrop()
+                    .into(ivProductImage)
                 root.setOnClickListener{
                     onItemClick.onClickItem(data)
                 }

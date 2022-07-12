@@ -9,6 +9,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getCategoryHome() = apiService.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
     suspend fun getSellerOrder(token: String,status: String) = apiService.getSellerOrder(token,status)
+    suspend fun getSellerOrderById(token: String,orderId: Int) = apiService.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String, id: Int) = apiService.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiService.approveOrder(token, id, requestApproveOrder)
 
@@ -62,4 +63,5 @@ class ApiHelper(private val apiService: ApiService) {
 
     // NOTIFICATION
     suspend fun getNotification(token: String) = apiService.getNofitication(token)
+    suspend fun markReadNotification(token: String, id: Int) = apiService.markReadNotification(token, id)
 }

@@ -14,6 +14,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiHelper.getSellerProduct(token)
     suspend fun getSellerOrder(token: String,status: String) = apiHelper.getSellerOrder(token,status)
+    suspend fun getSellerOrderById(token: String,orderId: Int) = apiHelper.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiHelper.approveOrder(token, id, requestApproveOrder)
     suspend fun uploadProduct(
@@ -67,6 +68,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     // NOTIFICATION
     suspend fun getNotification(token: String) = apiHelper.getNotification(token)
+    suspend fun markReadNotification(token: String, id: Int) = apiHelper.markReadNotification(token, id)
 
     // DATA STORE
     suspend fun setToken(token: String) = userPreferences.setToken(token)
