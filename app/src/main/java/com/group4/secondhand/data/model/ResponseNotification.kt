@@ -14,6 +14,8 @@ data class ResponseNotification(
     val createdAt: String,
     @SerializedName("id")
     val id: Int,
+    @SerializedName("order_id")
+    val order_id: Int,
     @SerializedName("image_url")
     val imageUrl: String?,
     @SerializedName("Product")
