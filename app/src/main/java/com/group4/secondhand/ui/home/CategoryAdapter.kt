@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.databinding.ItemCategoryHomeBinding
+import com.group4.secondhand.ui.lastPosition
 
 
 class CategoryAdapter(private val onItemClick: OnClickListener) :
@@ -54,12 +55,17 @@ class CategoryAdapter(private val onItemClick: OnClickListener) :
             binding.root.setOnClickListener {
                 onItemClick.onClickItem(data)
                 rowIndex = position
+                lastPosition = position
                 notifyDataSetChanged()
             }
-            if (rowIndex == position){
+            if ( lastPosition == position){
                 binding.cardCategory.setBackgroundColor(Color.parseColor("#06283D"))
             }else{
-                binding.cardCategory.setBackgroundColor(Color.parseColor("#47B5FF"))
+                if (rowIndex == position){
+                    binding.cardCategory.setBackgroundColor(Color.parseColor("#06283D"))
+                }else{
+                    binding.cardCategory.setBackgroundColor(Color.parseColor("#47B5FF"))
+                }
             }
         }
     }
