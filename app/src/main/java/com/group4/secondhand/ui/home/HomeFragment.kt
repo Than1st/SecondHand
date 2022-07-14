@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productAdapter: ProductAdapter
+    private var categorySelected = ""
 
 
     override fun onCreateView(
@@ -58,7 +59,7 @@ class HomeFragment : Fragment() {
         getCategory()
         changeToolbar()
         detailProduct()
-        fetchProduct("")
+        fetchProduct(categorySelected)
         binding.searchBar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
@@ -123,7 +124,8 @@ class HomeFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        fetchProduct(data.id.toString())
+                        categorySelected = data.id.toString()
+                        fetchProduct(categorySelected)
                     }
                 })
                 categoryAdapter.submitData(category.data)

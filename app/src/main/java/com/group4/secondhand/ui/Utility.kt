@@ -29,6 +29,7 @@ import kotlin.collections.ArrayList
 
 val listCategory : MutableList<String> = ArrayList()
 val listCategoryId : MutableList<Int> = ArrayList()
+var lastPosition = -1
 
 fun loadingBar(context: Context): ProgressDialog {
     return ProgressDialog(context)
