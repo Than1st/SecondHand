@@ -50,7 +50,14 @@ interface ApiService {
         @Part("base_price") base_price: RequestBody?,
         @Part("category_ids") categoryIds: List<Int>,
         @Part("location") location: RequestBody?,
-    ): ResponseUploadProduct
+    ): Response<ResponseUploadProduct>
+
+    @PATCH("seller/product/{id}")
+    suspend fun updateStatusProduk(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Body requestUpdateStatusProduk: RequestUpdateStatusProduk
+    ): Response<ResponseUpdateStatusProduk>
 
     @Multipart
     @PUT("seller/product/{id}")

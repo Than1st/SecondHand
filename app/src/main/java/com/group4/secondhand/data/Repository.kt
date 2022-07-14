@@ -2,10 +2,7 @@ package com.group4.secondhand.data
 
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.datastore.UserPreferences
-import com.group4.secondhand.data.model.RequestApproveOrder
-import com.group4.secondhand.data.model.RequestBuyerOrder
-import com.group4.secondhand.data.model.RequestLogin
-import com.group4.secondhand.data.model.RequestRegister
+import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -17,6 +14,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getSellerOrderById(token: String,orderId: Int) = apiHelper.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiHelper.approveOrder(token, id, requestApproveOrder)
+    suspend fun updateStatusProduk(token: String,produkId: Int, requestUpdateStatusProduk: RequestUpdateStatusProduk) = apiHelper.updateStatusProduk(token, produkId, requestUpdateStatusProduk)
     suspend fun uploadProduct(
         token: String,
         file : MultipartBody.Part,

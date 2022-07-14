@@ -12,7 +12,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getSellerOrderById(token: String,orderId: Int) = apiService.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String, id: Int) = apiService.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiService.approveOrder(token, id, requestApproveOrder)
-
+    suspend fun updateStatusProduk(token: String,produkId: Int, requestUpdateStatusProduk: RequestUpdateStatusProduk) = apiService.updateStatusProduk(token, produkId, requestUpdateStatusProduk)
     suspend fun uploadProduct(
         token: String,
         file: MultipartBody.Part,

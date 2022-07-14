@@ -83,6 +83,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Jam Tangan Casio Preview"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 

@@ -167,6 +167,10 @@ class EditAkunFragment : Fragment() {
                 binding.noHpContainer.error = "Nomor Hp tidak boleh kosong!"
                 false
             }
+            nohp.length < 11 ->{
+                binding.noHpContainer.error = "Minimum Nomor 11 digit!"
+                false
+            }
             else -> {
                 true
             }

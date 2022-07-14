@@ -114,12 +114,6 @@ class LengkapiInfoAkunFragment : Fragment() {
                         kota
                     )
                     progressDialog.show()
-//                    Handler().postDelayed({
-//                        progressDialog.dismiss()
-//                        findNavController().popBackStack()
-//                        Toast.makeText(requireContext(), "Berhasil Update Data!", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }, 1500)
                 }
             }
         }
@@ -173,6 +167,10 @@ class LengkapiInfoAkunFragment : Fragment() {
             }
             nohp.isEmpty() -> {
                 binding.noHpContainer.error = "Nomor Hp tidak boleh kosong!"
+                false
+            }
+            nohp.length < 11 ->{
+                binding.noHpContainer.error = "Minimum Nomor 11 digit!"
                 false
             }
             uriFoto.isEmpty() -> {

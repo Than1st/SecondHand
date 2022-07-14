@@ -169,7 +169,13 @@ class InfoPenawarFragment : Fragment() {
                                 }
 
                                 btnStatus.setOnClickListener {
-                                    val bottomFragment = BottomSheetStatusFragment()
+                                    val bottomFragment = BottomSheetStatusFragment(
+                                        token.toString(),
+                                        data.productId,
+                                        back = {
+                                            findNavController().popBackStack()
+                                        }
+                                    )
                                     bottomFragment.show(parentFragmentManager, "Tag")
                                 }
 
