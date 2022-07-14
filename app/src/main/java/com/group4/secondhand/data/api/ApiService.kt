@@ -39,6 +39,10 @@ interface ApiService {
         @Body requestApproveOrder: RequestApproveOrder
     ): ResponseApproveOrder
 
+    @GET ("seller/banner")
+    suspend fun getBanner() : List<ResponseGetBanner>
+
+
 
     @Multipart
     @POST("seller/product")

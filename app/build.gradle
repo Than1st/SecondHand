@@ -131,4 +131,10 @@ dependencies {
 
     //currency edit text
     implementation 'com.cottacush:CurrencyEditText:0.0.7'
+
+    //Slider Image
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
+
+
 }
