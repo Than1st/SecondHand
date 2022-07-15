@@ -82,11 +82,6 @@ class InfoPenawarFragment : Fragment() {
 
                                 }
                                 tvHargaDitawar.text = getString(R.string.ditawar, currency(data.price))
-//                                if (data.transactionDate != null){
-//                                    tvTanggal.text = convertDate(data.transactionDate)
-//                                } else {
-//                                    tvTanggal.text = "-"
-//                                }
                                 tvTanggal.text = convertDate(data.createdAt)
                                 Glide.with(requireContext())
                                     .load(data.product.imageUrl)
@@ -124,7 +119,7 @@ class InfoPenawarFragment : Fragment() {
                                                     status
                                                 )
                                                 if (token != null && idOrder != null) {
-                                                    viewModel.declineOrder(token, idOrder, body)
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
                                                     positive.dismiss()
                                                 }
                                             }
@@ -148,7 +143,7 @@ class InfoPenawarFragment : Fragment() {
                                                     status
                                                 )
                                                 if (token != null && idOrder != null) {
-                                                    viewModel.declineOrder(token, idOrder, body)
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
                                                     positive.dismiss()
                                                 }
                                             }
@@ -177,7 +172,19 @@ class InfoPenawarFragment : Fragment() {
                                     val bottomFragment = BottomSheetStatusFragment(
                                         token.toString(),
                                         data.productId,
-                                        back = {
+                                        back = { status ->
+//                                            findNavController().popBackStack()
+                                            if (status == "declined"){
+                                                val body = RequestApproveOrder(
+                                                    status
+                                                )
+                                                if (token != null && idOrder != null) {
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
+                                                    showToastSuccess(binding.root, "Transaksi di batalkan!", resources.getColor(R.color.success))
+                                                }
+                                            } else {
+                                                showToastSuccess(binding.root, "Transaksi di Terima!", resources.getColor(R.color.success))
+                                            }
                                             findNavController().popBackStack()
                                         }
                                     )
@@ -205,7 +212,7 @@ class InfoPenawarFragment : Fragment() {
                                                     bottomFragment.show(parentFragmentManager, "Tag")
                                                 } else {
                                                     showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
-                                                    findNavController().popBackStack()
+
                                                 }
                                             }
                                         }
@@ -249,7 +256,4 @@ class InfoPenawarFragment : Fragment() {
             }
         }
     }
-
-
-
 }

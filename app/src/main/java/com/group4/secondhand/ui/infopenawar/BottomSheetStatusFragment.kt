@@ -22,12 +22,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class BottomSheetStatusFragment(
     private val token: String,
     private val produkId: Int,
-    private val back: ()->Unit
+    private val back: (String)->Unit
 ) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetStatusBinding? = null
     private val binding get() = _binding!!
     private val viewModel: InfoPenawarViewModel by viewModels()
+    private var status = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +52,14 @@ class BottomSheetStatusFragment(
                     val request = RequestUpdateStatusProduk(
                         "seller"
                     )
+                    status = "accepted"
                     viewModel.updateStatusProduk(token, produkId, request)
                 }
                 R.id.rb_batalkan_transaksi -> {
                     val request = RequestUpdateStatusProduk(
                         "available"
                     )
+                    status = "declined"
                     viewModel.updateStatusProduk(token, produkId, request)
                 }
             }
@@ -72,7 +75,7 @@ class BottomSheetStatusFragment(
                                 Handler().postDelayed({
                                     progressDialog.dismiss()
                                     dismiss()
-                                    back
+                                    back(status)
                                 },1000)
                             }
                             400 -> {
