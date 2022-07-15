@@ -71,7 +71,7 @@
             android:focusable="true"
             android:fontFamily="@font/poppins_regular"
             android:padding="5dp"
-            android:text="Berhasil Berjual"
+            android:text="Berhasil Terjual"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -45,7 +45,7 @@ class InfoPenawarViewModel @Inject constructor(private val repository: Repositor
         }
     }
 
-    fun declineOrder(token: String, orderId: Int, requestApproveOrder: RequestApproveOrder){
+    fun updateOrderStatus(token: String, orderId: Int, requestApproveOrder: RequestApproveOrder){
         viewModelScope.launch {
             _responseApproveOrder.postValue(Resource.loading())
             try {
