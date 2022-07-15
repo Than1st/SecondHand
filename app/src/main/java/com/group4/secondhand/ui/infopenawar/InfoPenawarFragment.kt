@@ -97,6 +97,11 @@ class InfoPenawarFragment : Fragment() {
                                     "accepted" -> {
                                         btnGroup.visibility = View.GONE
                                         btnGroupAccepted.visibility = View.VISIBLE
+                                        if (data.product.status == "seller"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_terjual)
+                                        }
                                     }
                                     "declined" -> {
                                         btnGroup.visibility = View.GONE

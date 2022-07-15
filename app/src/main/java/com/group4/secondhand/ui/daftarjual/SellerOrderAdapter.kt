@@ -57,11 +57,24 @@ class SellerOrderAdapter(private val OnItemClick: OnClickListener) :
                     OnItemClick.onClickItem(data)
                 }
 
-                if (data.product.status == "sold" && data.status=="pending") {
+                if (data.product.status == "sold" && data.status == "pending") {
                     root.alpha = 0.5f
+                    tvStatus.text = "Pending"
+                }else if(data.product.status == "seller" && data.status =="pending"){
+                    root.alpha = 0.5f
+                    tvStatus.text = "Otomatis Ditolak"
+                } else if (data.status == "pending") {
+                    tvStatus.text = "Menunggu Konfirmasi"
+                } else if (data.status == "declined") {
+                    root.alpha = 0.5f
+                    tvStatus.text = "Tawaran Ditolak"
                     tvHargaDitawarProduk.apply {
-                        text = striketroughtText(this,priceNego)
+                        text = striketroughtText(this, priceNego)
                     }
+                }else if(data.product.status == "seller" && data.status == "accepted"){
+                    tvStatus.text = "Berhasil Terjual"
+                } else if (data.status == "accepted"){
+                    tvStatus.text = "Tawaran Diterima"
                 }
             }
         }
