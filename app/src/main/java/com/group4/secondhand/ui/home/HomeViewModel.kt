@@ -8,6 +8,7 @@ import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseCategoryHome
+import com.group4.secondhand.data.model.ResponseGetBanner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +20,21 @@ class HomeViewModel @Inject constructor(private val repository: Repository):View
 
     private val _product : MutableLiveData<Resource<List<ResponseGetProduct>>> = MutableLiveData()
     val product : LiveData<Resource<List<ResponseGetProduct>>> get() = _product
+
+    private val _banner : MutableLiveData<Resource<List<ResponseGetBanner>>> = MutableLiveData()
+    val banner : LiveData<Resource<List<ResponseGetBanner>>> get() = _banner
+
+    fun getBannerHome(){
+        viewModelScope.launch {
+            _banner.postValue(Resource.loading())
+            try {
+                _banner.postValue(Resource.success(repository.getBanner()))
+            }catch (e:Exception){
+                _banner.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            }
+        }
+    }
+
 
     fun getCategoryHome(){
         viewModelScope.launch {

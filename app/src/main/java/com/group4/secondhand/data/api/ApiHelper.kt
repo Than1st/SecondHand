@@ -6,6 +6,7 @@ import okhttp3.RequestBody
 
 class ApiHelper(private val apiService: ApiService) {
     // SELLER
+    suspend fun getBanner() = apiService.getBanner()
     suspend fun getCategoryHome() = apiService.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
     suspend fun getSellerOrder(token: String,status: String) = apiService.getSellerOrder(token,status)
