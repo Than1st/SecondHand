@@ -26,6 +26,24 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_terjual"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="Terjual"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_regular"
+            android:textFontWeight="500"
+            android:background="@drawable/background_circle"
+            app:layout_constraintTop_toTopOf="@id/iv_produk"
+            app:layout_constraintStart_toStartOf="@id/iv_produk"
+            app:layout_constraintEnd_toEndOf="@id/iv_produk"
+            app:layout_constraintBottom_toBottomOf="@id/iv_produk"
+            />
+
+        <TextView
             android:id="@+id/tv_nama_produk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

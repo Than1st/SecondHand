@@ -2,9 +2,6 @@ package com.group4.secondhand.ui.detail
 
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +18,6 @@ import com.group4.secondhand.databinding.FragmentBottomSheetDetailBinding
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class BottomSheetDetailFragment(

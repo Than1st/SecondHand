@@ -34,6 +34,7 @@
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.209375" />
         <entry key="..\:/Android Projects/SecondHand/app/src/main/res/mipmap-anydpi-v26/ic_secondhand_logo.xml" value="0.1" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/background_alert_dialog.xml" value="0.1425" />
+        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/background_circle.xml" value="0.1465" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/background_rounded.xml" value="0.1375" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/background_search.xml" value="0.1375" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/background_search_stroke.xml" value="0.1375" />
@@ -43,6 +44,7 @@
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/ic_home_bottom.xml" value="0.1" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/ic_unwishlist.xml" value="0.1465" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/ic_wishlist.xml" value="0.1465" />
+        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/drawable/shading_banner.xml" value="0.1465" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_akun.xml" value="0.20092592592592592" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_bottom_sheet_category_product.xml" value="0.27447916666666666" />
@@ -58,9 +60,11 @@
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_notifikasi.xml" value="0.15069444444444444" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_preview_product.xml" value="0.27447916666666666" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_search.xml" value="0.176" />
+        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/fragment_wishlist.xml" value="0.17152777777777778" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/item_category_home.xml" value="0.22447916666666667" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/item_category_product.xml" value="0.27447916666666666" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/item_diminati.xml" value="0.264" />
+        <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/item_product_home.xml" value="0.27447916666666666" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/notification_item.xml" value="0.27447916666666666" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/layout/shimmer_placeholder_product.xml" value="0.1265625" />
         <entry key="..\:/KULIAH/SMT6 (Kampus Merdeka)/Praktek/AndroidStudio/SecondHand/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22447916666666667" />

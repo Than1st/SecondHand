@@ -102,6 +102,11 @@ interface ApiService {
         @Header("access_token") token: String
     ): List<ResponseGetBuyerOrder>
 
+    @GET("buyer/wishlist")
+    suspend fun getBuyerWishlist(
+        @Header("access_token") token: String
+    ): List<ResponseGetBuyerWishlist>
+
     // AUTH
     @POST("auth/register")
     suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister

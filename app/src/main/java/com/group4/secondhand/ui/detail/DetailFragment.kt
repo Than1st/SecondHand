@@ -115,6 +115,12 @@ class DetailFragment : Fragment() {
                                 binding.tvProdukHarga.text = convertBasePrice
                                 basePrice = it.data.body()?.basePrice!!
                             }
+                            if (it.data.body()?.status == "seller"){
+                                binding.btnSayaTertarikNego.isEnabled = false
+                                binding.btnSayaTertarikNego.backgroundTintList =
+                                    requireContext().getColorStateList(R.color.dark_grey)
+                                binding.btnSayaTertarikNego.text = "Barang sudah terjual"
+                            }
 
                             var listCategory = ""
                             if (it.data.body()?.categories != null) {
