@@ -14,14 +14,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetProduct
-import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
+        getBanner()
         getCategory()
         changeToolbar()
         detailProduct()
@@ -111,6 +112,20 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun getBanner() {
+        homeViewModel.banner.observe(viewLifecycleOwner) { banner ->
+            if (banner.status == Status.SUCCESS) {
+                val imageSlider = binding.imgBanner
+                val bannerA = arrayListOf<SlideModel>()
+                banner.data?.forEach {
+                    bannerA.add(SlideModel(it.imageUrl))
+                }
+                imageSlider.setImageList(bannerA, ScaleTypes.FIT)
+            }
+        }
+        homeViewModel.getBannerHome()
+    }
+
     private fun getCategory() {
         homeViewModel.getCategoryHome()
         homeViewModel.category.observe(viewLifecycleOwner) { category ->
@@ -133,6 +148,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
     private fun fetchProduct(categoryId: String) {
         val status = "available"
@@ -159,7 +175,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        homeViewModel.getProduct(status, categoryId,"","","")
+        homeViewModel.getProduct(status, categoryId, "", "", "")
     }
 
     private fun detailProduct() {
