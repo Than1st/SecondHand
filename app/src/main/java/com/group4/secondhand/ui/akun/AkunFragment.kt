@@ -134,6 +134,11 @@ class AkunFragment : Fragment() {
             }
             dialog.show()
         }
+
+        binding.listRiwayatPenawaran.setOnClickListener {
+            findNavController().navigate(R.id.action_akunFragment_to_riwayatPenawaranFragment, bundle)
+        }
+
         binding.listKeluar.setOnClickListener {
             AlertDialog
                 .Builder(requireContext())

@@ -102,6 +102,12 @@ interface ApiService {
         @Header("access_token") token: String
     ): List<ResponseGetBuyerOrder>
 
+    @GET("buyer/order/{id}")
+    suspend fun getBuyerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): List<ResponseGetBuyerOrder>
+
     // AUTH
     @POST("auth/register")
     suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister
