@@ -21,4 +21,9 @@
     <string name="daftar_jual_saya">Daftar Jual Saya</string>
     <string name="tawaran_sudah_di_tolak">Tawaran ditolak!</string>
     <string name="produk_sudah_terjual">Tawaran diterima!</string>
+    <string name="riwayat_tawaran_kamu_kosong">Riwayat Tawaran Kamu Kosong</string>
+    <string name="riwayat_penawaran">Riwayat Penawaran</string>
+    <string name="lihat_produk">Lihat Produk</string>
+    <string name="edit_tawaran">Edit Tawaran</string>
+    <string name="tutup">Tutup</string>
 </resources>

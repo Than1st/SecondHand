@@ -43,12 +43,13 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun getProductById (id : Int) = apiHelper.getProductById(id)
 
-    suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
-        apiHelper.buyerOrder(token, requestBuyerOrder)
+    suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) = apiHelper.buyerOrder(token, requestBuyerOrder)
 
-    suspend fun getBuyerOrder(token: String) =
-        apiHelper.getBuyerOrder(token)
     suspend fun getBuyerWishlist(token: String) = apiHelper.getBuyerWishlist(token)
+
+    suspend fun getBuyerOrder(token: String) = apiHelper.getBuyerOrder(token)
+
+    suspend fun getBuyerOrderById(token: String, id: Int) = apiHelper.getBuyerOrderById(token, id)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =

@@ -38,13 +38,10 @@ class ApiHelper(private val apiService: ApiService) {
     // BUYER
     suspend fun getProduct(status: String, categoryId: String, search: String, page: String, perpage: String) =
         apiService.getProduct(status, categoryId,search, page, perpage)
-
     suspend fun getProductById ( id : Int ) = apiService.getProdukById(id)
-
-    suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) =
-        apiService.buyerOrder(token, requestBuyerOrder)
-    suspend fun getBuyerOrder(token: String) =
-        apiService.getBuyerOrder(token)
+    suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) = apiService.buyerOrder(token, requestBuyerOrder)
+    suspend fun getBuyerOrder(token: String) = apiService.getBuyerOrder(token)
+    suspend fun getBuyerOrderById(token: String, id: Int) = apiService.getBuyerOrderById(token, id)
     suspend fun getBuyerWishlist(token: String) = apiService.getBuyerWishlist(token)
 
     // AUTH
