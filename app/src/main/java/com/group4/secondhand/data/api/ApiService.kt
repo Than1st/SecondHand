@@ -113,6 +113,12 @@ interface ApiService {
         @Header("access_token") token: String
     ): List<ResponseGetBuyerWishlist>
 
+    @DELETE("buyer/order/{id}")
+    suspend fun deleteBuyerOrder(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): ResponseDeleteBuyerOrder
+
     // AUTH
     @POST("auth/register")
     suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister
@@ -160,4 +166,5 @@ interface ApiService {
         @Header("access_token") token: String,
         @Path("id") id: Int
     )
+
 }

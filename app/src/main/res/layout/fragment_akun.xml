@@ -127,7 +127,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/ic_wishlist"
+                android:src="@drawable/ic_baseline_favorite"
                 app:tint="@color/medium_blue" />
 
             <TextView
