@@ -102,6 +102,12 @@ interface ApiService {
         @Header("access_token") token: String
     ): List<ResponseGetBuyerOrder>
 
+    @GET("buyer/order/{id}")
+    suspend fun getBuyerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): List<ResponseGetBuyerOrder>
+
     @GET("buyer/wishlist")
     suspend fun getBuyerWishlist(
         @Header("access_token") token: String
@@ -154,5 +160,4 @@ interface ApiService {
         @Header("access_token") token: String,
         @Path("id") id: Int
     )
-
 }
