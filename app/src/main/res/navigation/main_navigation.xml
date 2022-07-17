@@ -194,6 +194,14 @@
         <action
             android:id="@+id/action_riwayatPenawaranFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_riwayatPenawaranFragment_to_editTawaranFragment"
+            app:destination="@id/editTawaranFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editTawaranFragment"
+        android:name="com.group4.secondhand.ui.edittawaran.EditTawaranFragment"
+        android:label="fragment_edit_tawaran"
+        tools:layout="@layout/fragment_edit_tawaran" />
 
 </navigation>

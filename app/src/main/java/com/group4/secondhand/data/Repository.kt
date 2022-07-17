@@ -49,6 +49,8 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun getBuyerOrderById(token: String, id: Int) = apiHelper.getBuyerOrderById(token, id)
 
+    suspend fun deleteBuyerOrder(token: String, id: Int) = apiHelper.deleteBuyerOrder(token, id)
+
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =
         apiHelper.authRegister(requestRegister)
