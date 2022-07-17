@@ -202,6 +202,11 @@
             app:destination="@id/editTawaranFragment" />
     </fragment>
     <fragment
+        android:id="@+id/editTawaranFragment"
+        android:name="com.group4.secondhand.ui.edittawaran.EditTawaranFragment"
+        android:label="fragment_edit_tawaran"
+        tools:layout="@layout/fragment_edit_tawaran" />
+    <fragment
         android:id="@+id/wishlistFragment"
         android:name="com.group4.secondhand.ui.wishlist.WishlistFragment"
         android:label="fragment_wishlist"
