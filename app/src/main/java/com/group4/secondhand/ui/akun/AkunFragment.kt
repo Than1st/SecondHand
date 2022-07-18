@@ -90,10 +90,10 @@ class AkunFragment : Fragment() {
                         bundle.putString(USER_CITY, it.data.city)
                         bundle.putString(USER_ADDRESS, it.data.address)
                         bundle.putString(USER_PHONE_NUMBER, it.data.phoneNumber)
+                        binding.tvNama.text = it.data.fullName
+                        binding.tvNomor.text = it.data.phoneNumber?: "-"
+                        binding.tvEmail.text = it.data.email?:"-"
                         if (it.data.imageUrl != null) {
-                            binding.tvNama.text = it.data.fullName
-                            binding.tvNomor.text = it.data.phoneNumber
-                            binding.tvEmail.text = it.data.email
                             Glide.with(requireContext())
                                 .load(it.data.imageUrl.toString())
                                 .placeholder(R.drawable.image_profile)

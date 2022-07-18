@@ -131,6 +131,9 @@
         <action
             android:id="@+id/action_detailFragment_to_loginCompose"
             app:destination="@id/loginCompose" />
+        <action
+            android:id="@+id/action_detailFragment_to_lengkapiInfoAkunFragment"
+            app:destination="@id/lengkapiInfoAkunFragment" />
     </fragment>
     <fragment
         android:id="@+id/previewProductFragment"

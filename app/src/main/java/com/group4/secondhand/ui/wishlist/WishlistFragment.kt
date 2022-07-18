@@ -65,6 +65,7 @@ class WishlistFragment : Fragment() {
                         binding.tvEmptyProduct.visibility = View.VISIBLE
                     }
                     if (it.data != null) {
+                        wishlistProduct.clear()
                         for (data in it.data){
                             if (data.product != null){
                                 wishlistProduct.add(data)

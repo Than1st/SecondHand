@@ -23,6 +23,7 @@ import com.group4.secondhand.databinding.FragmentDetailBinding
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
+import com.group4.secondhand.ui.jual.JualFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -52,6 +53,7 @@ class DetailFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
+        val bundleLengkapi = Bundle()
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
         detailViewModel.getToken()
@@ -60,16 +62,25 @@ class DetailFragment : Fragment() {
         detailViewModel.token.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    if (it.data != null) {
+                    if (it.data != DEFAULT_TOKEN) {
                         token = it.data.toString()
                         detailViewModel.getBuyerOrder(token)
                         detailViewModel.getBuyerWishlist(token)
+                    } else {
+                        binding.btnWishlist.visibility = View.GONE
                     }
+                    pd.dismiss()
                 }
                 ERROR -> {
-                    Toast.makeText(requireContext(), "Token is null", Toast.LENGTH_SHORT).show()
+                    pd.dismiss()
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(it.message)
+                        .show()
                 }
-                LOADING -> {}
+                LOADING -> {
+                    pd.setMessage("Please Wait...")
+                    pd.show()
+                }
             }
         }
 
@@ -152,50 +163,66 @@ class DetailFragment : Fragment() {
             binding.btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-            binding.btnSayaTertarikNego.setOnClickListener {
-                val pd = ProgressDialog(requireContext())
-                detailViewModel.token.observe(viewLifecycleOwner) {
-                    when (it.status) {
-                        SUCCESS -> {
-                            if (it.data != DEFAULT_TOKEN && it.data != null) {
-                                token = it.data
-                                val bottomFragment = BottomSheetDetailFragment(
-                                    productId!!,
-                                    productName,
-                                    basePrice,
-                                    imageURL,
-                                    refreshButton = { detailViewModel.getBuyerOrder(token) }
-                                )
-                                bottomFragment.show(parentFragmentManager, "Tag")
-                            } else {
-                                AlertDialog.Builder(requireContext())
-                                    .setTitle("Pesan")
-                                    .setMessage("Anda Belom Masuk")
-                                    .setPositiveButton("Login") { dialogP, _ ->
-                                        findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
-                                        dialogP.dismiss()
-                                    }
-                                    .setNegativeButton("Cancel") { dialogN, _ ->
-
-                                        dialogN.dismiss()
-                                    }
-                                    .setCancelable(false)
-                                    .show()
-                            }
-                            pd.dismiss()
-                        }
-                        ERROR -> {
-                            pd.dismiss()
+        }
+        detailViewModel.user.observe(viewLifecycleOwner) {
+            when (it.status) {
+                SUCCESS -> {
+                    if (it.data != null) {
+                        val kota = it.data.city ?: "noKota"
+                        val alamat = it.data.address ?: "noAddress"
+                        val gambar = it.data.imageUrl ?: "noImage"
+                        val noHp = it.data.phoneNumber ?: "noHp"
+                        if (kota == "noKota" || alamat == "noAddress" || gambar == "noImage" || noHp == "noHp") {
                             AlertDialog.Builder(requireContext())
-                                .setMessage(it.message)
+                                .setTitle("Pesan")
+                                .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
+                                .setCancelable(false)
+                                .setPositiveButton("Iya") { positiveButton, _ ->
+                                    bundleLengkapi.putString(
+                                        JualFragment.NAME_USER_KEY,
+                                        it.data.fullName
+                                    )
+                                    positiveButton.dismiss()
+                                    findNavController().navigate(
+                                        R.id.action_detailFragment_to_lengkapiInfoAkunFragment,
+                                        bundleLengkapi
+                                    )
+                                }
+                                .setNegativeButton("Tidak") { negativeButton, _ ->
+                                    negativeButton.dismiss()
+                                }
                                 .show()
-                        }
-                        LOADING -> {
-                            pd.setMessage("Please Wait...")
-                            pd.show()
+                        } else {
+                            val bottomFragment = BottomSheetDetailFragment(
+                                productId!!,
+                                productName,
+                                basePrice,
+                                imageURL,
+                                refreshButton = { detailViewModel.getBuyerOrder(token) }
+                            )
+                            bottomFragment.show(parentFragmentManager, "Tag")
                         }
                     }
                 }
+                ERROR -> {}
+                LOADING -> {}
+            }
+        }
+        binding.btnSayaTertarikNego.setOnClickListener {
+            detailViewModel.getUserData(token)
+            if (token == DEFAULT_TOKEN) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Pesan")
+                    .setMessage("Anda Belom Masuk")
+                    .setPositiveButton("Login") { dialogP, _ ->
+                        findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
+                        dialogP.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialogN, _ ->
+                        dialogN.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
             }
         }
     }
@@ -241,7 +268,7 @@ class DetailFragment : Fragment() {
         detailViewModel.removeWishlist.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    detailViewModel.getToken()
+                    detailViewModel.getBuyerWishlist(token)
                     Toast.makeText(
                         requireContext(),
                         "Berhasil menghapus produk dari wishlist",
@@ -263,7 +290,7 @@ class DetailFragment : Fragment() {
         detailViewModel.addWishlist.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    detailViewModel.getToken()
+                    detailViewModel.getBuyerWishlist(token)
                     Toast.makeText(
                         requireContext(),
                         "Berhasil menambahkan produk ke wishlist",

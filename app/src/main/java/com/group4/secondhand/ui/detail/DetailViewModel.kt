@@ -20,6 +20,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository):Vi
     private var _token = MutableLiveData<Resource<String>>()
     val token : LiveData<Resource<String>> get() = _token
 
+    private var _user = MutableLiveData<Resource<ResponseGetDataUser>>()
+    val user : LiveData<Resource<ResponseGetDataUser>> get() = _user
+
     private var _buyerOrder = MutableLiveData<Resource<Response<ResponseBuyerOrder>>>()
     val buyerOrder : LiveData<Resource<Response<ResponseBuyerOrder>>> get()= _buyerOrder
 
@@ -119,6 +122,16 @@ class DetailViewModel @Inject constructor(private val repository: Repository):Vi
                 _removeWishlist.postValue(Resource.success(repository.removeWishlist(token,id)))
             }catch (e: Exception){
                 _removeWishlist.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            }
+        }
+    }
+    fun getUserData(token: String){
+        viewModelScope.launch {
+            _user.postValue(Resource.loading())
+            try {
+                _user.postValue(Resource.success(repository.getDataUser(token)))
+            } catch (e: Exception){
+                _user.postValue(Resource.error(e.localizedMessage?: "Error Occured"))
             }
         }
     }

@@ -104,6 +104,15 @@ class InfoPenawarFragment : Fragment() {
                                         tvPesan.visibility = View.VISIBLE
                                         tvPesan.text = getString(R.string.tawaran_sudah_di_tolak)
                                     }
+                                    "pending"->{
+                                        btnGroup.visibility = View.GONE
+                                        btnGroupAccepted.visibility = View.GONE
+                                        if (data.product.status == "seller"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_laku)
+                                        }
+                                    }
                                 }
 
                                 btnTolak.setOnClickListener {
