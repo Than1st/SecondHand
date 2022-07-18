@@ -119,6 +119,19 @@ interface ApiService {
         @Path("id") id: Int
     ): ResponseDeleteBuyerOrder
 
+    @Multipart
+    @POST("buyer/wishlist")
+    suspend fun addWishlist(
+        @Header("access_token") token: String,
+        @Part("product_id") product_id: RequestBody?
+    ):Response<ResponsePostWishlist>
+
+    @DELETE("buyer/wishlist/{id}")
+    suspend fun removeWishlist(
+        @Header("access_token") token : String,
+        @Path("id") id:Int
+    ) : Response<ResponseRemoveWishlist>
+
     // AUTH
     @POST("auth/register")
     suspend fun authRegister(@Body requestRegister: RequestRegister): ResponseRegister

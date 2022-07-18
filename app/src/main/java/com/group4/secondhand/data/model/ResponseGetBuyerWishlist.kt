@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseGetBuyerWishlist(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("product_id")
     val productId: Int?,
     @SerializedName("user_id")

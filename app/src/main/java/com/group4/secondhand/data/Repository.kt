@@ -53,6 +53,10 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun deleteBuyerOrder(token: String, id: Int) = apiHelper.deleteBuyerOrder(token, id)
 
+    suspend fun addWishlist(token: String, productId: RequestBody) = apiHelper.addWishlist(token, productId)
+
+    suspend fun removeWishlist(token: String,id: Int) = apiHelper.removeWishlist(token,id)
+
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =
         apiHelper.authRegister(requestRegister)

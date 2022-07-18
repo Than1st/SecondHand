@@ -44,6 +44,8 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getBuyerOrderById(token: String, id: Int) = apiService.getBuyerOrderById(token, id)
     suspend fun getBuyerWishlist(token: String) = apiService.getBuyerWishlist(token)
     suspend fun deleteBuyerOrder(token: String, id: Int) = apiService.deleteBuyerOrder(token, id)
+    suspend fun addWishlist(token:String, productId: RequestBody) = apiService.addWishlist(token,productId)
+    suspend fun removeWishlist(token: String,id: Int) = apiService.removeWishlist(token,id)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =

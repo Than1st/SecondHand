@@ -13,11 +13,13 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.model.ResponseGetBuyerWishlist
+import com.group4.secondhand.data.model.ResponseSellerOrder
 import com.group4.secondhand.databinding.FragmentHomeBinding
 import com.group4.secondhand.databinding.FragmentWishlistBinding
 import com.group4.secondhand.ui.home.HomeFragment
 import com.group4.secondhand.ui.home.ProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class WishlistFragment : Fragment() {
@@ -27,6 +29,8 @@ class WishlistFragment : Fragment() {
     private val wishlistViewModel: WishlistViewModel by viewModels()
     private var token = ""
     private lateinit var wishlistAdapter: WishlistAdapter
+    private val wishlistProduct: MutableList<ResponseGetBuyerWishlist> = ArrayList()
+
 
 
     override fun onCreateView(
@@ -61,6 +65,11 @@ class WishlistFragment : Fragment() {
                         binding.tvEmptyProduct.visibility = View.VISIBLE
                     }
                     if (it.data != null) {
+                        for (data in it.data){
+                            if (data.product != null){
+                                wishlistProduct.add(data)
+                            }
+                        }
                         wishlistAdapter = WishlistAdapter(object : WishlistAdapter.OnClickListener {
                             override fun onClickItem(data: ResponseGetBuyerWishlist) {
                                 val productBundle = Bundle()
@@ -73,9 +82,8 @@ class WishlistFragment : Fragment() {
                                 }, 1000)
                             }
                         })
-                        wishlistAdapter.submitData(it.data)
+                        wishlistAdapter.submitData(wishlistProduct)
                         binding.rvProduct.adapter = wishlistAdapter
-
                     }
                 }
                 ERROR -> {

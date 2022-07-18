@@ -138,6 +138,9 @@ class AkunFragment : Fragment() {
         binding.listRiwayatPenawaran.setOnClickListener {
             findNavController().navigate(R.id.action_akunFragment_to_riwayatPenawaranFragment, bundle)
         }
+        binding.listWishlist.setOnClickListener{
+            findNavController().navigate(R.id.action_akunFragment_to_wishlistFragment)
+        }
 
         binding.listKeluar.setOnClickListener {
             AlertDialog

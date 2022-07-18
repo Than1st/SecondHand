@@ -33,16 +33,10 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var convertBasePrice: String
     private var isBid = false
+    private var wishlistId = -1
     private var token = ""
     private val detailViewModel: DetailViewModel by viewModels()
     private var basePrice = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +44,6 @@ class DetailFragment : Fragment() {
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -59,15 +52,27 @@ class DetailFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, result
         )
-        detailViewModel.getToken()
-
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
+        detailViewModel.getToken()
+
         val pd = ProgressDialog(requireContext())
         detailViewModel.token.observe(viewLifecycleOwner) {
-            token = it.data.toString()
-            detailViewModel.getBuyerOrder(token)
+            when (it.status) {
+                SUCCESS -> {
+                    if (it.data != null) {
+                        token = it.data.toString()
+                        detailViewModel.getBuyerOrder(token)
+                        detailViewModel.getBuyerWishlist(token)
+                    }
+                }
+                ERROR -> {
+                    Toast.makeText(requireContext(), "Token is null", Toast.LENGTH_SHORT).show()
+                }
+                LOADING -> {}
+            }
         }
+
         detailViewModel.getBuyerOrder.observe(viewLifecycleOwner) {
             for (data in 0 until (it.data?.size ?: 0)) {
                 if (it.data?.get(data)?.productId == productId) {
@@ -86,6 +91,7 @@ class DetailFragment : Fragment() {
         var imageURL = ""
         if (productId != null) {
             detailViewModel.getProdukById(productId)
+            getBuyerWishlist(productId)
         }
 
         detailViewModel.detailProduk.observe(viewLifecycleOwner) { it ->
@@ -115,7 +121,7 @@ class DetailFragment : Fragment() {
                                 binding.tvProdukHarga.text = convertBasePrice
                                 basePrice = it.data.body()?.basePrice!!
                             }
-                            if (it.data.body()?.status == "seller"){
+                            if (it.data.body()?.status == "seller") {
                                 binding.btnSayaTertarikNego.isEnabled = false
                                 binding.btnSayaTertarikNego.backgroundTintList =
                                     requireContext().getColorStateList(R.color.dark_grey)
@@ -153,7 +159,6 @@ class DetailFragment : Fragment() {
                         SUCCESS -> {
                             if (it.data != DEFAULT_TOKEN && it.data != null) {
                                 token = it.data
-//                                detailViewModel.getBuyerOrder(it.data.toString())
                                 val bottomFragment = BottomSheetDetailFragment(
                                     productId!!,
                                     productName,
@@ -194,4 +199,90 @@ class DetailFragment : Fragment() {
             }
         }
     }
+
+    private fun getBuyerWishlist(productId: Int) {
+        var wishlist = false
+        val fillWishlist = resources.getDrawable(R.drawable.ic_wishlist)
+        val outlinedWishlist = resources.getDrawable(R.drawable.ic_unwishlist)
+        binding.btnWishlist.setOnClickListener {
+            if (wishlist) {
+                binding.btnWishlist.setImageDrawable(outlinedWishlist)
+                detailViewModel.removeWishlist(token, wishlistId)
+                wishlist = false
+            } else {
+                binding.btnWishlist.setImageDrawable(fillWishlist)
+                detailViewModel.addWishlist(token, productId)
+                wishlist = true
+            }
+        }
+        detailViewModel.getBuyerWishlist.observe(viewLifecycleOwner) {
+            when (it.status) {
+                SUCCESS -> {
+                    if (it.data != null) {
+                        for (data in it.data) {
+                            if (data.product?.id == productId) {
+                                wishlist = true
+                                wishlistId = data.id
+                                binding.btnWishlist.setImageDrawable(fillWishlist)
+
+                            }
+                        }
+                    }
+                    binding.btnWishlist.isEnabled = true
+                }
+                ERROR -> {}
+                LOADING -> {
+                    binding.btnWishlist.isEnabled = false
+                }
+            }
+        }
+
+
+        detailViewModel.removeWishlist.observe(viewLifecycleOwner) {
+            when (it.status) {
+                SUCCESS -> {
+                    detailViewModel.getToken()
+                    Toast.makeText(
+                        requireContext(),
+                        "Berhasil menghapus produk dari wishlist",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                ERROR -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gagal menghapus produk dari wishlist",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                LOADING -> {
+                    binding.btnWishlist.isEnabled = false
+                }
+            }
+        }
+        detailViewModel.addWishlist.observe(viewLifecycleOwner) {
+            when (it.status) {
+                SUCCESS -> {
+                    detailViewModel.getToken()
+                    Toast.makeText(
+                        requireContext(),
+                        "Berhasil menambahkan produk ke wishlist",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                ERROR -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gagal menambahkan produk ke wishlist",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                LOADING -> {
+                    binding.btnWishlist.isEnabled = false
+                }
+            }
+        }
+
+    }
+
 }
