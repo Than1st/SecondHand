@@ -60,8 +60,10 @@ class BottomSheetDetailFragment(
             val inputHargaTawar = binding.etHargaTawar.getNumericValue().toInt().toString()
             if (binding.etHargaTawar.text.isNullOrEmpty()) {
                 binding.hargaTawarContainer.error = "Input tawar harga tidak boleh kosong"
-            }else if(inputHargaTawar.toInt() > hargaProduk){
+            }else if(inputHargaTawar.toInt() > hargaProduk) {
                 binding.hargaTawarContainer.error = "Tawaranmu lebih tinggi dari harga produk"
+            }else if(inputHargaTawar.toInt() == 0){
+                binding.hargaTawarContainer.error = "Tawaranmu tidak boleh 0"
             }else {
                 detailViewModel.getToken()
                 detailViewModel.token.observe(viewLifecycleOwner) {
