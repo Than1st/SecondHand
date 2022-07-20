@@ -11,38 +11,39 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
 import com.group4.secondhand.data.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseGetProductSearch
 import com.group4.secondhand.databinding.ItemProductHomeBinding
 import com.group4.secondhand.ui.currency
 
 class ProductSearchAdapter(private val onItemClick: OnClickListener) :
     RecyclerView.Adapter<ProductSearchAdapter.ViewHolder>() {
-    private val diffCallBack = object : DiffUtil.ItemCallback<ResponseGetProduct>() {
+    private val diffCallBack = object : DiffUtil.ItemCallback<ResponseGetProductSearch>() {
         override fun areItemsTheSame(
-            oldItem: ResponseGetProduct,
-            newItem: ResponseGetProduct
+            oldItem: ResponseGetProductSearch,
+            newItem: ResponseGetProductSearch
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ResponseGetProduct,
-            newItem: ResponseGetProduct
+            oldItem: ResponseGetProductSearch,
+            newItem: ResponseGetProductSearch
         ): Boolean {
             return oldItem.name == newItem.name
         }
     }
     private val differ = AsyncListDiffer(this, diffCallBack)
-    fun submitData(value: List<ResponseGetProduct>?) = differ.submitList(value)
+    fun submitData(value: List<ResponseGetProductSearch>?) = differ.submitList(value)
 
     interface OnClickListener {
-        fun onClickItem(data: ResponseGetProduct)
+        fun onClickItem(data: ResponseGetProductSearch)
     }
 
     inner class ViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         var listCategory = ""
-        fun bind(data: ResponseGetProduct) {
+        fun bind(data: ResponseGetProductSearch) {
             binding.apply {
                 Glide.with(binding.root)
                     .load(data.imageUrl)

@@ -36,8 +36,10 @@ class ApiHelper(private val apiService: ApiService) {
     ) = apiService.updateProduct(token,id, file, name, description, base_price, categoryIds, location)
 
     // BUYER
-    suspend fun getProduct(status: String, categoryId: String, search: String, page: String, perpage: String) =
+    suspend fun getProduct(status: String?= null, categoryId: Int? = null, search: String?= null, page: Int = 1, perpage: Int = 4) =
         apiService.getProduct(status, categoryId,search, page, perpage)
+    suspend fun getProductSearch(status: String, categoryId: String, search: String, page: String, perpage: String) =
+        apiService.getProductSearch(status, categoryId,search, page, perpage)
 
     suspend fun getProductById ( id : Int ) = apiService.getProdukById(id)
 

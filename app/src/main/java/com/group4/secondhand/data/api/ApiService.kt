@@ -1,6 +1,7 @@
 package com.group4.secondhand.data.api
 
 import com.group4.secondhand.data.model.*
+import com.group4.secondhand.data.model.pagingProduk.Product
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -39,9 +40,8 @@ interface ApiService {
         @Body requestApproveOrder: RequestApproveOrder
     ): ResponseApproveOrder
 
-    @GET ("seller/banner")
-    suspend fun getBanner() : List<ResponseGetBanner>
-
+    @GET("seller/banner")
+    suspend fun getBanner(): List<ResponseGetBanner>
 
 
     @Multipart
@@ -72,12 +72,21 @@ interface ApiService {
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
+        @Query("status") status: String? = null,
+        @Query("category_id") categoryId: Int? = null,
+        @Query("search") search: String? = null,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perpage: Int = 4,
+    ): Response<List<Product>>
+
+    @GET("buyer/product")
+    suspend fun getProductSearch(
         @Query("status") status: String,
         @Query("category_id") categoryId: String,
         @Query("search") search: String,
         @Query("page") page: String,
-        @Query("perpage") perpage: String,
-    ): List<ResponseGetProduct>
+        @Query("per_page") perpage: String,
+    ): List<ResponseGetProductSearch>
 
     @GET("buyer/product/{id}")
     suspend fun getProdukById(
@@ -112,7 +121,7 @@ interface ApiService {
         @Part("current_password") currentPassword: RequestBody,
         @Part("new_password") newPassword: RequestBody,
         @Part("confirm_password") confirmPassword: RequestBody
-    ) : Response<ResponseChangePassword>
+    ): Response<ResponseChangePassword>
 
     @Multipart
     @PUT("auth/user")
@@ -142,5 +151,4 @@ interface ApiService {
         @Header("access_token") token: String,
         @Path("id") id: Int
     )
-
 }
