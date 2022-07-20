@@ -82,7 +82,7 @@ class InfoPenawarFragment : Fragment() {
 
                                 }
                                 tvHargaDitawar.text = getString(R.string.ditawar, currency(data.price))
-                                tvTanggal.text = convertDate(data.transactionDate)
+                                tvTanggal.text = convertDate(data.createdAt)
                                 Glide.with(requireContext())
                                     .load(data.product.imageUrl)
                                     .transform(CenterCrop(), RoundedCorners(12))
@@ -92,12 +92,26 @@ class InfoPenawarFragment : Fragment() {
                                     "accepted" -> {
                                         btnGroup.visibility = View.GONE
                                         btnGroupAccepted.visibility = View.VISIBLE
+                                        if (data.product.status == "seller"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_terjual)
+                                        }
                                     }
                                     "declined" -> {
                                         btnGroup.visibility = View.GONE
                                         btnGroupAccepted.visibility = View.GONE
                                         tvPesan.visibility = View.VISIBLE
                                         tvPesan.text = getString(R.string.tawaran_sudah_di_tolak)
+                                    }
+                                    "pending"->{
+                                        btnGroup.visibility = View.GONE
+                                        btnGroupAccepted.visibility = View.GONE
+                                        if (data.product.status == "seller"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_laku)
+                                        }
                                     }
                                 }
 
@@ -114,7 +128,7 @@ class InfoPenawarFragment : Fragment() {
                                                     status
                                                 )
                                                 if (token != null && idOrder != null) {
-                                                    viewModel.declineOrder(token, idOrder, body)
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
                                                     positive.dismiss()
                                                 }
                                             }
@@ -138,7 +152,7 @@ class InfoPenawarFragment : Fragment() {
                                                     status
                                                 )
                                                 if (token != null && idOrder != null) {
-                                                    viewModel.declineOrder(token, idOrder, body)
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
                                                     positive.dismiss()
                                                 }
                                             }
@@ -164,7 +178,25 @@ class InfoPenawarFragment : Fragment() {
                                 }
 
                                 btnStatus.setOnClickListener {
-                                    val bottomFragment = BottomSheetStatusFragment()
+                                    val bottomFragment = BottomSheetStatusFragment(
+                                        token.toString(),
+                                        data.productId,
+                                        back = { status ->
+//                                            findNavController().popBackStack()
+                                            if (status == "declined"){
+                                                val body = RequestApproveOrder(
+                                                    status
+                                                )
+                                                if (token != null && idOrder != null) {
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
+                                                    showToastSuccess(binding.root, "Transaksi di batalkan!", resources.getColor(R.color.success))
+                                                }
+                                            } else {
+                                                showToastSuccess(binding.root, "Transaksi di Terima!", resources.getColor(R.color.success))
+                                            }
+                                            findNavController().popBackStack()
+                                        }
+                                    )
                                     bottomFragment.show(parentFragmentManager, "Tag")
                                 }
 
@@ -189,7 +221,7 @@ class InfoPenawarFragment : Fragment() {
                                                     bottomFragment.show(parentFragmentManager, "Tag")
                                                 } else {
                                                     showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
-                                                    findNavController().popBackStack()
+
                                                 }
                                             }
                                         }
@@ -233,7 +265,4 @@ class InfoPenawarFragment : Fragment() {
             }
         }
     }
-
-
-
 }

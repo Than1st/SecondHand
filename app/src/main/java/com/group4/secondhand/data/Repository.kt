@@ -1,10 +1,5 @@
 package com.group4.secondhand.data
 
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.database.DbHelper
 import com.group4.secondhand.data.database.MyDatabase
@@ -16,6 +11,7 @@ import com.group4.secondhand.data.model.RequestRegister
 import com.group4.secondhand.data.model.pagingProduk.Product
 import com.group4.secondhand.ui.home.paging.ProductRemoteMediator
 import kotlinx.coroutines.flow.Flow
+import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -28,6 +24,7 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
     suspend fun getSellerOrderById(token: String,orderId: Int) = apiHelper.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String,id: Int) = apiHelper.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiHelper.approveOrder(token, id, requestApproveOrder)
+    suspend fun updateStatusProduk(token: String,produkId: Int, requestUpdateStatusProduk: RequestUpdateStatusProduk) = apiHelper.updateStatusProduk(token, produkId, requestUpdateStatusProduk)
     suspend fun uploadProduct(
         token: String,
         file : MultipartBody.Part,
@@ -55,11 +52,19 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun getProductById (id : Int) = apiHelper.getProductById(id)
 
-    suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) =
-        apiHelper.buyerOrder(token, requestBuyerOrder)
+    suspend fun buyerOrder(token: String,requestBuyerOrder: RequestBuyerOrder) = apiHelper.buyerOrder(token, requestBuyerOrder)
 
-    suspend fun getBuyerOrder(token: String) =
-        apiHelper.getBuyerOrder(token)
+    suspend fun getBuyerWishlist(token: String) = apiHelper.getBuyerWishlist(token)
+
+    suspend fun getBuyerOrder(token: String) = apiHelper.getBuyerOrder(token)
+
+    suspend fun getBuyerOrderById(token: String, id: Int) = apiHelper.getBuyerOrderById(token, id)
+
+    suspend fun deleteBuyerOrder(token: String, id: Int) = apiHelper.deleteBuyerOrder(token, id)
+
+    suspend fun addWishlist(token: String, productId: RequestBody) = apiHelper.addWishlist(token, productId)
+
+    suspend fun removeWishlist(token: String,id: Int) = apiHelper.removeWishlist(token,id)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =

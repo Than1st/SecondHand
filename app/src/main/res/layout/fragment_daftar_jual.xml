@@ -157,6 +157,7 @@
                         android:backgroundTint="@color/medium_blue"
                         android:drawableLeft="@drawable/ic_box"
                         android:drawablePadding="12dp"
+                        android:enabled="false"
                         android:fontFamily="@font/poppins_regular"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
@@ -174,6 +175,7 @@
                         android:backgroundTint="@color/medium_blue"
                         android:drawableLeft="@drawable/ic_heart"
                         android:drawablePadding="12dp"
+                        android:enabled="false"
                         android:fontFamily="@font/poppins_regular"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
@@ -192,6 +194,7 @@
                         android:backgroundTint="@color/medium_blue"
                         android:drawableLeft="@drawable/ic_dollar"
                         android:drawablePadding="12dp"
+                        android:enabled="false"
                         android:fontFamily="@font/poppins_regular"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp"
@@ -208,11 +211,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/view_bottom"
                 app:layout_constraintTop_toBottomOf="@id/button_grup"
                 app:spanCount="2"
-                tools:listitem="@layout/item_product_home"
-                app:layout_constraintBottom_toTopOf="@id/view_bottom"
-                />
+                tools:listitem="@layout/item_product_home" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_order"
@@ -220,10 +222,9 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/button_grup"
-                tools:listitem="@layout/item_diminati"
                 app:layout_constraintBottom_toTopOf="@id/view_bottom"
-                />
+                app:layout_constraintTop_toBottomOf="@id/button_grup"
+                tools:listitem="@layout/item_diminati" />
 
             <View
                 android:id="@+id/view_bottom"
@@ -243,12 +244,11 @@
                 app:lottie_autoPlay="true"
                 app:lottie_fileName="empty_product.json"
                 app:lottie_loop="true"
-                app:lottie_speed="1"/>
+                app:lottie_speed="1" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

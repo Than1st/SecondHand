@@ -2,29 +2,24 @@
 
 package com.group4.secondhand.ui.previewproduct
 
-import android.app.ActionBar
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentPreviewProductBinding
-import com.group4.secondhand.ui.currency
+import com.group4.secondhand.ui.*
 import com.group4.secondhand.ui.home.HomeFragment
 import com.group4.secondhand.ui.jual.JualFragment.Companion.ADDRESS_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.DESKRIPSI_PRODUK_KEY
@@ -35,9 +30,6 @@ import com.group4.secondhand.ui.jual.JualFragment.Companion.KATEGORI_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAMA_PRODUK_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.TOKEN_USER_KEY
-import com.group4.secondhand.ui.listCategoryId
-import com.group4.secondhand.ui.showToastSuccess
-import com.group4.secondhand.ui.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,37 +61,6 @@ class PreviewProductFragment : Fragment() {
         binding.statusBar.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, HomeFragment.result
         )
-//        viewModel.getToken()
-//        viewModel.token.observe(viewLifecycleOwner){
-//            viewModel.getDataUser(it)
-//        }
-//        val progressBar = ProgressDialog(requireContext())
-//        viewModel.user.observe(viewLifecycleOwner){
-//            when(it.status){
-//                SUCCESS -> {
-//                    if (it.data != null){
-//                        binding.tvNamaPenjual.text = it.data.fullName
-//                        binding.tvKotaPenjual.text = it.data.city ?: "Bandung"
-//                        Glide.with(requireContext())
-//                            .load(it.data.imageUrl ?: R.drawable.default_image)
-//                            .transform(CenterCrop(), RoundedCorners(12))
-//                            .into(binding.ivAvatarPenjual)
-//                        progressBar.dismiss()
-//                    }
-//                }
-//                ERROR -> {
-//                    AlertDialog.Builder(requireContext())
-//                        .setTitle("Pesan")
-//                        .setMessage(it.message)
-//                        .show()
-//                    progressBar.dismiss()
-//                }
-//                LOADING -> {
-//                    progressBar.setMessage("Please Wait...")
-//                    progressBar.show()
-//                }
-//            }
-//        }
         val progressDialog = ProgressDialog(requireContext())
         progressDialog.setMessage("Please Wait...")
         val bundle = arguments
@@ -158,22 +119,37 @@ class PreviewProductFragment : Fragment() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
+                    when(it.data?.code()){
+                        201 -> {
+                            listCategory.clear()
+                            listCategoryId.clear()
+                            Handler().postDelayed({
+                                findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment)
+                                showToastSuccess(
+                                    binding.root,
+                                    "Produk berhasil di terbitkan.",
+                                    resources.getColor(R.color.success)
+                                )
+                            }, 1000)
+                        }
+                        400 -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Pesan")
+                                .setMessage("Maksimal Upload hanya 5 Produk")
+                                .setPositiveButton("Iya") { positiveButton, _ ->
+                                    positiveButton.dismiss()
+                                }
+                                .show()
+                        }
+                    }
                     progressDialog.dismiss()
-                    showToastSuccess(binding.root, "Produk berhasil di terbitkan.", resources.getColor(R.color.success))
-                    findNavController().navigate(R.id.action_previewProductFragment_to_daftarJualFragment)
                 }
                 ERROR -> {
                     progressDialog.dismiss()
-                    var message = ""
-                    when (it.message) {
-                        "HTTP 400 Bad Request" -> {
-                            message = "${it.message}"
-                        }
-                    }
                     AlertDialog.Builder(requireContext())
                         .setTitle("Pesan")
-                        .setMessage(message)
-                        .setPositiveButton("Iya"){ positiveButton, _ ->
+                        .setMessage(it.data?.message() ?: "error")
+                        .setPositiveButton("Iya") { positiveButton, _ ->
                             positiveButton.dismiss()
                         }
                         .show()

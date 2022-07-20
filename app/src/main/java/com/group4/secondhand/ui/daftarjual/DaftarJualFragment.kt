@@ -37,6 +37,8 @@ class DaftarJualFragment : Fragment() {
     private val bundleEdit = Bundle()
     private var token = ""
     private val listProduct: MutableList<ResponseSellerProduct> = ArrayList()
+    private val listOrderSold: MutableList<ResponseSellerOrder> = ArrayList()
+    private val listOrder: MutableList<ResponseSellerOrder> = ArrayList()
 
     companion object {
         const val USER_TOKEN = "UserToken"
@@ -59,7 +61,6 @@ class DaftarJualFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         daftarJualViewModel.getToken()
         daftarJualViewModel.token.observe(viewLifecycleOwner) {
             if (it == DEFAULT_TOKEN) {
@@ -132,7 +133,9 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun setRecycler() {
-        binding.btnProduk.setOnClickListener { getSellerProduct() }
+        binding.btnProduk.setOnClickListener {
+            getSellerProduct()
+        }
         binding.btnDiminati.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
             binding.lottieEmpty.visibility = View.GONE
@@ -140,7 +143,7 @@ class DaftarJualFragment : Fragment() {
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
-            getSellerOrder("pending")
+            getSellerOrder("")
         }
         binding.btnTerjual.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
@@ -223,7 +226,7 @@ class DaftarJualFragment : Fragment() {
         }
     }
 
-    private fun getSellerOrder(status: String) {
+    private fun getSellerOrder(status : String) {
         daftarJualViewModel.getOrder(token, status)
         daftarJualViewModel.order.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -245,7 +248,20 @@ class DaftarJualFragment : Fragment() {
                                         .navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment,bundlePenawar)
                                 }
                             })
-                        sellerOrderAdapter.submitData(it.data)
+                        listOrderSold.clear()
+                        listOrder.clear()
+                        for (data in it.data) {
+                            if (data.status == "accepted" && data.product.status == "seller") {
+                                listOrderSold.add(data)
+                            }else{
+                                listOrder.add(data)
+                            }
+                        }
+                        if (status == "accepted"){
+                            sellerOrderAdapter.submitData(listOrderSold)
+                        }else{
+                            sellerOrderAdapter.submitData(listOrder)
+                        }
                         binding.rvOrder.adapter = sellerOrderAdapter
                     }
                     if (it.data?.size == 0) {

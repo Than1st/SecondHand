@@ -97,6 +97,12 @@
         <action
             android:id="@+id/action_akunFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_akunFragment_to_wishlistFragment"
+            app:destination="@id/wishlistFragment" />
+        <action
+            android:id="@+id/action_akunFragment_to_riwayatPenawaranFragment"
+            app:destination="@id/riwayatPenawaranFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginCompose"
@@ -125,6 +131,9 @@
         <action
             android:id="@+id/action_detailFragment_to_loginCompose"
             app:destination="@id/loginCompose" />
+        <action
+            android:id="@+id/action_detailFragment_to_lengkapiInfoAkunFragment"
+            app:destination="@id/lengkapiInfoAkunFragment" />
     </fragment>
     <fragment
         android:id="@+id/previewProductFragment"
@@ -181,6 +190,32 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_searchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/riwayatPenawaranFragment"
+        android:name="com.group4.secondhand.ui.riwayatpenawaran.RiwayatPenawaranFragment"
+        android:label="fragment_riwayat_penawaran"
+        tools:layout="@layout/fragment_riwayat_penawaran" >
+        <action
+            android:id="@+id/action_riwayatPenawaranFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_riwayatPenawaranFragment_to_editTawaranFragment"
+            app:destination="@id/editTawaranFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTawaranFragment"
+        android:name="com.group4.secondhand.ui.edittawaran.EditTawaranFragment"
+        android:label="fragment_edit_tawaran"
+        tools:layout="@layout/fragment_edit_tawaran" />
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="com.group4.secondhand.ui.wishlist.WishlistFragment"
+        android:label="fragment_wishlist"
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlistFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
 

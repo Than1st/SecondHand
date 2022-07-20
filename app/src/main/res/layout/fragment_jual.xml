@@ -139,6 +139,8 @@
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
                 app:errorEnabled="true"
+                app:counterEnabled="true"
+                app:counterMaxLength="250"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/kategori_container">
@@ -149,6 +151,7 @@
                     android:layout_height="match_parent"
                     android:gravity="top"
                     android:hint="Deskripsi"
+                    android:maxLength="250"
                     android:inputType="text|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 

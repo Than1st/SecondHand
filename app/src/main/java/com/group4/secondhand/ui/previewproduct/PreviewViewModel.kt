@@ -15,6 +15,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
 
@@ -22,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PreviewViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val _uploadResponse = MutableLiveData<Resource<ResponseUploadProduct>>()
-    val uploadResponse : LiveData<Resource<ResponseUploadProduct>> get() = _uploadResponse
+    private val _uploadResponse = MutableLiveData<Resource<Response<ResponseUploadProduct>>>()
+    val uploadResponse : LiveData<Resource<Response<ResponseUploadProduct>>> get() = _uploadResponse
 
     fun uploadProduk(
         token: String,

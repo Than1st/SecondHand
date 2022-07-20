@@ -54,7 +54,14 @@ interface ApiService {
         @Part("base_price") base_price: RequestBody?,
         @Part("category_ids") categoryIds: List<Int>,
         @Part("location") location: RequestBody?,
-    ): ResponseUploadProduct
+    ): Response<ResponseUploadProduct>
+
+    @PATCH("seller/product/{id}")
+    suspend fun updateStatusProduk(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Body requestUpdateStatusProduk: RequestUpdateStatusProduk
+    ): Response<ResponseUpdateStatusProduk>
 
     @Multipart
     @PUT("seller/product/{id}")
@@ -103,6 +110,36 @@ interface ApiService {
     suspend fun getBuyerOrder(
         @Header("access_token") token: String
     ): List<ResponseGetBuyerOrder>
+
+    @GET("buyer/order/{id}")
+    suspend fun getBuyerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): List<ResponseGetBuyerOrder>
+
+    @GET("buyer/wishlist")
+    suspend fun getBuyerWishlist(
+        @Header("access_token") token: String
+    ): List<ResponseGetBuyerWishlist>
+
+    @DELETE("buyer/order/{id}")
+    suspend fun deleteBuyerOrder(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): ResponseDeleteBuyerOrder
+
+    @Multipart
+    @POST("buyer/wishlist")
+    suspend fun addWishlist(
+        @Header("access_token") token: String,
+        @Part("product_id") product_id: RequestBody?
+    ):Response<ResponsePostWishlist>
+
+    @DELETE("buyer/wishlist/{id}")
+    suspend fun removeWishlist(
+        @Header("access_token") token : String,
+        @Path("id") id:Int
+    ) : Response<ResponseRemoveWishlist>
 
     // AUTH
     @POST("auth/register")

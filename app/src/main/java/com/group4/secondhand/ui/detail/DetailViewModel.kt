@@ -9,6 +9,8 @@ import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -17,6 +19,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository):Vi
 
     private var _token = MutableLiveData<Resource<String>>()
     val token : LiveData<Resource<String>> get() = _token
+
+    private var _user = MutableLiveData<Resource<ResponseGetDataUser>>()
+    val user : LiveData<Resource<ResponseGetDataUser>> get() = _user
 
     private var _buyerOrder = MutableLiveData<Resource<Response<ResponseBuyerOrder>>>()
     val buyerOrder : LiveData<Resource<Response<ResponseBuyerOrder>>> get()= _buyerOrder
@@ -27,6 +32,14 @@ class DetailViewModel @Inject constructor(private val repository: Repository):Vi
     private val _getBuyerOrder :  MutableLiveData<Resource<List<ResponseGetBuyerOrder>>> = MutableLiveData()
     val getBuyerOrder : LiveData<Resource<List<ResponseGetBuyerOrder>>> get() = _getBuyerOrder
 
+    private val _getBuyerWishlist : MutableLiveData<Resource<List<ResponseGetBuyerWishlist>>> = MutableLiveData()
+    val getBuyerWishlist : LiveData<Resource<List<ResponseGetBuyerWishlist>>> get() = _getBuyerWishlist
+
+    private val _addWishlist : MutableLiveData<Resource<Response<ResponsePostWishlist>>> = MutableLiveData()
+    val addWishlist : LiveData<Resource<Response<ResponsePostWishlist>>> get() = _addWishlist
+
+    private val _removeWishlist : MutableLiveData<Resource<Response<ResponseRemoveWishlist>>> = MutableLiveData()
+    val removeWishlist : LiveData<Resource<Response<ResponseRemoveWishlist>>> get() = _removeWishlist
 
     fun getBuyerOrder (token: String){
         viewModelScope.launch {
@@ -79,5 +92,47 @@ class DetailViewModel @Inject constructor(private val repository: Repository):Vi
         }
     }
 
+    fun getBuyerWishlist(token: String) {
+        viewModelScope.launch {
+            _getBuyerWishlist.postValue(Resource.loading())
+            try {
+                _getBuyerWishlist.postValue(Resource.success(repository.getBuyerWishlist(token)))
+            } catch (e: Exception) {
+                _getBuyerWishlist.postValue(Resource.error(e.localizedMessage ?: "Error occurred"))
+            }
+        }
+    }
 
+    fun addWishlist(token: String,product_id:Int){
+        val id = product_id.toString().toRequestBody("text/plain".toMediaType())
+         viewModelScope.launch {
+             _addWishlist.postValue(Resource.loading())
+             try {
+                 _addWishlist.postValue(Resource.success(repository.addWishlist(token,id)))
+             }catch (e: Exception){
+                 _addWishlist.postValue(Resource.error(e.localizedMessage?: "Error occured"))
+             }
+         }
+    }
+
+    fun removeWishlist(token: String,id: Int){
+        viewModelScope.launch {
+            _removeWishlist.postValue(Resource.loading())
+            try {
+                _removeWishlist.postValue(Resource.success(repository.removeWishlist(token,id)))
+            }catch (e: Exception){
+                _removeWishlist.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            }
+        }
+    }
+    fun getUserData(token: String){
+        viewModelScope.launch {
+            _user.postValue(Resource.loading())
+            try {
+                _user.postValue(Resource.success(repository.getDataUser(token)))
+            } catch (e: Exception){
+                _user.postValue(Resource.error(e.localizedMessage?: "Error Occured"))
+            }
+        }
+    }
 }

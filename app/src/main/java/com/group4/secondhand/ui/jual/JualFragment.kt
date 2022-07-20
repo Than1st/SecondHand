@@ -76,6 +76,8 @@ class JualFragment : Fragment() {
         listCategoryId.clear()
         val bundle = Bundle()
         val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Please Wait...")
+        progressDialog.setCancelable(false)
         viewModel.getToken()
         viewModel.alreadyLogin.observe(viewLifecycleOwner) {
             if (it == DEFAULT_TOKEN) {
@@ -264,30 +266,36 @@ class JualFragment : Fragment() {
         viewModel.uploadResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    listCategory.clear()
-                    listCategoryId.clear()
-                    Handler().postDelayed({
-                        progressDialog.dismiss()
-//                        viewModel.uploadResponse.removeObservers(viewLifecycleOwner)
-                        findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
-                        showToastSuccess(
-                            binding.root,
-                            "Produk berhasil di terbitkan.",
-                            resources.getColor(R.color.success)
-                        )
-                    }, 1000)
+                    when(it.data?.code()){
+                        201 -> {
+                            listCategory.clear()
+                            listCategoryId.clear()
+                            Handler().postDelayed({
+                                findNavController().navigate(R.id.action_jualFragment_to_daftarJualFragment)
+                                showToastSuccess(
+                                    binding.root,
+                                    "Produk berhasil di terbitkan.",
+                                    resources.getColor(R.color.success)
+                                )
+                            }, 1000)
+                        }
+                        400 -> {
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Pesan")
+                                .setMessage("Maksimal Upload hanya 5 Produk")
+                                .setPositiveButton("Iya") { positiveButton, _ ->
+                                    positiveButton.dismiss()
+                                }
+                                .show()
+                        }
+                    }
+                    progressDialog.dismiss()
                 }
                 ERROR -> {
                     progressDialog.dismiss()
-                    var message = ""
-                    when (it.message) {
-                        "HTTP 400 Bad Request" -> {
-                            message = "${it.message}"
-                        }
-                    }
                     AlertDialog.Builder(requireContext())
                         .setTitle("Pesan")
-                        .setMessage(message)
+                        .setMessage(it.data?.message() ?: "error")
                         .setPositiveButton("Iya") { positiveButton, _ ->
                             positiveButton.dismiss()
                         }

@@ -112,10 +112,12 @@ class NotifikasiFragment : Fragment() {
                                             data.order_id == null -> {
                                     }
                                     else -> {
+
                                         listNotif.add(data)
                                     }
                                 }
                             }
+                            listNotif.sortByDescending { data -> data.id }
                             val notificationAdapter =
                                 NotificationAdapter(object : NotificationAdapter.OnClickListener {
                                     override fun onClickItem(data: ResponseNotification) {

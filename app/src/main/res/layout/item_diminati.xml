@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingHorizontal="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
 
     <ImageView
         android:id="@+id/iv_product_image"
@@ -45,7 +44,10 @@
         android:id="@+id/tv_nama_produk"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/poppins_regular"
+        android:maxLines="1"
+        android:singleLine="true"
         android:text="Jam Tangan Casio"
         android:textColor="@color/black"
         android:textSize="14sp"
@@ -57,11 +59,13 @@
         android:id="@+id/tv_harga_awal_produk"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/rp_300_000"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_status"
         app:layout_constraintStart_toStartOf="@id/tv_tipe_produk"
         app:layout_constraintTop_toBottomOf="@id/tv_nama_produk" />
 
@@ -76,6 +80,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_tipe_produk"
         app:layout_constraintTop_toBottomOf="@id/tv_harga_awal_produk" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_search_stroke"
+        android:paddingVertical="4dp"
+        android:paddingHorizontal="8dp"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"

@@ -6,18 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
-import com.group4.secondhand.data.model.RequestApproveOrder
-import com.group4.secondhand.data.model.ResponseGetDataUser
-import com.group4.secondhand.data.model.ResponseApproveOrder
-import com.group4.secondhand.data.model.ResponseSellerOrderById
+import com.group4.secondhand.data.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class InfoPenawarViewModel @Inject constructor(private val repository: Repository): ViewModel(){
     private var _responseOrder = MutableLiveData<Resource<ResponseSellerOrderById>>()
     val responseOrder : LiveData<Resource<ResponseSellerOrderById>> get() = _responseOrder
+
+    private var _responseStatus = MutableLiveData<Resource<Response<ResponseUpdateStatusProduk>>>()
+    val responseStatus : LiveData<Resource<Response<ResponseUpdateStatusProduk>>> get() = _responseStatus
 
     private var _responseApproveOrder = MutableLiveData<Resource<ResponseApproveOrder>>()
     val responseApproveOrder: LiveData<Resource<ResponseApproveOrder>> get() = _responseApproveOrder
@@ -33,7 +34,18 @@ class InfoPenawarViewModel @Inject constructor(private val repository: Repositor
         }
     }
 
-    fun declineOrder(token: String, orderId: Int, requestApproveOrder: RequestApproveOrder){
+    fun updateStatusProduk(token: String, produkId: Int, requestUpdateStatusProduk: RequestUpdateStatusProduk){
+        viewModelScope.launch {
+            _responseStatus.postValue(Resource.loading())
+            try {
+                _responseStatus.postValue(Resource.success(repository.updateStatusProduk(token, produkId, requestUpdateStatusProduk)))
+            } catch (e: Exception){
+                _responseStatus.postValue(Resource.error(e.localizedMessage?:"Error occured"))
+            }
+        }
+    }
+
+    fun updateOrderStatus(token: String, orderId: Int, requestApproveOrder: RequestApproveOrder){
         viewModelScope.launch {
             _responseApproveOrder.postValue(Resource.loading())
             try {
