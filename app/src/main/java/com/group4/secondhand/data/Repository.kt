@@ -1,5 +1,9 @@
 package com.group4.secondhand.data
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.group4.secondhand.data.api.ApiHelper
 import com.group4.secondhand.data.database.DbHelper
 import com.group4.secondhand.data.database.MyDatabase
@@ -16,6 +20,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences, private val dbHelper: DbHelper, private val database: MyDatabase) {
+    companion object {
+        const val PAGE_SIZE = 10
+    }
     // SELLER
     suspend fun getBanner() = apiHelper.getBanner()
     suspend fun getCategoryHome() = apiHelper.getCategoryHome()
@@ -103,8 +110,5 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
             pagingSourceFactory = pagingSourceFactory
         ).flow
 
-    }
-    companion object {
-        const val PAGE_SIZE = 4
     }
 }

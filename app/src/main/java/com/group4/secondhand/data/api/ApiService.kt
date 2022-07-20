@@ -83,7 +83,7 @@ interface ApiService {
         @Query("category_id") categoryId: Int? = null,
         @Query("search") search: String? = null,
         @Query("page") page: Int = 1,
-        @Query("per_page") perpage: Int = 4,
+        @Query("per_page") perpage: Int = 10,
     ): Response<List<Product>>
 
     @GET("buyer/product")

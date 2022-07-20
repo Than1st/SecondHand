@@ -10,14 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
-import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.model.ResponseGetBuyerWishlist
-import com.group4.secondhand.data.model.ResponseSellerOrder
-import com.group4.secondhand.databinding.FragmentHomeBinding
 import com.group4.secondhand.databinding.FragmentWishlistBinding
 import com.group4.secondhand.ui.home.HomeFragment
-import com.group4.secondhand.ui.home.ProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
 
