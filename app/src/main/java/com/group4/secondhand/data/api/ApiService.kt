@@ -1,5 +1,6 @@
 package com.group4.secondhand.data.api
 
+import androidx.room.Update
 import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -107,6 +108,14 @@ interface ApiService {
         @Header("access_token") token: String,
         @Path("id") id: Int
     ): List<ResponseGetBuyerOrder>
+
+    @Multipart
+    @PUT("buyer/order/{id}")
+    suspend fun updateBuyerOrder(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Part("bid_price") newPrice: RequestBody
+    ): Response<ResponseUpdateBuyerOrder>
 
     @GET("buyer/wishlist")
     suspend fun getBuyerWishlist(

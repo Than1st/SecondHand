@@ -56,7 +56,7 @@ class RiwayatPenawaranAdapter(private val onItemClick : OnClickListener) : Recyc
                     .centerCrop()
                     .into(ivProductImage)
                 tvProdukName.text = data.product.name
-                tvHargaAwalProduk.text = currency(data.basePrice.toString().toInt())
+                tvHargaAwalProduk.text = currency(data.basePrice)
                 tvHargaDitawarProduk.text = "Tawaranmu ${currency(data.price)}"
                 root.setOnClickListener {
                     onItemClick.onClickItem(data)

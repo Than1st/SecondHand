@@ -105,9 +105,14 @@ class InfoPenawarFragment : Fragment() {
                                         tvPesan.text = getString(R.string.tawaran_sudah_di_tolak)
                                     }
                                     "pending"->{
-                                        btnGroup.visibility = View.GONE
                                         btnGroupAccepted.visibility = View.GONE
                                         if (data.product.status == "seller"){
+                                            btnGroup.visibility = View.GONE
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_laku)
+                                        } else if (data.product.status == "sold"){
+                                            btnGroup.visibility = View.GONE
                                             btnGroupAccepted.visibility = View.GONE
                                             tvPesan.visibility = View.VISIBLE
                                             tvPesan.text = getString(R.string.produk_sudah_laku)
@@ -221,7 +226,9 @@ class InfoPenawarFragment : Fragment() {
                                                     bottomFragment.show(parentFragmentManager, "Tag")
                                                 } else {
                                                     showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
-
+                                                    binding.btnGroupAccepted.visibility = View.GONE
+                                                    binding.tvPesan.visibility = View.VISIBLE
+                                                    binding.tvPesan.text = "Tawaran Di Tolak!"
                                                 }
                                             }
                                         }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
     data class ResponseGetBuyerOrder(
         @SerializedName("base_price")
-        val basePrice: Any,
+        val basePrice: Int,
         @SerializedName("buyer_id")
         val buyerId: Int,
         @SerializedName("id")

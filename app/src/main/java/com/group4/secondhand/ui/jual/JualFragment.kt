@@ -156,11 +156,11 @@ class JualFragment : Fragment() {
                 for (element in kat) {
                     kategori += ", $element"
                 }
-                binding.etKategori.setText(kategori.drop(2))
+                binding.tvKategori.text = kategori.drop(2)
             }
         }
 
-        binding.etKategori.setOnClickListener {
+        binding.kategoriContainer.setOnClickListener {
             val bottomFragment = BottomSheetPilihCategoryFragment(
                 update = {
                     viewModel.addCategory(listCategory)
@@ -206,7 +206,7 @@ class JualFragment : Fragment() {
             val namaProduk = binding.etNama.text.toString()
             val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
-            val kategoriProduk = binding.etKategori.text.toString()
+            val kategoriProduk = binding.tvKategori.text.toString()
             val validation = validation(
                 namaProduk,
                 hargaProduk,
@@ -312,7 +312,6 @@ class JualFragment : Fragment() {
     private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
-        binding.kategoriContainer.error = null
         binding.deskripsiContainer.error = null
     }
 
@@ -345,7 +344,6 @@ class JualFragment : Fragment() {
                 return "Foto Produk Kosong!"
             }
             listCategory.isEmpty() -> {
-                binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
                 Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT)
                     .show()
                 return "Kategori Produk Kosong!"

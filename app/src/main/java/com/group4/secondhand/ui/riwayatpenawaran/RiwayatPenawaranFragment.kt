@@ -24,6 +24,7 @@ import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.ACCESS
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.FOTO_PRODUK
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.HARGA_AWAL_PRODUK
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.HARGA_TAWAR_PRODUK
+import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.ID_PRODUK
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.KOTA_PENJUAL
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.NAMA_PENJUAL
 import com.group4.secondhand.ui.edittawaran.EditTawaranFragment.Companion.NAMA_PRODUK
@@ -80,6 +81,7 @@ class RiwayatPenawaranFragment : Fragment() {
                                     }
                                     dialogBinding.listEditTawaran.setOnClickListener {
                                         val bundleEdit = Bundle()
+                                        bundleEdit.putInt(ID_PRODUK, data.id)
                                         bundleEdit.putString(FOTO_PRODUK, data.product.imageUrl)
                                         bundleEdit.putString(NAMA_PRODUK, data.product.name)
                                         bundleEdit.putString(HARGA_AWAL_PRODUK, data.basePrice.toString())

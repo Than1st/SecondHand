@@ -98,9 +98,7 @@ class NotifikasiFragment : Fragment() {
                     SUCCESS -> {
                         listNotif.clear()
                         binding.rvNotification.visibility = View.VISIBLE
-                        if (it.data.isNullOrEmpty()) {
-                            binding.emptyNotif.visibility = View.VISIBLE
-                        } else {
+                        if (it.data != null){
                             for (data in it.data) {
                                 when {
                                     data.basePrice.isEmpty() ||
@@ -112,10 +110,12 @@ class NotifikasiFragment : Fragment() {
                                             data.order_id == null -> {
                                     }
                                     else -> {
-
                                         listNotif.add(data)
                                     }
                                 }
+                            }
+                            if (listNotif.isEmpty()){
+                                binding.emptyNotif.visibility = View.VISIBLE
                             }
                             listNotif.sortByDescending { data -> data.id }
                             val notificationAdapter =

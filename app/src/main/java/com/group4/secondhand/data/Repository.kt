@@ -51,6 +51,8 @@ class Repository(private val apiHelper: ApiHelper, private val userPreferences: 
 
     suspend fun getBuyerOrderById(token: String, id: Int) = apiHelper.getBuyerOrderById(token, id)
 
+    suspend fun updateBuyerOrder(token: String, id: Int, newPrice: RequestBody) = apiHelper.updateBuyerOrder(token, id, newPrice)
+
     suspend fun deleteBuyerOrder(token: String, id: Int) = apiHelper.deleteBuyerOrder(token, id)
 
     suspend fun addWishlist(token: String, productId: RequestBody) = apiHelper.addWishlist(token, productId)

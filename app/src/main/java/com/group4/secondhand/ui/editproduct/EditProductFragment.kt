@@ -65,9 +65,9 @@ class EditProductFragment : Fragment() {
                 for(element in kat){
                     kategori += ", $element"
                 }
-                binding.etKategori.setText(kategori.drop(2))
+                binding.tvKategori.text = kategori.drop(2)
             }else{
-                binding.etKategori.setText("Pilih Kategori")
+                binding.tvKategori.text = "Pilih Kategori"
             }
         }
         if (arguments != null) {
@@ -90,7 +90,7 @@ class EditProductFragment : Fragment() {
         binding.ivFoto.setOnClickListener {
             openImagePicker()
         }
-        binding.etKategori.setOnClickListener {
+        binding.kategoriContainer.setOnClickListener {
             val bottomFragment = BottomSheetPilihCategoryFragment(
                 update = {
                     editProductViewModel.addCategory(listCategory)
@@ -129,7 +129,6 @@ class EditProductFragment : Fragment() {
                 return "Deskripsi Produk Kosong!"
             }
             listCategory.isEmpty() -> {
-                binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
                 Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT)
                     .show()
                 return "Kategori Produk Kosong!"
@@ -143,7 +142,6 @@ class EditProductFragment : Fragment() {
     private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
-        binding.kategoriContainer.error = null
         binding.deskripsiContainer.error = null
     }
 
