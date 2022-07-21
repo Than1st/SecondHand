@@ -11,9 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.group4.secondhand.R
@@ -21,7 +26,14 @@ import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.databinding.FragmentHomeBinding
+import com.group4.secondhand.ui.home.paging.PagingViewModel
+import com.group4.secondhand.ui.home.paging.ProductPagingAdapter
+import com.group4.secondhand.ui.home.paging.ProductStateAdapter
+import com.group4.secondhand.ui.home.paging.UiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -34,10 +46,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
+    private val pagingViewModel : PagingViewModel by viewModels()
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var productAdapter: ProductAdapter
-    private var categorySelected = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,11 +69,36 @@ class HomeFragment : Fragment() {
         getBanner()
         getCategory()
         changeToolbar()
-        detailProduct()
-        fetchProduct(categorySelected)
+        val  productAdapter = ProductPagingAdapter {
+            val productBundle = Bundle()
+                productBundle.putInt(PRODUCT_ID, it.id)
+            findNavController().navigate(R.id.action_homeFragment_to_detailFragment, productBundle)
+
+        }
+        val productStateAdapter = ProductStateAdapter {
+
+            productAdapter.retry()
+        }
+        binding.refreshContainer.setOnRefreshListener{
+            setUpPaging(productAdapter,productStateAdapter,pagingViewModel.getProducts())
+        }
+        setUpPaging(productAdapter,productStateAdapter,pagingViewModel.getProducts())
+
         binding.searchBar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
+
+        categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
+            override fun onClickItem(data: ResponseCategoryHome) {
+                Toast.makeText(
+                    requireContext(),
+                    "Menampilkan kategori ${data.name}",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                setUpPaging(productAdapter,productStateAdapter,pagingViewModel.getProducts(data.id))
+            }
+        })
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -131,67 +166,68 @@ class HomeFragment : Fragment() {
         homeViewModel.category.observe(viewLifecycleOwner) { category ->
             if (category.status == Status.SUCCESS) {
                 binding.shimmerCategory.visibility = View.GONE
-                categoryAdapter = CategoryAdapter(object : CategoryAdapter.OnClickListener {
-                    override fun onClickItem(data: ResponseCategoryHome) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Menampilkan kategori ${data.name}",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                        categorySelected = data.id.toString()
-                        fetchProduct(categorySelected)
-                    }
-                })
+
                 categoryAdapter.submitData(category.data)
                 binding.rvCategory.adapter = categoryAdapter
             }
         }
     }
+    private fun setUpPaging(
+        adapter: ProductPagingAdapter,
+        load: ProductStateAdapter,
+        pagingData: Flow<PagingData<UiModel.ProductItem>>
+    ) {
+        val footerAdapter = ProductStateAdapter { adapter.retry() }
+        binding.rvProduct.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = load,
+            footer = footerAdapter
+        )
 
-
-    private fun fetchProduct(categoryId: String) {
-        val status = "available"
-        homeViewModel.product.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.LOADING -> {
-                    binding.shimmer.visibility = View.VISIBLE
-                    binding.lottieEmpty.visibility = View.GONE
-                    binding.tvEmptyProduct.visibility = View.GONE
-                    binding.rvProduct.visibility = View.GONE
-                }
-                Status.SUCCESS -> {
-                    binding.shimmer.visibility = View.GONE
-                    if (it.data?.size == 0) {
-                        binding.lottieEmpty.visibility = View.VISIBLE
-                        binding.tvEmptyProduct.visibility = View.VISIBLE
-                    }
-                    binding.rvProduct.visibility = View.VISIBLE
-                    productAdapter.submitData(it.data)
-                }
-                Status.ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
-                        .show()
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest {
+                binding.refreshContainer.isRefreshing = it.refresh is LoadState.Loading
+            }
+        }
+        val gridLayoutManager = binding.rvProduct.layoutManager as GridLayoutManager
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if ((position == adapter.itemCount && footerAdapter.itemCount > 0) ||
+                    (position == adapter.itemCount && load.itemCount > 0)
+                ) {
+                    2
+                } else {
+                    1
                 }
             }
         }
-        homeViewModel.getProduct(status, categoryId, "", "", "")
-    }
-
-    private fun detailProduct() {
-        productAdapter = ProductAdapter(object : ProductAdapter.OnClickListener {
-            override fun onClickItem(data: ResponseGetProduct) {
-                val productBundle = Bundle()
-                productBundle.putInt(PRODUCT_ID, data.id)
-                Handler().postDelayed({
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_detailFragment,
-                        productBundle
-                    )
-                }, 1500)
+        lifecycleScope.launchWhenCreated {
+            pagingData.collectLatest(adapter::submitData)
+        }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+                load.loadState = loadState.mediator
+                    ?.refresh
+                    ?.takeIf { it is LoadState.Error && adapter.itemCount > 0 }
+                    ?: loadState.prepend
+                val isListEmpty =
+                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                binding.rvProduct.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading
+                            || loadState.mediator?.refresh is LoadState.NotLoading
+                binding.pbProduct.isVisible = loadState.mediator?.refresh is LoadState.Loading
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(
+                        context,
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
-        })
-        binding.rvProduct.adapter = productAdapter
-    }
+        }
 
+    }
 }

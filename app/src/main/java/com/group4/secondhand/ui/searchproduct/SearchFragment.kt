@@ -16,10 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status
 import com.group4.secondhand.data.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseGetProductSearch
 import com.group4.secondhand.databinding.FragmentSearchBinding
 import com.group4.secondhand.ui.MainActivity
 import com.group4.secondhand.ui.home.HomeFragment
-import com.group4.secondhand.ui.home.ProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -93,7 +93,7 @@ class SearchFragment : Fragment() {
     }
     private fun detailProduct() {
         productSearchAdapter = ProductSearchAdapter(object : ProductSearchAdapter.OnClickListener {
-            override fun onClickItem(data: ResponseGetProduct) {
+            override fun onClickItem(data: ResponseGetProductSearch) {
                 val productBundle = Bundle()
                 productBundle.putInt(HomeFragment.PRODUCT_ID, data.id)
                 Handler().postDelayed({
@@ -116,5 +116,4 @@ class SearchFragment : Fragment() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(getWindowToken(), 0)
     }
-
 }

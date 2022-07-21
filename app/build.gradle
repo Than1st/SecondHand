@@ -135,10 +135,14 @@ dependencies {
     //Slider Image
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 
-    // Test rules and transitive dependencies:
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-// Needed for createComposeRule, but not createAndroidComposeRule:
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+    // paging
+    implementation "androidx.room:room-paging:2.4.2"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
+    //refresh layout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+
 
 
 }

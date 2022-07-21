@@ -2,6 +2,8 @@ package com.group4.secondhand.di
 
 import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.ApiHelper
+import com.group4.secondhand.data.database.DbHelper
+import com.group4.secondhand.data.database.MyDatabase
 import com.group4.secondhand.data.datastore.UserPreferences
 import dagger.Module
 import dagger.Provides
@@ -16,6 +18,8 @@ object RepositoryModule {
     @Provides
     fun provideRepositoryy(
         apiHelper: ApiHelper,
-        userPreferences: UserPreferences
-    ) = Repository(apiHelper, userPreferences)
+        userPreferences: UserPreferences,
+        dbHelper: DbHelper,
+        database: MyDatabase
+    ) = Repository(apiHelper, userPreferences,dbHelper,database)
 }
