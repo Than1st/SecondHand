@@ -52,12 +52,12 @@ class ProductPagingAdapter(private val onClick: (Product) -> Unit) :
                     .transform(CenterCrop(), RoundedCorners(8))
                     .into(binding.ivProduk)
                 tvNamaProduk.text = data.name
-                if (data.categories.isNotEmpty()) {
-                    for (data in data.categories) {
-                        listCategory += ", ${data.name}"
-                    }
-                    tvKategori.text = listCategory.drop(2)
-                }
+//                if (data.categories.isNotEmpty()) {
+//                    for (data in data.categories) {
+//                        listCategory += ", ${data.name}"
+//                    }
+//                }
+                tvKategori.visibility = View.GONE
 
                 val price = currency(data.basePrice)
                 tvHarga.text = price

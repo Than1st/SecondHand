@@ -80,7 +80,7 @@ interface ApiService {
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
-        @Query("status") status: String? = null,
+        @Query("status") status: String? = "available",
         @Query("category_id") categoryId: Int? = null,
         @Query("search") search: String? = null,
         @Query("page") page: Int = 1,

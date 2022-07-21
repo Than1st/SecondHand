@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.home.HomeFragment.Companion.result
 import com.group4.secondhand.ui.jual.JualFragment
+import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -38,6 +40,9 @@ class DetailFragment : Fragment() {
     private var token = ""
     private val detailViewModel: DetailViewModel by viewModels()
     private var basePrice = 0
+    companion object{
+        const val DESTINATION = "destination"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,16 +61,26 @@ class DetailFragment : Fragment() {
         val bundleLengkapi = Bundle()
         val bundle = arguments
         val productId = bundle?.getInt(PRODUCT_ID)
-        detailViewModel.getToken()
+        val refreshUser = bundle?.getString(DESTINATION)
+        getProduct(productId)
 
+        detailViewModel.getToken()
         val pd = ProgressDialog(requireContext())
         detailViewModel.token.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
                     if (it.data != DEFAULT_TOKEN) {
+                        if (refreshUser == "refresh"){
+                            detailViewModel.getUserData(token)
+                            detailViewModel.getBuyerOrder(token)
+                            detailViewModel.getBuyerWishlist(token)
+                            getProduct(productId)
+
+                        }
                         token = it.data.toString()
                         detailViewModel.getBuyerOrder(token)
                         detailViewModel.getBuyerWishlist(token)
+                        bundleLengkapi.putString(JualFragment.TOKEN_USER_KEY, token)
                     } else {
                         binding.btnWishlist.visibility = View.GONE
                     }
@@ -100,10 +115,6 @@ class DetailFragment : Fragment() {
 
         var productName = ""
         var imageURL = ""
-        if (productId != null) {
-            detailViewModel.getProdukById(productId)
-            getBuyerWishlist(productId)
-        }
 
         detailViewModel.detailProduk.observe(viewLifecycleOwner) { it ->
             when (it.status) {
@@ -175,13 +186,12 @@ class DetailFragment : Fragment() {
                         if (kota == "noKota" || alamat == "noAddress" || gambar == "noImage" || noHp == "noHp") {
                             AlertDialog.Builder(requireContext())
                                 .setTitle("Pesan")
-                                .setMessage("Lengkapi data terlebih dahulu sebelum Jual Barang")
+                                .setMessage("Lengkapi data terlebih dahulu sebelum menawar barang")
                                 .setCancelable(false)
                                 .setPositiveButton("Iya") { positiveButton, _ ->
-                                    bundleLengkapi.putString(
-                                        JualFragment.NAME_USER_KEY,
-                                        it.data.fullName
-                                    )
+                                    bundleLengkapi.putString(NAME_USER_KEY,it.data.fullName)
+                                    bundleLengkapi.putString(DESTINATION,"detail")
+                                    productId?.let { it1 -> bundleLengkapi.putInt(PRODUCT_ID, it1) }
                                     positiveButton.dismiss()
                                     findNavController().navigate(
                                         R.id.action_detailFragment_to_lengkapiInfoAkunFragment,
@@ -210,13 +220,13 @@ class DetailFragment : Fragment() {
         }
         binding.btnSayaTertarikNego.setOnClickListener {
             detailViewModel.getUserData(token)
-            if (token == DEFAULT_TOKEN) {
+            if (token == "") {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Pesan")
                     .setMessage("Anda Belom Masuk")
                     .setPositiveButton("Login") { dialogP, _ ->
-                        findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
                         dialogP.dismiss()
+                        findNavController().navigate(R.id.action_detailFragment_to_loginCompose)
                     }
                     .setNegativeButton("Cancel") { dialogN, _ ->
                         dialogN.dismiss()
@@ -224,6 +234,12 @@ class DetailFragment : Fragment() {
                     .setCancelable(false)
                     .show()
             }
+        }
+    }
+    fun getProduct(productId:Int?){
+        if (productId != null) {
+            detailViewModel.getProdukById(productId)
+            getBuyerWishlist(productId)
         }
     }
 
