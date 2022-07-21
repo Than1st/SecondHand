@@ -227,6 +227,7 @@ class InfoPenawarFragment : Fragment() {
                                                 } else {
                                                     showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
                                                     binding.btnGroupAccepted.visibility = View.GONE
+                                                    binding.btnGroup.visibility = View.GONE
                                                     binding.tvPesan.visibility = View.VISIBLE
                                                     binding.tvPesan.text = "Tawaran Di Tolak!"
                                                 }
