@@ -64,7 +64,7 @@ class ProductRemoteMediator(
                         val categoryString = product.categories.joinToString { it.name }
                         product.categoryID = categoryString
                     }
-                    database.productDao().insertAll(product)
+                    database.productDao().insertAll(product.sortedBy { it.id })
                 }
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPagination == true)

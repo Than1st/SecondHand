@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_container"
@@ -14,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,30 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
-
-                <!--            <androidx.core.widget.NestedScrollView-->
-                <!--                android:id="@+id/nestedScrollView"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintHorizontal_bias="0.0"-->
-                <!--                app:layout_constraintStart_toStartOf="parent"-->
-                <!--                app:layout_constraintTop_toTopOf="parent">-->
-
-                <!--                <androidx.recyclerview.widget.RecyclerView-->
-                <!--                    android:id="@+id/rv_banner"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:orientation="horizontal"-->
-                <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintHorizontal_bias="0.0"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    tools:itemCount="2"-->
-                <!--                    tools:listitem="@layout/item_banner" />-->
-                <!--            </androidx.core.widget.NestedScrollView>-->
 
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/img_banner"
@@ -114,10 +91,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_product"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="900dp"
                     android:layout_marginHorizontal="8dp"
                     android:paddingBottom="98dp"
-                    android:visibility="invisible"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +106,6 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     app:layout_constraintEnd_toEndOf="parent"
-
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rv_product" />
 
@@ -197,7 +172,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/status_bar"
@@ -216,8 +191,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
-                android:padding="5dp"
                 android:background="@drawable/background_search"
+                android:padding="5dp"
                 android:src="@drawable/logo" />
 
             <TextView

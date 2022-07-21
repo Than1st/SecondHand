@@ -35,7 +35,7 @@ class ProductPagingAdapter(private val onClick: (Product) -> Unit) :
 
     inner class RepoViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+        var listCategory = ""
         private var product: Product? = null
 
         fun bind(data: Product) {
@@ -56,8 +56,9 @@ class ProductPagingAdapter(private val onClick: (Product) -> Unit) :
                     for (data in data.categories) {
                         listCategory += ", ${data.name}"
                     }
-                    binding.tvKategori.text = listCategory.drop(2).toString()
+                    tvKategori.text = listCategory.drop(2)
                 }
+
                 val price = currency(data.basePrice)
                 tvHarga.text = price
             }

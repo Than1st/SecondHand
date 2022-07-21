@@ -21,7 +21,7 @@ import okhttp3.RequestBody
 
 class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences, private val dbHelper: DbHelper, private val database: MyDatabase) {
     companion object {
-        const val PAGE_SIZE = 10
+        const val PAGE_SIZE = 30
     }
     // SELLER
     suspend fun getBanner() = apiHelper.getBanner()
