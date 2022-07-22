@@ -37,7 +37,7 @@ class DaftarJualFragment : Fragment() {
     private val bundleEdit = Bundle()
     private var token = ""
     private val listProduct: MutableList<ResponseSellerProduct> = ArrayList()
-    private val listOrderSold: MutableList<ResponseSellerOrder> = ArrayList()
+    private val listProductSold: MutableList<ResponseSellerProduct> = ArrayList()
     private val listOrder: MutableList<ResponseSellerOrder> = ArrayList()
 
     companion object {
@@ -83,7 +83,7 @@ class DaftarJualFragment : Fragment() {
                 bundlePenawar.putString(USER_TOKEN, it)
                 token = it
             }
-            getSellerProduct()
+            getSellerProduct("")
             setSellerName()
         }
         setRecycler()
@@ -133,8 +133,12 @@ class DaftarJualFragment : Fragment() {
     }
 
     private fun setRecycler() {
+        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
         binding.btnProduk.setOnClickListener {
-            getSellerProduct()
+            getSellerProduct("")
+            binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
+            binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
+            binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         }
         binding.btnDiminati.setOnClickListener {
             binding.rvProduct.visibility = View.GONE
@@ -143,26 +147,23 @@ class DaftarJualFragment : Fragment() {
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#06283D"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
-            getSellerOrder("")
+            getSellerOrder()
         }
         binding.btnTerjual.setOnClickListener {
-            binding.rvProduct.visibility = View.GONE
+            binding.rvProduct.visibility = View.VISIBLE
             binding.lottieEmpty.visibility = View.GONE
-            binding.rvOrder.visibility = View.VISIBLE
+            binding.rvOrder.visibility = View.GONE
             binding.btnProduk.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
             binding.btnTerjual.setBackgroundColor(Color.parseColor("#06283D"))
-            getSellerOrder("accepted")
+            getSellerProduct("seller")
         }
     }
 
-    private fun getSellerProduct() {
+    private fun getSellerProduct(produkStatus:String) {
         binding.rvProduct.visibility = View.VISIBLE
         binding.rvOrder.visibility = View.GONE
         binding.lottieEmpty.visibility = View.GONE
-        binding.btnProduk.setBackgroundColor(Color.parseColor("#06283D"))
-        binding.btnDiminati.setBackgroundColor(Color.parseColor("#47B5FF"))
-        binding.btnTerjual.setBackgroundColor(Color.parseColor("#47B5FF"))
         daftarJualViewModel.getProduct(token)
         daftarJualViewModel.product.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -193,24 +194,44 @@ class DaftarJualFragment : Fragment() {
                                         putString(PRODUCT_IMAGE, data.imageUrl)
                                         putString(USER_CITY, data.location)
                                     }
-                                    findNavController().navigate(
-                                        R.id.action_daftarJualFragment_to_editProductFragment,
-                                        bundleEdit
-                                    )
+                                    if (data.status != "seller"){
+                                        findNavController().navigate(
+                                            R.id.action_daftarJualFragment_to_editProductFragment,
+                                            bundleEdit
+                                        )
+                                    }else{
+                                        Toast.makeText(requireContext(), "Produk sudah terjual", Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
                                 }
                             })
                         listProduct.clear()
+                        listProductSold.clear()
                         for (i in it.data) {
                             if (i.status == "available") {
                                 listProduct.add(i)
+                            } else if(i.status == "seller"){
+                                listProductSold.add(i)
                             }
                         }
-                        sellerProductAdapter.submitData(listProduct)
+                        if (produkStatus == "seller" ){
+                            if (listProductSold.size == 0) {
+                                binding.lottieEmpty.visibility = View.VISIBLE
+                            }else{
+                                binding.lottieEmpty.visibility = View.GONE
+                            }
+                            sellerProductAdapter.submitData(listProductSold)
+                        } else{
+                            if (listProduct.size == 0 ) {
+                                binding.lottieEmpty.visibility = View.VISIBLE
+                            }else{
+                                binding.lottieEmpty.visibility = View.GONE
+                            }
+                            sellerProductAdapter.submitData(listProduct)
+                        }
                         binding.rvProduct.adapter = sellerProductAdapter
                     }
-                    if (listProduct.size == 0) {
-                        binding.lottieEmpty.visibility = View.VISIBLE
-                    }
+
                     binding.buttonGrup.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
                     binding.rvProduct.visibility = View.VISIBLE
@@ -226,8 +247,8 @@ class DaftarJualFragment : Fragment() {
         }
     }
 
-    private fun getSellerOrder(status : String) {
-        daftarJualViewModel.getOrder(token, status)
+    private fun getSellerOrder() {
+        daftarJualViewModel.getOrder(token, "")
         daftarJualViewModel.order.observe(viewLifecycleOwner) {
             when (it.status) {
                 LOADING -> {
@@ -248,10 +269,9 @@ class DaftarJualFragment : Fragment() {
                                         .navigate(R.id.action_daftarJualFragment_to_infoPenawarFragment,bundlePenawar)
                                 }
                             })
-                        listOrderSold.clear()
                         listOrder.clear()
                         for (data in it.data) {
-                            if (data.product.status != "seller") {
+                            if (data.status ==  "pending" || data.status == "accepted") {
                                 listOrder.add(data)
                             }
                         }
