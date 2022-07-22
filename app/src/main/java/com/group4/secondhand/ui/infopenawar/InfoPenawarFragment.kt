@@ -185,22 +185,7 @@ class InfoPenawarFragment : Fragment() {
                                 btnStatus.setOnClickListener {
                                     val bottomFragment = BottomSheetStatusFragment(
                                         token.toString(),
-                                        data.productId,
-                                        back = { status ->
-//                                            findNavController().popBackStack()
-                                            if (status == "declined"){
-                                                val body = RequestApproveOrder(
-                                                    status
-                                                )
-                                                if (token != null && idOrder != null) {
-                                                    viewModel.updateOrderStatus(token, idOrder, body)
-                                                    showToastSuccess(binding.root, "Transaksi di batalkan!", resources.getColor(R.color.success))
-                                                }
-                                            } else {
-                                                showToastSuccess(binding.root, "Transaksi di Terima!", resources.getColor(R.color.success))
-                                            }
-                                            findNavController().popBackStack()
-                                        }
+                                        data.productId
                                     )
                                     bottomFragment.show(parentFragmentManager, "Tag")
                                 }

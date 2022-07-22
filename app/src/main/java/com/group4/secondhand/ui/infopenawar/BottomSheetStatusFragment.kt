@@ -16,13 +16,13 @@ import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.model.RequestUpdateStatusProduk
 import com.group4.secondhand.databinding.FragmentBottomSheetStatusBinding
+import com.group4.secondhand.ui.showToastSuccess
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomSheetStatusFragment(
     private val token: String,
-    private val produkId: Int,
-    private val back: (String)->Unit
+    private val produkId: Int
 ) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetStatusBinding? = null
@@ -75,7 +75,11 @@ class BottomSheetStatusFragment(
                                 Handler().postDelayed({
                                     progressDialog.dismiss()
                                     dismiss()
-                                    back(status)
+                                    if(status == "accepted"){
+                                        showToastSuccess(binding.root, "Berhasil Terjual", resources.getColor(R.color.success))
+                                    } else {
+                                        showToastSuccess(binding.root, "Batal Transaksi", resources.getColor(R.color.success))
+                                    }
                                 },1000)
                             }
                             400 -> {
