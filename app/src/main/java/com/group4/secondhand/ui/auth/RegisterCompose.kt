@@ -228,7 +228,7 @@ class RegisterCompose : Fragment() {
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Sign Up!",
+                text = "Register!",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold
@@ -383,7 +383,7 @@ class RegisterCompose : Fragment() {
 
             {
                 Text(
-                    text = "Sign Up!",
+                    text = "Register!",
                     style = TextStyle(Color.White, fontWeight = FontWeight.Bold),
                     fontFamily = poppinsFamily
                 )
