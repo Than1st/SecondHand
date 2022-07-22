@@ -182,7 +182,15 @@ class InfoPenawarFragment : Fragment() {
                                 btnStatus.setOnClickListener {
                                     val bottomFragment = BottomSheetStatusFragment(
                                         token.toString(),
-                                        data.productId
+                                        data.productId,
+                                        back = { stat ->
+                                            if(stat == "accepted"){
+                                                showToastSuccess(binding.root, "Berhasil Terjual", resources.getColor(R.color.success))
+                                            } else {
+                                                showToastSuccess(binding.root, "Batal Transaksi", resources.getColor(R.color.success))
+                                            }
+                                            findNavController().popBackStack()
+                                        }
                                     )
                                     bottomFragment.show(parentFragmentManager, "Tag")
                                 }
