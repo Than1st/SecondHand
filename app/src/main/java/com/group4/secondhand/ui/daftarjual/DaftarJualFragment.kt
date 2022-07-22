@@ -251,20 +251,14 @@ class DaftarJualFragment : Fragment() {
                         listOrderSold.clear()
                         listOrder.clear()
                         for (data in it.data) {
-                            if (data.status == "accepted" && data.product.status == "seller") {
-                                listOrderSold.add(data)
-                            }else{
+                            if (data.product.status != "seller") {
                                 listOrder.add(data)
                             }
                         }
-                        if (status == "accepted"){
-                            sellerOrderAdapter.submitData(listOrderSold)
-                        }else{
-                            sellerOrderAdapter.submitData(listOrder)
-                        }
+                        sellerOrderAdapter.submitData(listOrder)
                         binding.rvOrder.adapter = sellerOrderAdapter
                     }
-                    if (it.data?.size == 0) {
+                    if (listOrder.size == 0) {
                         binding.lottieEmpty.visibility = View.VISIBLE
                     }
                     binding.rvOrder.visibility = View.VISIBLE

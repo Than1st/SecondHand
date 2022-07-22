@@ -185,22 +185,7 @@ class InfoPenawarFragment : Fragment() {
                                 btnStatus.setOnClickListener {
                                     val bottomFragment = BottomSheetStatusFragment(
                                         token.toString(),
-                                        data.productId,
-                                        back = { status ->
-//                                            findNavController().popBackStack()
-                                            if (status == "declined"){
-                                                val body = RequestApproveOrder(
-                                                    status
-                                                )
-                                                if (token != null && idOrder != null) {
-                                                    viewModel.updateOrderStatus(token, idOrder, body)
-                                                    showToastSuccess(binding.root, "Transaksi di batalkan!", resources.getColor(R.color.success))
-                                                }
-                                            } else {
-                                                showToastSuccess(binding.root, "Transaksi di Terima!", resources.getColor(R.color.success))
-                                            }
-                                            findNavController().popBackStack()
-                                        }
+                                        data.productId
                                     )
                                     bottomFragment.show(parentFragmentManager, "Tag")
                                 }
@@ -227,6 +212,7 @@ class InfoPenawarFragment : Fragment() {
                                                 } else {
                                                     showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
                                                     binding.btnGroupAccepted.visibility = View.GONE
+                                                    binding.btnGroup.visibility = View.GONE
                                                     binding.tvPesan.visibility = View.VISIBLE
                                                     binding.tvPesan.text = "Tawaran Di Tolak!"
                                                 }
