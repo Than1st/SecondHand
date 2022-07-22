@@ -271,9 +271,9 @@ class DaftarJualFragment : Fragment() {
                             })
                         listOrder.clear()
                         for (data in it.data) {
-                            if (data.status ==  "pending" || data.status == "accepted") {
-                                listOrder.add(data)
-                            }
+                                if (data.product.status != "seller"){
+                                    listOrder.add(data)
+                                }
                         }
                         sellerOrderAdapter.submitData(listOrder)
                         binding.rvOrder.adapter = sellerOrderAdapter

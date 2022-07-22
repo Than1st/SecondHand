@@ -112,10 +112,7 @@ class InfoPenawarFragment : Fragment() {
                                             tvPesan.visibility = View.VISIBLE
                                             tvPesan.text = getString(R.string.produk_sudah_laku)
                                         } else if (data.product.status == "sold"){
-                                            btnGroup.visibility = View.GONE
                                             btnGroupAccepted.visibility = View.GONE
-                                            tvPesan.visibility = View.VISIBLE
-                                            tvPesan.text = getString(R.string.produk_sudah_laku)
                                         }
                                     }
                                 }
