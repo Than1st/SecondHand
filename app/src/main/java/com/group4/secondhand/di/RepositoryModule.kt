@@ -21,5 +21,5 @@ object RepositoryModule {
         userPreferences: UserPreferences,
         dbHelper: DbHelper,
         database: MyDatabase
-    ) = Repository(apiHelper, userPreferences,dbHelper,database)
+    ) = Repository(apiHelper, userPreferences,database)
 }

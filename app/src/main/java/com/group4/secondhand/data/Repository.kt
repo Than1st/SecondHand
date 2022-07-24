@@ -19,7 +19,7 @@ import com.group4.secondhand.data.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences, private val dbHelper: DbHelper, private val database: MyDatabase) {
+class Repository(private val apiHelper: ApiHelper, private val userPreferences: UserPreferences,  private val database: MyDatabase) {
     companion object {
         const val PAGE_SIZE = 30
     }
