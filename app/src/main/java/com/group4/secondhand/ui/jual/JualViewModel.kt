@@ -8,7 +8,6 @@ import com.group4.secondhand.data.Repository
 import com.group4.secondhand.data.api.Resource
 import com.group4.secondhand.data.model.ResponseCategoryHome
 import com.group4.secondhand.data.model.ResponseGetDataUser
-import com.group4.secondhand.data.model.ResponseGetProduct
 import com.group4.secondhand.data.model.ResponseUploadProduct
 import com.group4.secondhand.ui.reduceFileImage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +17,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class JualViewModel @Inject constructor(private val repository: Repository): ViewModel() {
-    private val _uploadResponse = MutableLiveData<Resource<ResponseUploadProduct>>()
-    val uploadResponse : LiveData<Resource<ResponseUploadProduct>> get() = _uploadResponse
+    private val _uploadResponse = MutableLiveData<Resource<Response<ResponseUploadProduct>>>()
+    val uploadResponse : LiveData<Resource<Response<ResponseUploadProduct>>> get() = _uploadResponse
 
     private var _alreadyLogin = MutableLiveData<String>()
     val alreadyLogin : LiveData<String> get() = _alreadyLogin
@@ -62,13 +62,10 @@ class JualViewModel @Inject constructor(private val repository: Repository): Vie
         alamatPenjual: String,
         image: File
     ){
-//        val kategoriList: MutableList<Int> = ArrayList()
-//        kategoriList.addAll(kategoriProduk)
         val requestFile = reduceFileImage(image).asRequestBody("image/jpg".toMediaTypeOrNull())
         val gambarProduk = MultipartBody.Part.createFormData("image", image.name, requestFile)
         val namaRequestBody = namaProduk.toRequestBody("text/plain".toMediaType())
         val deskripsiRequestBody = deskripsiProduk.toRequestBody("text/plain".toMediaType())
-//        val kategoriRequestBody = kategoriProduk.toString().toRequestBody("text/plain".toMediaType())
         val hargaRequestBody = hargaProduk.toRequestBody("text/plain".toMediaType())
         val alamatRequestBody = alamatPenjual.toRequestBody("text/plain".toMediaType())
 

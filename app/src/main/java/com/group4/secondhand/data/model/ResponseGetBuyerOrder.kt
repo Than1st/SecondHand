@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
     data class ResponseGetBuyerOrder(
         @SerializedName("base_price")
-        val basePrice: Any,
+        val basePrice: Int,
         @SerializedName("buyer_id")
         val buyerId: Int,
         @SerializedName("id")
@@ -14,6 +14,8 @@ import com.google.gson.annotations.SerializedName
         val imageUrl: Any,
         @SerializedName("price")
         val price: Int,
+        @SerializedName("transaction_date")
+        val transaction_date: String,
         @SerializedName("Product")
         val product: Product,
         @SerializedName("product_id")
@@ -40,8 +42,25 @@ import com.google.gson.annotations.SerializedName
             val name: String,
             @SerializedName("status")
             val status: String,
+            @SerializedName("User")
+            val user: UserOwnerOrder,
             @SerializedName("user_id")
             val userId: Int
+        )
+
+        data class UserOwnerOrder(
+            @SerializedName("address")
+            val address: String,
+            @SerializedName("city")
+            val city: String,
+            @SerializedName("email")
+            val email: String,
+            @SerializedName("full_name")
+            val fullName: String,
+            @SerializedName("id")
+            val id: Int,
+            @SerializedName("phone_number")
+            val phoneNumber: String
         )
 
         data class User(

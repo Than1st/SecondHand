@@ -21,8 +21,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.databinding.FragmentLengkapiInfoAkunBinding
+import com.group4.secondhand.ui.detail.DetailFragment.Companion.DESTINATION
+import com.group4.secondhand.ui.home.HomeFragment
+import com.group4.secondhand.ui.home.HomeFragment.Companion.PRODUCT_ID
 import com.group4.secondhand.ui.jual.JualFragment.Companion.NAME_USER_KEY
 import com.group4.secondhand.ui.jual.JualFragment.Companion.TOKEN_USER_KEY
 import com.group4.secondhand.ui.uriToFile
@@ -56,11 +60,15 @@ class LengkapiInfoAkunFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var destination :String? = ""
+        var id :Int? = -1
+        val bundleDetail = Bundle()
         val bundle = arguments
         val progressDialog = ProgressDialog(requireContext())
         progressDialog.setMessage("Please Wait...")
         val nama = bundle?.getString(NAME_USER_KEY)
         val token = bundle?.getString(TOKEN_USER_KEY)
+
         token?.let { viewModel.getUser(it) }
         binding.etNama.setText(nama)
         viewModel.getUser.observe(viewLifecycleOwner){
@@ -112,13 +120,7 @@ class LengkapiInfoAkunFragment : Fragment() {
                         alamat,
                         kota
                     )
-//                    progressDialog.show()
-//                    Handler().postDelayed({
-//                        progressDialog.dismiss()
-//                        findNavController().popBackStack()
-//                        Toast.makeText(requireContext(), "Berhasil Update Data!", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }, 1500)
+                    progressDialog.show()
                 }
             }
         }
@@ -126,11 +128,20 @@ class LengkapiInfoAkunFragment : Fragment() {
             openImagePicker()
         }
         viewModel.responseUpdate.observe(viewLifecycleOwner){
+            destination = bundle?.getString(DESTINATION)
+            id = bundle?.getInt(PRODUCT_ID)
+
             when(it.status){
                 SUCCESS -> {
                     Handler().postDelayed({
                         progressDialog.dismiss()
-                        findNavController().popBackStack()
+                        if (destination == "detail"){
+                            bundleDetail.putString(DESTINATION,"refresh")
+                            id?.let { it1 -> bundleDetail.putInt(PRODUCT_ID, it1) }
+                            findNavController().navigate(R.id.action_lengkapiInfoAkunFragment_to_detailFragment,bundleDetail)
+                        }else{
+                            findNavController().navigate(R.id.action_lengkapiInfoAkunFragment_to_jualFragment)
+                        }
                     }, 1000)
                 }
                 ERROR -> {
@@ -172,6 +183,10 @@ class LengkapiInfoAkunFragment : Fragment() {
             }
             nohp.isEmpty() -> {
                 binding.noHpContainer.error = "Nomor Hp tidak boleh kosong!"
+                false
+            }
+            nohp.length < 11 ->{
+                binding.noHpContainer.error = "Minimum Nomor 11 digit!"
                 false
             }
             uriFoto.isEmpty() -> {

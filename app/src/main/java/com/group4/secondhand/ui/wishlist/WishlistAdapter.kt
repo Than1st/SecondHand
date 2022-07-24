@@ -1,9 +1,7 @@
-@file:Suppress("RemoveSingleExpressionStringTemplate")
+package com.group4.secondhand.ui.wishlist
 
-package com.group4.secondhand.ui.home
-
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -12,64 +10,62 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.group4.secondhand.R
-import com.group4.secondhand.data.model.ResponseGetProduct
+import com.group4.secondhand.data.model.ResponseGetBuyerWishlist
 import com.group4.secondhand.databinding.ItemProductHomeBinding
 import com.group4.secondhand.ui.currency
 
-class ProductAdapter(private val onItemClick: OnClickListener) :
-    RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
-    private val diffCallBack = object : DiffUtil.ItemCallback<ResponseGetProduct>() {
+class WishlistAdapter(private val onClickItem: OnClickListener) :
+    RecyclerView.Adapter<WishlistAdapter.ViewHolder>() {
+    private val diffCallBack = object : DiffUtil.ItemCallback<ResponseGetBuyerWishlist>() {
         override fun areItemsTheSame(
-            oldItem: ResponseGetProduct,
-            newItem: ResponseGetProduct
+            oldItem: ResponseGetBuyerWishlist,
+            newItem: ResponseGetBuyerWishlist
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ResponseGetProduct,
-            newItem: ResponseGetProduct
+            oldItem: ResponseGetBuyerWishlist,
+            newItem: ResponseGetBuyerWishlist
         ): Boolean {
-            return oldItem.name == newItem.name
+            return oldItem.product?.name == newItem.product?.name
         }
+
     }
+
     private val differ = AsyncListDiffer(this, diffCallBack)
-    fun submitData(value: List<ResponseGetProduct>?) = differ.submitList(value)
+    fun submitData(value: List<ResponseGetBuyerWishlist>?) = differ.submitList(value)
+
+    interface OnClickListener {
+        fun onClickItem(data: ResponseGetBuyerWishlist)
+    }
 
     inner class ViewHolder(private val binding: ItemProductHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
-        var listCategory = ""
-        fun bind(data: ResponseGetProduct) {
+        fun bind(data: ResponseGetBuyerWishlist) {
             binding.apply {
+                if (data.product?.status == "seller"){
+                    tvTerjual.visibility = View.VISIBLE
+                }
                 Glide.with(binding.root)
-                    .load(data.imageUrl)
+                    .load(data.product?.imageUrl)
                     .placeholder(R.drawable.default_image)
                     .transform(CenterCrop(), RoundedCorners(8))
                     .into(binding.ivProduk)
-                tvNamaProduk.text = data.name
-                if (data.categories.isNotEmpty()) {
-                    for (data in data.categories){
-                        listCategory += ", ${data.name}"
-                    }
-                    binding.tvKategori.text = listCategory.drop(2)
-                }
-                val price = currency(data.basePrice)
+                tvNamaProduk.text = data.product?.name
+                tvKategori.visibility = View.GONE
+                val price = data.product?.basePrice?.let { currency(it) }
                 tvHarga.text = price
                 root.setOnClickListener {
-                    onItemClick.onClickItem(data)
+                    onClickItem.onClickItem(data)
                 }
             }
         }
     }
 
-    interface OnClickListener {
-        fun onClickItem(data: ResponseGetProduct)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(ItemProductHomeBinding.inflate(inflater, parent, false))
+        return ViewHolder(ItemProductHomeBinding.inflate(inflater,parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -80,5 +76,4 @@ class ProductAdapter(private val onItemClick: OnClickListener) :
     }
 
     override fun getItemCount(): Int = differ.currentList.size
-
 }

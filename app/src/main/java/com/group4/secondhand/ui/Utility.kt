@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import java.io.*
-import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -27,6 +26,7 @@ import java.util.*
 
 val listCategory : MutableList<String> = ArrayList()
 val listCategoryId : MutableList<Int> = ArrayList()
+var lastPosition = -1
 
 fun loadingBar(context: Context): ProgressDialog {
     return ProgressDialog(context)

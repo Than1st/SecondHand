@@ -6,12 +6,14 @@ import okhttp3.RequestBody
 
 class ApiHelper(private val apiService: ApiService) {
     // SELLER
+    suspend fun getBanner() = apiService.getBanner()
     suspend fun getCategoryHome() = apiService.getCategoryHome()
     suspend fun getSellerProduct(token: String) = apiService.getSellerProduct(token)
     suspend fun getSellerOrder(token: String,status: String) = apiService.getSellerOrder(token,status)
+    suspend fun getSellerOrderById(token: String,orderId: Int) = apiService.getSellerOrderById(token,orderId)
     suspend fun deleteSellerProduct(token: String, id: Int) = apiService.deleteSellerProduct(token,id)
     suspend fun approveOrder(token: String, id: Int, requestApproveOrder: RequestApproveOrder) = apiService.approveOrder(token, id, requestApproveOrder)
-
+    suspend fun updateStatusProduk(token: String,produkId: Int, requestUpdateStatusProduk: RequestUpdateStatusProduk) = apiService.updateStatusProduk(token, produkId, requestUpdateStatusProduk)
     suspend fun uploadProduct(
         token: String,
         file: MultipartBody.Part,
@@ -34,15 +36,20 @@ class ApiHelper(private val apiService: ApiService) {
     ) = apiService.updateProduct(token,id, file, name, description, base_price, categoryIds, location)
 
     // BUYER
-    suspend fun getProduct(status: String, categoryId: String) =
-        apiService.getProduct(status, categoryId)
+    suspend fun getProduct(status: String?= null, categoryId: Int? = null, search: String?= null, page: Int = 1 , perpage: Int  = 10 ) =
+        apiService.getProduct(status, categoryId,search, page, perpage)
+    suspend fun getProductSearch(status: String, categoryId: String, search: String, page: String, perpage: String) =
+        apiService.getProductSearch(status, categoryId,search, page, perpage)
 
     suspend fun getProductById ( id : Int ) = apiService.getProdukById(id)
-
-    suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) =
-        apiService.buyerOrder(token, requestBuyerOrder)
-    suspend fun getBuyerOrder(token: String) =
-        apiService.getBuyerOrder(token)
+    suspend fun buyerOrder(token: String, requestBuyerOrder: RequestBuyerOrder) = apiService.buyerOrder(token, requestBuyerOrder)
+    suspend fun getBuyerOrder(token: String) = apiService.getBuyerOrder(token)
+    suspend fun getBuyerOrderById(token: String, id: Int) = apiService.getBuyerOrderById(token, id)
+    suspend fun updateBuyerOrder(token: String, id: Int, newPrice: RequestBody) = apiService.updateBuyerOrder(token, id, newPrice)
+    suspend fun getBuyerWishlist(token: String) = apiService.getBuyerWishlist(token)
+    suspend fun deleteBuyerOrder(token: String, id: Int) = apiService.deleteBuyerOrder(token, id)
+    suspend fun addWishlist(token:String, productId: RequestBody) = apiService.addWishlist(token,productId)
+    suspend fun removeWishlist(token: String,id: Int) = apiService.removeWishlist(token,id)
 
     // AUTH
     suspend fun authRegister(requestRegister: RequestRegister) =
@@ -62,4 +69,5 @@ class ApiHelper(private val apiService: ApiService) {
 
     // NOTIFICATION
     suspend fun getNotification(token: String) = apiService.getNofitication(token)
+    suspend fun markReadNotification(token: String, id: Int) = apiService.markReadNotification(token, id)
 }

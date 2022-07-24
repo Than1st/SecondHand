@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,14 +16,17 @@ import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences
 import com.group4.secondhand.data.model.ResponseNotification
 import com.group4.secondhand.databinding.FragmentNotifikasiBinding
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.ORDER_ID
+import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
+import com.group4.secondhand.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class NotifikasiFragment : Fragment() {
     private var _binding: FragmentNotifikasiBinding? = null
     private val binding get() = _binding!!
     private val viewModel: NotifikasiViewModel by viewModels()
+    private val bundle = Bundle()
     private val listNotif: MutableList<ResponseNotification> = ArrayList()
 
     override fun onCreateView(
@@ -41,11 +43,11 @@ class NotifikasiFragment : Fragment() {
         binding.emptyNotif.visibility = View.GONE
         val pd = ProgressDialog(requireContext())
         pd.setMessage("Please Wait...")
+        pd.setCancelable(false)
         viewModel.getToken()
         viewModel.user.observe(viewLifecycleOwner) {
             when (it.status) {
                 SUCCESS -> {
-                    pd.dismiss()
                     if (it.data == UserPreferences.DEFAULT_TOKEN) {
                         AlertDialog.Builder(requireContext())
                             .setTitle("Pesan")
@@ -60,11 +62,12 @@ class NotifikasiFragment : Fragment() {
                             }
                             .setCancelable(false)
                             .show()
+                        viewModel.user.removeObservers(viewLifecycleOwner)
                     } else {
-                        viewModel.getNotification(it.data.toString())
-                        getNotif()
+                        bundle.putString(USER_TOKEN, it.data)
+                        getNotif(it.data.toString())
                     }
-                    viewModel.user.removeObservers(viewLifecycleOwner)
+                    pd.dismiss()
                 }
                 ERROR -> {
                     pd.dismiss()
@@ -79,48 +82,88 @@ class NotifikasiFragment : Fragment() {
         }
     }
 
-    private fun getNotif() {
-        val progressDialog = ProgressDialog(requireContext())
-        progressDialog.setMessage("Please Wait...")
+    private fun getNotif(token: String) {
+        val pd = ProgressDialog(requireContext())
+        pd.setMessage("Please Wait...")
+        pd.setCancelable(false)
+        viewModel.getNotification(token)
         viewModel.notification.observe(viewLifecycleOwner) {
             if (it != null) {
                 when (it.status) {
                     LOADING -> {
-                        progressDialog.show()
+                        pd.show()
+                        binding.emptyNotif.visibility = View.GONE
+                        binding.rvNotification.visibility = View.GONE
                     }
                     SUCCESS -> {
-                        if (it.data.isNullOrEmpty()) {
-                            binding.emptyNotif.visibility = View.VISIBLE
-                        } else {
+                        listNotif.clear()
+                        binding.rvNotification.visibility = View.VISIBLE
+                        if (it.data != null){
                             for (data in it.data) {
-                                if (data.imageUrl.isNullOrEmpty() &&
-                                    data.basePrice.isEmpty() &&
-                                    data.product != null &&
-                                    data.bidPrice.toString().isEmpty() &&
-                                    data.productName.isEmpty() &&
-                                    data.transactionDate.isNullOrEmpty()
-                                ) {
-                                } else {
-                                    listNotif.add(data)
+                                when {
+                                    data.basePrice.isEmpty() ||
+                                            data.product == null ||
+                                            data.bidPrice.toString().isEmpty() ||
+                                            data.productName.isEmpty() ||
+                                            data.transactionDate.isNullOrEmpty() ||
+                                            data.status == "create" ||
+                                            data.order_id == null -> {
+                                    }
+                                    else -> {
+                                        listNotif.add(data)
+                                    }
                                 }
                             }
+                            if (listNotif.isEmpty()){
+                                binding.emptyNotif.visibility = View.VISIBLE
+                            }
+                            listNotif.sortByDescending { data -> data.id }
                             val notificationAdapter =
                                 NotificationAdapter(object : NotificationAdapter.OnClickListener {
                                     override fun onClickItem(data: ResponseNotification) {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Notif Id = ${data.id}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        when (data.status) {
+                                            "bid" -> {
+                                                if (data.receiverId == data.product.userId) {
+                                                    bundle.putInt(ORDER_ID, data.order_id)
+                                                    viewModel.markReadNotification(token, data.id)
+                                                    findNavController().navigate(
+                                                        R.id.action_notifikasiFragment_to_infoPenawarFragment,
+                                                        bundle
+                                                    )
+                                                }
+                                            }
+                                            "declined" -> {
+                                                bundle.putInt(
+                                                    HomeFragment.PRODUCT_ID,
+                                                    data.productId
+                                                )
+                                                viewModel.markReadNotification(token, data.id)
+                                                findNavController().navigate(
+                                                    R.id.action_notifikasiFragment_to_detailFragment,
+                                                    bundle
+                                                )
+                                            }
+                                            "accepted" -> {
+                                                bundle.putInt(
+                                                    HomeFragment.PRODUCT_ID,
+                                                    data.productId
+                                                )
+                                                viewModel.markReadNotification(token, data.id)
+                                                findNavController().navigate(
+                                                    R.id.action_notifikasiFragment_to_detailFragment,
+                                                    bundle
+                                                )
+                                            }
+                                        }
                                     }
                                 })
                             notificationAdapter.submitData(listNotif)
                             binding.rvNotification.adapter = notificationAdapter
                         }
-                        progressDialog.dismiss()
+                        pd.dismiss()
                     }
                     ERROR -> {
-                        progressDialog.dismiss()
+                        pd.dismiss()
                         AlertDialog.Builder(requireContext())
                             .setMessage(it.message)
                             .show()
@@ -129,5 +172,4 @@ class NotifikasiFragment : Fragment() {
             }
         }
     }
-
 }

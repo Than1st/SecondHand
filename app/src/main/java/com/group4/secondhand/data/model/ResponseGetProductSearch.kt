@@ -1,9 +1,8 @@
 package com.group4.secondhand.data.model
 
-
 import com.google.gson.annotations.SerializedName
 
-data class ResponseGetProduct(
+data class ResponseGetProductSearch(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

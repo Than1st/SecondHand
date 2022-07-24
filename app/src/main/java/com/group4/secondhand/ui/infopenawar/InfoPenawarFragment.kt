@@ -22,18 +22,9 @@ import com.group4.secondhand.databinding.FragmentInfoPenawarBinding
 import com.group4.secondhand.ui.convertDate
 import com.group4.secondhand.ui.currency
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.ORDER_ID
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.ORDER_STATUS
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_BID
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_BID_DATE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_IMAGE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_NAME
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_PRICE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.PRODUCT_STATUS
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_CITY
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_IMAGE
-import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_NAME
 import com.group4.secondhand.ui.daftarjual.DaftarJualFragment.Companion.USER_TOKEN
 import com.group4.secondhand.ui.showToastSuccess
+import com.group4.secondhand.ui.striketroughtText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,153 +53,214 @@ class InfoPenawarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val progressDialog = ProgressDialog(requireContext())
         progressDialog.setMessage("Please Wait...")
+        progressDialog.setCancelable(false)
         val bundlePenawar = arguments
         val idOrder = bundlePenawar?.getInt(ORDER_ID)
-        val statusOrder = bundlePenawar?.getString(ORDER_STATUS)
-        val statusProduct = bundlePenawar?.getString(PRODUCT_STATUS)
         val token = bundlePenawar?.getString(USER_TOKEN)
-        val namaPenawar = bundlePenawar?.getString(USER_NAME)
-        val kotaPenawar = bundlePenawar?.getString(USER_CITY)
-        val gambarPenawar = bundlePenawar?.getString(USER_IMAGE)
-        val namaProduk = bundlePenawar?.getString(PRODUCT_NAME)
-        val hargaAwalProduk = bundlePenawar?.getString(PRODUCT_PRICE)
-        val hargaDitawarProduk = bundlePenawar?.getString(PRODUCT_BID)
-        val gambarProduk = bundlePenawar?.getString(PRODUCT_IMAGE)
         var status: String
-        binding.apply {
-            tvNamaPenawar.text = namaPenawar
-            tvKotaPenawar.text = kotaPenawar
-            Glide.with(requireContext())
-                .load(gambarPenawar)
-                .placeholder(R.drawable.default_image)
-                .transform(CenterCrop(), RoundedCorners(12))
-                .into(ivAvatarPenawar)
-            tvNamaProduk.text = namaProduk
-            tvHargaAwalProduk.text = currency(hargaAwalProduk.toString().toInt())
-            tvHargaDitawarProduk.text = getString(R.string.ditawar, currency(hargaDitawarProduk.toString().toInt()))
-            tvTanggal.text = convertDate(bundlePenawar?.getString(PRODUCT_BID_DATE).toString())
-            Glide.with(requireContext())
-                .load(gambarProduk)
-                .transform(CenterCrop(), RoundedCorners(12))
-                .into(ivProductImage)
-
-            if(statusOrder == "accepted"){
-                btnGroup.visibility = View.GONE
-                btnGroupAccepted.visibility = View.VISIBLE
+        if (idOrder != null) {
+            if (token != null) {
+                viewModel.getOrderById(idOrder, token)
             }
+        }
+        viewModel.responseOrder.observe(viewLifecycleOwner){
+            when(it.status){
+                SUCCESS -> {
+                    if(it.data != null){
+                        it.data.let { data ->
+                            binding.apply {
+                                tvNamaPenawar.text = data.user.fullName
+                                tvKotaPenawar.text = data.user.city
+                                Glide.with(requireContext())
+                                    .load("")
+                                    .placeholder(R.drawable.default_image)
+                                    .transform(CenterCrop(), RoundedCorners(12))
+                                    .into(ivAvatarPenawar)
+                                tvNamaProduk.text = data.productName
+                                tvHargaAwal.apply {
+                                    text = striketroughtText(this, currency(data.basePrice.toInt()))
 
-            btnTolak.setOnClickListener {
-                if (statusOrder == "pending" && statusProduct == "sold") {
-                    Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
-                }else {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Pesan")
-                        .setMessage("Tolak Tawaran?")
-                        .setPositiveButton("Iya") { positive, _ ->
-                            status = "declined"
-                            val body = RequestApproveOrder(
-                                status
-                            )
-                            if (token != null && idOrder != null) {
-                                viewModel.declineOrder(token, idOrder, body)
-                                positive.dismiss()
+                                }
+                                tvHargaDitawar.text = getString(R.string.ditawar, currency(data.price))
+                                tvTanggal.text = convertDate(data.createdAt)
+                                Glide.with(requireContext())
+                                    .load(data.product.imageUrl)
+                                    .transform(CenterCrop(), RoundedCorners(12))
+                                    .into(ivProductImage)
+
+                                when (data.status) {
+                                    "accepted" -> {
+                                        btnGroup.visibility = View.GONE
+                                        btnGroupAccepted.visibility = View.VISIBLE
+                                        if (data.product.status == "seller"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_terjual)
+                                        }
+                                    }
+                                    "declined" -> {
+                                        btnGroup.visibility = View.GONE
+                                        btnGroupAccepted.visibility = View.GONE
+                                        tvPesan.visibility = View.VISIBLE
+                                        tvPesan.text = getString(R.string.tawaran_sudah_di_tolak)
+                                    }
+                                    "pending"->{
+                                        btnGroupAccepted.visibility = View.GONE
+                                        if (data.product.status == "seller"){
+                                            btnGroup.visibility = View.GONE
+                                            btnGroupAccepted.visibility = View.GONE
+                                            tvPesan.visibility = View.VISIBLE
+                                            tvPesan.text = getString(R.string.produk_sudah_laku)
+                                        } else if (data.product.status == "sold"){
+                                            btnGroupAccepted.visibility = View.GONE
+                                        }
+                                    }
+                                }
+
+                                btnTolak.setOnClickListener {
+                                    if (data.status == "pending" && data.product.status == "sold") {
+                                        Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
+                                    }else {
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("Pesan")
+                                            .setMessage("Tolak Tawaran?")
+                                            .setPositiveButton("Iya") { positive, _ ->
+                                                status = "declined"
+                                                val body = RequestApproveOrder(
+                                                    status
+                                                )
+                                                if (token != null && idOrder != null) {
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
+                                                    positive.dismiss()
+                                                }
+                                            }
+                                            .setNegativeButton("Tidak") { negative, _ ->
+                                                negative.dismiss()
+                                            }
+                                            .show()
+                                    }
+                                }
+
+                                btnTerima.setOnClickListener {
+                                    if (data.status == "pending" && data.product.status == "sold") {
+                                        Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
+                                    }else {
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("Pesan")
+                                            .setMessage("Terima Tawaran?")
+                                            .setPositiveButton("Iya") { positive, _ ->
+                                                status = "accepted"
+                                                val body = RequestApproveOrder(
+                                                    status
+                                                )
+                                                if (token != null && idOrder != null) {
+                                                    viewModel.updateOrderStatus(token, idOrder, body)
+                                                    positive.dismiss()
+                                                }
+                                            }
+                                            .setNegativeButton("Tidak") { negative, _ ->
+                                                negative.dismiss()
+                                            }
+                                            .show()
+                                    }
+                                }
+
+                                btnHubungi.setOnClickListener {
+                                    val bottomFragment = BottomSheetInfoPenawarFragment(
+                                        data.user.fullName,
+                                        data.user.city,
+                                        data.user.phoneNumber,
+                                        "",
+                                        data.product.name,
+                                        data.basePrice.toInt(),
+                                        data.price,
+                                        data.product.imageUrl
+                                    )
+                                    bottomFragment.show(parentFragmentManager, "Tag")
+                                }
+
+                                btnStatus.setOnClickListener {
+                                    val bottomFragment = BottomSheetStatusFragment(
+                                        token.toString(),
+                                        data.productId,
+                                        back = { stat ->
+                                            if(stat == "accepted"){
+                                                showToastSuccess(binding.root, "Berhasil Terjual", resources.getColor(R.color.success))
+                                            } else {
+                                                showToastSuccess(binding.root, "Batal Transaksi", resources.getColor(R.color.success))
+                                            }
+                                            findNavController().popBackStack()
+                                        }
+                                    )
+                                    bottomFragment.show(parentFragmentManager, "Tag")
+                                }
+
+                                viewModel.responseApproveOrder.observe(viewLifecycleOwner){ resApprove ->
+                                    when(resApprove.status){
+                                        SUCCESS -> {
+                                            progressDialog.dismiss()
+                                            if (resApprove.data != null){
+                                                if (resApprove.data.status == "accepted"){
+                                                    binding.btnGroup.visibility = View.GONE
+                                                    binding.btnGroupAccepted.visibility = View.VISIBLE
+                                                    val bottomFragment = BottomSheetInfoPenawarFragment(
+                                                        data.user.fullName,
+                                                        data.user.city,
+                                                        data.user.phoneNumber,
+                                                        "",
+                                                        data.product.name,
+                                                        data.basePrice.toInt(),
+                                                        data.price,
+                                                        data.product.imageUrl
+                                                    )
+                                                    bottomFragment.show(parentFragmentManager, "Tag")
+                                                } else {
+                                                    showToastSuccess(binding.root, "Tawaran ${data.user.fullName} di Tolak!", resources.getColor(R.color.success))
+                                                    binding.btnGroupAccepted.visibility = View.GONE
+                                                    binding.btnGroup.visibility = View.GONE
+                                                    binding.tvPesan.visibility = View.VISIBLE
+                                                    binding.tvPesan.text = "Tawaran Di Tolak!"
+                                                }
+                                            }
+                                        }
+                                        ERROR -> {
+                                            progressDialog.dismiss()
+                                            AlertDialog.Builder(requireContext())
+                                                .setTitle("Pesan")
+                                                .setMessage(it.message)
+                                                .setPositiveButton("Iya") { positiveButton, _ ->
+                                                    positiveButton.dismiss()
+                                                }
+                                                .show()
+                                        }
+                                        LOADING -> {
+                                            progressDialog.show()
+                                        }
+                                    }
+                                }
+
+                                btnBack.setOnClickListener {
+                                    findNavController().popBackStack()
+                                }
                             }
                         }
-                        .setNegativeButton("Tidak") { negative, _ ->
-                            negative.dismiss()
+                        progressDialog.dismiss()
+                    }
+                }
+                ERROR -> {
+                    progressDialog.dismiss()
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(it.message)
+                        .setPositiveButton("Ok") { dialog, _ ->
+                            dialog.dismiss()
+                            findNavController().popBackStack()
                         }
                         .show()
                 }
-            }
-
-            btnTerima.setOnClickListener {
-                if (statusOrder == "pending" && statusProduct == "sold") {
-                    Toast.makeText(requireContext(), "Product in transaction process", Toast.LENGTH_SHORT).show()
-                }else {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Pesan")
-                        .setMessage("Terima Tawaran?")
-                        .setPositiveButton("Iya") { positive, _ ->
-                            status = "accepted"
-                            val body = RequestApproveOrder(
-                                status
-                            )
-                            if (token != null && idOrder != null) {
-                                viewModel.declineOrder(token, idOrder, body)
-                                positive.dismiss()
-                            }
-                        }
-                        .setNegativeButton("Tidak") { negative, _ ->
-                            negative.dismiss()
-                        }
-                        .show()
+                LOADING -> {
+                    progressDialog.show()
                 }
-            }
-
-            btnHubungi.setOnClickListener {
-                val bottomFragment = BottomSheetInfoPenawarFragment(
-                    namaPenawar.toString(),
-                    kotaPenawar.toString(),
-                    gambarPenawar.toString(),
-                    namaProduk.toString(),
-                    hargaAwalProduk.toString().toInt(),
-                    hargaDitawarProduk.toString().toInt(),
-                    gambarProduk.toString()
-                )
-                bottomFragment.show(parentFragmentManager, "Tag")
-            }
-
-            btnStatus.setOnClickListener {
-                val bottomFragment = BottomSheetStatusFragment()
-                bottomFragment.show(parentFragmentManager, "Tag")
-            }
-
-            viewModel.responseApproveOrder.observe(viewLifecycleOwner){
-                when(it.status){
-                    SUCCESS -> {
-                        progressDialog.dismiss()
-                        if (it.data != null){
-                            if (it.data.status == "accepted"){
-                                binding.btnGroup.visibility = View.GONE
-                                binding.btnGroupAccepted.visibility = View.VISIBLE
-                                val bottomFragment = BottomSheetInfoPenawarFragment(
-                                    namaPenawar.toString(),
-                                    kotaPenawar.toString(),
-                                    gambarPenawar.toString(),
-                                    namaProduk.toString(),
-                                    hargaAwalProduk.toString().toInt(),
-                                    hargaDitawarProduk.toString().toInt(),
-                                    gambarProduk.toString()
-                                )
-                                bottomFragment.show(parentFragmentManager, "Tag")
-                            } else {
-                                showToastSuccess(binding.root, "Tawaran $namaPenawar di Tolak!", resources.getColor(R.color.success))
-                                findNavController().popBackStack()
-                            }
-                        }
-                    }
-                    ERROR -> {
-                        progressDialog.dismiss()
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Pesan")
-                            .setMessage(it.message)
-                            .setPositiveButton("Iya") { positiveButton, _ ->
-                                positiveButton.dismiss()
-                            }
-                            .show()
-                    }
-                    LOADING -> {
-                        progressDialog.show()
-                    }
-                }
-            }
-
-            btnBack.setOnClickListener {
-                findNavController().popBackStack()
             }
         }
     }
-
-
-
 }

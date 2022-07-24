@@ -1,6 +1,8 @@
 package com.group4.secondhand.data.api
 
+import androidx.room.Update
 import com.group4.secondhand.data.model.*
+import com.group4.secondhand.data.model.pagingProduk.Product
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -26,12 +28,21 @@ interface ApiService {
         @Query("status") status: String
     ): List<ResponseSellerOrder>
 
+    @GET("seller/order/{id}")
+    suspend fun getSellerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") orderId: Int
+    ): ResponseSellerOrderById
+
     @PATCH("seller/order/{id}")
     suspend fun approveOrder(
         @Header("access_token") token: String,
         @Path("id") orderId: Int,
         @Body requestApproveOrder: RequestApproveOrder
     ): ResponseApproveOrder
+
+    @GET("seller/banner")
+    suspend fun getBanner(): List<ResponseGetBanner>
 
 
     @Multipart
@@ -44,7 +55,14 @@ interface ApiService {
         @Part("base_price") base_price: RequestBody?,
         @Part("category_ids") categoryIds: List<Int>,
         @Part("location") location: RequestBody?,
-    ): ResponseUploadProduct
+    ): Response<ResponseUploadProduct>
+
+    @PATCH("seller/product/{id}")
+    suspend fun updateStatusProduk(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Body requestUpdateStatusProduk: RequestUpdateStatusProduk
+    ): Response<ResponseUpdateStatusProduk>
 
     @Multipart
     @PUT("seller/product/{id}")
@@ -62,9 +80,21 @@ interface ApiService {
     // BUYER
     @GET("buyer/product")
     suspend fun getProduct(
+        @Query("status") status: String? = "available",
+        @Query("category_id") categoryId: Int? = null,
+        @Query("search") search: String? = null,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perpage: Int = 10,
+    ): Response<List<Product>>
+
+    @GET("buyer/product")
+    suspend fun getProductSearch(
         @Query("status") status: String,
-        @Query("category_id") categoryId: String
-    ): List<ResponseGetProduct>
+        @Query("category_id") categoryId: String,
+        @Query("search") search: String,
+        @Query("page") page: String,
+        @Query("per_page") perpage: String,
+    ): List<ResponseGetProductSearch>
 
     @GET("buyer/product/{id}")
     suspend fun getProdukById(
@@ -81,6 +111,44 @@ interface ApiService {
     suspend fun getBuyerOrder(
         @Header("access_token") token: String
     ): List<ResponseGetBuyerOrder>
+
+    @GET("buyer/order/{id}")
+    suspend fun getBuyerOrderById(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): List<ResponseGetBuyerOrder>
+
+    @Multipart
+    @PUT("buyer/order/{id}")
+    suspend fun updateBuyerOrder(
+        @Header("access_token") token: String,
+        @Path("id") id: Int,
+        @Part("bid_price") newPrice: RequestBody
+    ): Response<ResponseUpdateBuyerOrder>
+
+    @GET("buyer/wishlist")
+    suspend fun getBuyerWishlist(
+        @Header("access_token") token: String
+    ): List<ResponseGetBuyerWishlist>
+
+    @DELETE("buyer/order/{id}")
+    suspend fun deleteBuyerOrder(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    ): ResponseDeleteBuyerOrder
+
+    @Multipart
+    @POST("buyer/wishlist")
+    suspend fun addWishlist(
+        @Header("access_token") token: String,
+        @Part("product_id") product_id: RequestBody?
+    ):Response<ResponsePostWishlist>
+
+    @DELETE("buyer/wishlist/{id}")
+    suspend fun removeWishlist(
+        @Header("access_token") token : String,
+        @Path("id") id:Int
+    ) : Response<ResponseRemoveWishlist>
 
     // AUTH
     @POST("auth/register")
@@ -99,7 +167,7 @@ interface ApiService {
         @Part("current_password") currentPassword: RequestBody,
         @Part("new_password") newPassword: RequestBody,
         @Part("confirm_password") confirmPassword: RequestBody
-    ) : Response<ResponseChangePassword>
+    ): Response<ResponseChangePassword>
 
     @Multipart
     @PUT("auth/user")
@@ -125,6 +193,8 @@ interface ApiService {
     ): List<ResponseNotification>
 
     @PATCH("notification/{id}")
-    suspend fun markReadNotification(@Path("id") id: Int)
-
+    suspend fun markReadNotification(
+        @Header("access_token") token: String,
+        @Path("id") id: Int
+    )
 }

@@ -1,16 +1,13 @@
 package com.group4.secondhand.ui.editproduct
 
-import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,8 +18,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.group4.secondhand.R
 import com.group4.secondhand.data.api.Status.*
 import com.group4.secondhand.data.datastore.UserPreferences.Companion.DEFAULT_TOKEN
@@ -70,9 +65,9 @@ class EditProductFragment : Fragment() {
                 for(element in kat){
                     kategori += ", $element"
                 }
-                binding.etKategori.setText(kategori.drop(2))
+                binding.tvKategori.text = kategori.drop(2)
             }else{
-                binding.etKategori.setText("Pilih Kategori")
+                binding.tvKategori.text = "Pilih Kategori"
             }
         }
         if (arguments != null) {
@@ -95,7 +90,7 @@ class EditProductFragment : Fragment() {
         binding.ivFoto.setOnClickListener {
             openImagePicker()
         }
-        binding.etKategori.setOnClickListener {
+        binding.kategoriContainer.setOnClickListener {
             val bottomFragment = BottomSheetPilihCategoryFragment(
                 update = {
                     editProductViewModel.addCategory(listCategory)
@@ -134,7 +129,6 @@ class EditProductFragment : Fragment() {
                 return "Deskripsi Produk Kosong!"
             }
             listCategory.isEmpty() -> {
-                binding.kategoriContainer.error = "Kategori produk tidak boleh kosong"
                 Toast.makeText(requireContext(), "Kategori Produk Kosong", Toast.LENGTH_SHORT)
                     .show()
                 return "Kategori Produk Kosong!"
@@ -148,7 +142,6 @@ class EditProductFragment : Fragment() {
     private fun resetError() {
         binding.namaContainer.error = null
         binding.hargaContainer.error = null
-        binding.kategoriContainer.error = null
         binding.deskripsiContainer.error = null
     }
 
@@ -157,7 +150,7 @@ class EditProductFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             resetError()
             val namaProduk = binding.etNama.text.toString()
-            val hargaProduk = binding.etHarga.text.toString().replace(",", "")
+            val hargaProduk = binding.etHarga.getNumericValue().toInt().toString()
             val deskripsiProduk = binding.etDeskripsi.text.toString()
             var file : File? = null
             val validation = validation(
@@ -175,7 +168,7 @@ class EditProductFragment : Fragment() {
                     productId,
                     namaProduk,
                     deskripsiProduk,
-                    hargaProduk.toString(),
+                    hargaProduk,
                     listCategoryId,
                     lokasi,
                     file

@@ -219,7 +219,7 @@ class LoginCompose : Fragment() {
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Sign In!",
+                text = "Login!",
                 fontSize = 16.sp,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold
@@ -313,7 +313,7 @@ class LoginCompose : Fragment() {
 
             {
                 Text(
-                    text = "Sign In",
+                    text = "Login",
                     style = TextStyle(Color.White, fontWeight = FontWeight.Bold),
                     fontFamily = poppinsFamily
                 )

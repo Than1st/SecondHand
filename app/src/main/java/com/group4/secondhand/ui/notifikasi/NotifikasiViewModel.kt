@@ -17,7 +17,7 @@ import javax.inject.Inject
 class NotifikasiViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     private var _notification = MutableLiveData<Resource<List<ResponseNotification>>>()
-    val notification : MutableLiveData<Resource<List<ResponseNotification>>> get() = _notification
+    val notification : LiveData<Resource<List<ResponseNotification>>> get() = _notification
 
     private var _user = MutableLiveData<Resource<String>>()
     val user : LiveData<Resource<String>> get() = _user
@@ -43,6 +43,12 @@ class NotifikasiViewModel @Inject constructor(private val repository: Repository
             } catch (e: Exception){
                 _notification.postValue(Resource.error(e.localizedMessage?:"Error occured"))
             }
+        }
+    }
+
+    fun markReadNotification(token: String, id: Int){
+        viewModelScope.launch {
+            repository.markReadNotification(token, id)
         }
     }
 
